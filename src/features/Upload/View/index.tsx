@@ -5,7 +5,7 @@ import { useViewDoc } from "../viewModel/useViewDoc";
 import { Progress } from "@/shared/components/ui/progress";
 
 export function UploadView() {
-  const { handleFile, fileName, progress } = useViewDoc();
+  const { handleFile, fileName, progress, pdfUrl } = useViewDoc();
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -25,22 +25,34 @@ export function UploadView() {
           onChange={handleFile}
           ref={inputRef}
           type="file"
+          accept="application/pdf"
           className="hidden"
         />
       </div>
 
       {fileName && (
-        <div>
-          <div className="flex justify-between items-center mt-4">
+        <div className="mt-4">
+          <div className="flex justify-between items-center">
             <p className="text-slate-900">{fileName}</p>
-          <p className="text-slate-900">{progress}%</p>
+            <p className="text-slate-900">{progress}%</p>
           </div>
-          <progress 
-            className="mt-2 w-full bg-violet-400 wew-full h-2 rounded overflow-hidden [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:bg-violet-500 [&::-moz-progress-bar]:bg-green-500" 
-            value={progress} 
+          <progress
+            className="mt-2 w-full h-2 rounded overflow-hidden 
+              [&::-webkit-progress-bar]:bg-gray-200 
+              [&::-webkit-progress-value]:bg-violet-500 
+              [&::-moz-progress-bar]:bg-violet-500"
+            value={progress}
             max={100}
           />
         </div>
+      )}
+
+      {pdfUrl && (
+        <iframe
+          src={pdfUrl}
+          className="mt-6 w-full h-[600px] border"
+          title="Visualização do PDF"
+        />
       )}
     </div>
   );
