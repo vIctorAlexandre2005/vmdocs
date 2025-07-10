@@ -1,7 +1,11 @@
-export default function LayoutApp() {
+import { Header } from "./Header";
+import { Main } from "./main";
+
+export default function LayoutApp({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-      <h1>Layout</h1>
+    <div className="h-full w-full">
+      <Header />
+      <Main>{children}</Main>
     </div>
   );
 }
