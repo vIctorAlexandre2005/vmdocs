@@ -1,4 +1,4 @@
-import { Header } from "./Header";
+import { Header } from "./header";
 import { Main } from "./main";
 
 export default function LayoutApp({ children }: { children: React.ReactNode }) {
