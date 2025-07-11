@@ -4,6 +4,7 @@ import { SlCloudUpload } from "react-icons/sl";
 import { useViewDoc } from "../viewModel/useViewDoc";
 import { Progress } from "@/shared/components/ui/progress";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
+import { TbFileTextSpark } from "react-icons/tb";
 
 export function UploadView() {
   const { handleFile, fileName, progress, pdfUrl, setPdfUrl } = useViewDoc();
@@ -35,11 +36,11 @@ export function UploadView() {
 
       {fileName && (
         <div
-          className="mt-4 cursor-pointer"
+          className="mt-4 cursor-pointer border hover:bg-slate-100 rounded-lg p-4 transition duration-300"
           onClick={() => setOpenDialogViewPdf(true)}
         >
           <div className="flex justify-between items-center">
-            <p className="text-slate-900">{fileName}</p>
+            <p className="text-slate-900 flex gap-2 items-center"><TbFileTextSpark size={24} /> {fileName}</p>
             <p className="text-slate-900">{progress}%</p>
           </div>
           <progress
