@@ -1,12 +1,15 @@
 import { Input } from "@/shared/components/ui/input";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
 import { useViewDoc } from "../viewModel/useViewDoc";
 import { Progress } from "@/shared/components/ui/progress";
+import { DialogComponent } from "@/shared/components/dialogs/dialog";
 
 export function UploadView() {
-  const { handleFile, fileName, progress, pdfUrl } = useViewDoc();
+  const { handleFile, fileName, progress, pdfUrl, setPdfUrl } = useViewDoc();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
   return (
     <div>
@@ -31,7 +34,10 @@ export function UploadView() {
       </div>
 
       {fileName && (
-        <div className="mt-4">
+        <div
+          className="mt-4 cursor-pointer"
+          onClick={() => setOpenDialogViewPdf(true)}
+        >
           <div className="flex justify-between items-center">
             <p className="text-slate-900">{fileName}</p>
             <p className="text-slate-900">{progress}%</p>
@@ -47,13 +53,23 @@ export function UploadView() {
         </div>
       )}
 
-      {pdfUrl && (
-        <iframe
-          src={pdfUrl}
-          className="mt-6 w-full h-[600px] border"
-          title="Visualização do PDF"
-        />
-      )}
+      <DialogComponent
+        open={openDialogViewPdf}
+        onOpenChange={setOpenDialogViewPdf as any}
+        title={fileName || "Visualização do PDF"}
+      >
+        {pdfUrl && (
+          <iframe
+            loading="lazy"
+            allowFullScreen
+            allow="fullscreen"
+            height={600}
+            src={pdfUrl || ""}
+            className="w-full border border-slate-300 rounded-lg"
+            title="Visualização do PDF"
+          />
+        )}
+      </DialogComponent>
     </div>
   );
 }

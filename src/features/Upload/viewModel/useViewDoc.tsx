@@ -32,6 +32,7 @@ export function useViewDoc() {
     fileName,
     progress,
     handleFile,
-    pdfUrl
+    pdfUrl,
+    setPdfUrl,
   };
 }
