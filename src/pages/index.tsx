@@ -1,9 +1,11 @@
 import { UploadView } from "@/features/Upload/View";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="flex justify-center mt-24 items-center">
-      <UploadView />
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/upload");
+  }, [router]);
 }

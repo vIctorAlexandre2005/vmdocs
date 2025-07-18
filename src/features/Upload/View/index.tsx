@@ -13,7 +13,7 @@ export function UploadView() {
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center mt-24">
       <div
         onClick={() => inputRef.current?.click()}
         className="bg-violet-50 rounded-2xl transition duration-300 hover:bg-violet-100 cursor-pointer w-2xl p-12 border border-violet-400 border-dashed"
@@ -40,7 +40,9 @@ export function UploadView() {
           onClick={() => setOpenDialogViewPdf(true)}
         >
           <div className="flex justify-between items-center">
-            <p className="text-slate-900 flex gap-2 items-center"><TbFileTextSpark size={24} /> {fileName}</p>
+            <p className="text-slate-900 flex gap-2 items-center">
+              <TbFileTextSpark size={24} /> {fileName}
+            </p>
             <p className="text-slate-900">{progress}%</p>
           </div>
           <progress
