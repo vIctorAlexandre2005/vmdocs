@@ -13,17 +13,15 @@ export function UploadView() {
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
   return (
-    <div className="flex flex-col justify-center items-center mt-24">
+    <div className="flex flex-col justify-center items-center mt-8 gap-4">
       <div
         onClick={() => inputRef.current?.click()}
-        className="bg-violet-50 rounded-2xl transition duration-300 hover:bg-violet-100 cursor-pointer w-2xl p-12 border border-violet-400 border-dashed"
+        className="bg-transparent rounded-2xl transition duration-300 cursor-pointer w-full p-4 border-indigo-500 border border-dashed"
       >
-        <div className="flex flex-col text-black justify-center items-center">
-          <SlCloudUpload color="#6B46C1" size={60} />
-          <h1 className="text-2xl font-semibold">
-            Clique ou arraste o arquivo
-          </h1>
-          <p className="text-slate-900">* Apenas arquivos .PDF</p>
+        <div className="flex flex-col text-slate-800 justify-center items-center">
+          <SlCloudUpload color="#6160ff" size={48} />
+          <h1 className="text-xl font-semibold">Clique ou arraste o arquivo</h1>
+          <p className="text-slate-700">* Apenas arquivos .PDF</p>
         </div>
         <Input
           onChange={handleFile}
@@ -36,20 +34,25 @@ export function UploadView() {
 
       {fileName && (
         <div
-          className="mt-4 cursor-pointer border hover:bg-slate-100 rounded-lg p-4 transition duration-300"
+          className="mt-4 w-full cursor-pointer border bg-white border-slate-200 shadow hover:bg-slate-100 rounded-3xl p-4 transition duration-300"
           onClick={() => setOpenDialogViewPdf(true)}
         >
           <div className="flex justify-between items-center">
-            <p className="text-slate-900 flex gap-2 items-center">
-              <TbFileTextSpark size={24} /> {fileName}
-            </p>
-            <p className="text-slate-900">{progress}%</p>
+            <div className="flex items-center gap-2">
+              <div className="p-2 bg-indigo-100 rounded-full">
+                <TbFileTextSpark size={24} color="#4636f5" />
+              </div>
+              <p className="flex gap-2 font-semibold text-slate-800 items-center">
+                {fileName}
+              </p>
+            </div>
+            <p className="text-slate-800">{progress}%</p>
           </div>
           <progress
             className="mt-2 w-full h-2 rounded overflow-hidden 
               [&::-webkit-progress-bar]:bg-gray-200 
-              [&::-webkit-progress-value]:bg-violet-500 
-              [&::-moz-progress-bar]:bg-violet-500"
+              [&::-webkit-progress-value]:bg-indigo-500 
+              [&::-moz-progress-bar]:bg-indigo-500"
             value={progress}
             max={100}
           />
