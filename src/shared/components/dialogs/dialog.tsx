@@ -14,6 +14,7 @@ interface DialogComponentProps {
   textTrigger?: string;
   open?: boolean;
   onOpenChange?: () => void;
+  className?: string;
 }
 
 export function DialogComponent({
@@ -24,6 +25,7 @@ export function DialogComponent({
   classNameTrigger,
   iconTrigger,
   textTrigger,
+  className
 }: DialogComponentProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -31,7 +33,7 @@ export function DialogComponent({
         {textTrigger} {iconTrigger}
       </DialogTrigger>
 
-      <DialogContent className="bg-slate-50 text-slate-900">
+      <DialogContent className={`bg-slate-50 text-slate-900 sm:max-w-[425px] lg:max-w-[900px]`}>
         <DialogHeader>{title}</DialogHeader>
         {children}
         <DialogFooter></DialogFooter>

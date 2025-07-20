@@ -4,9 +4,19 @@ import { SlCloudUpload } from "react-icons/sl";
 import { useViewDoc } from "../viewModel/useViewDoc";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { TbFileTextSpark } from "react-icons/tb";
+import { InputComponent } from "@/shared/components/InputComponent";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 
 export function UploadView() {
-  const { handleFile, fileName, progress, pdfUrl, setPdfUrl } = useViewDoc();
+  const { handleFile, fileName, progress, pdfUrl, dataPdf } = useViewDoc();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
@@ -63,17 +73,42 @@ export function UploadView() {
         onOpenChange={setOpenDialogViewPdf as any}
         title={fileName || "Visualização do PDF"}
       >
-        {pdfUrl && (
-          <iframe
-            loading="lazy"
-            allowFullScreen
-            allow="fullscreen"
-            height={600}
-            src={pdfUrl || ""}
-            className="w-full border border-slate-300 rounded-lg"
-            title="Visualização do PDF"
-          />
-        )}
+        <div className="flex items-start justify-around gap-2">
+          <div>
+            {pdfUrl && (
+              <iframe
+                loading="lazy"
+                allowFullScreen
+                allow="fullscreen"
+                allowTransparency
+                height={450}
+                src={pdfUrl || ""}
+                className="w-full border border-slate-300 rounded-lg"
+                title="Visualização do PDF"
+              />
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <InputComponent value={dataPdf?.collaborator} label="Nome do colaborador" />
+            <InputComponent value={dataPdf?.registration} label="Matrícula" />
+            <InputComponent value={dataPdf?.inc_req} label="Incidente/Requisição" />
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">Tipo de movimentação</label>
+              <Select>
+                <SelectTrigger className="w-full p-4">
+                  <SelectValue placeholder="Selecione" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="delivery">Entrega</SelectItem>
+                    <SelectItem value="return">Devolução</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
       </DialogComponent>
     </div>
   );
