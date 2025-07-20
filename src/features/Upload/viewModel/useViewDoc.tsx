@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+import { extractPdf } from "../service/extractPdf";
+import axios from "axios";
 
 export function useViewDoc() {
   const [fileName, setFileName] = useState<string>("");
@@ -6,26 +8,35 @@ export function useViewDoc() {
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
-  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setFileName(file.name);
-    const url = URL.createObjectURL(file);
-    setPdfUrl(url);
+    const formData = new FormData();
+    formData.append("file", file);
 
-    const reader = new FileReader();
+    console.log("Extracting PDF:", formData);
 
-    reader.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percent = Math.round((e.loaded / e.total) * 100);
-        setProgress(percent);
-      }
-    };
+    try {
+      const response = await axios.post("http://localhost:8080/api/v1/pdf", formData)
+      console.log("PDF extraction response:", response.data);
+      setFileName(file.name);
+      const url = URL.createObjectURL(file);
+      setPdfUrl(url);
 
-    reader.onloadend = () => setProgress(100);
+      const reader = new FileReader();
 
-    reader.readAsDataURL(file);
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percent = Math.round((e.loaded / e.total) * 100);
+          setProgress(percent);
+        }
+      };
+
+      reader.onloadend = () => setProgress(100);
+
+      reader.readAsDataURL(file);
+    } catch (error) {}
   }
 
   return {

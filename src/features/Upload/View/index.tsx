@@ -2,7 +2,6 @@ import { Input } from "@/shared/components/ui/input";
 import { useRef, useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
 import { useViewDoc } from "../viewModel/useViewDoc";
-import { Progress } from "@/shared/components/ui/progress";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { TbFileTextSpark } from "react-icons/tb";
 
