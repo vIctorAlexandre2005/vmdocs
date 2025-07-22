@@ -7,6 +7,7 @@ export function useViewDoc() {
   const [progress, setProgress] = useState<number>(0);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [dataPdf, setDataPdf] = useState<any>([]);
+  const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -15,37 +16,30 @@ export function useViewDoc() {
     const formData = new FormData();
     formData.append("file", file);
 
-    console.log("Extracting PDF:", formData);
-
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/pdf",
-        formData
-      );
-      setDataPdf(response.data);
+      const response = await extractPdf(formData);
+      if (response.status === 200) {
+        const extractedData = response.data;
+        setDataPdf(extractedData);
+        setOpenDialogViewPdf(true);
+
+        //setFileName(file.name);
+        const url = URL.createObjectURL(file);
+        setPdfUrl(url);
+
+        const reader = new FileReader();
+        reader.onprogress = ({ loaded, total }) => {
+          const progressPercent = Math.round((loaded / total) * 100);
+          setProgress(progressPercent);
+        };
+
+        reader.onloadend = () => setProgress(100);
+        reader.readAsDataURL(file);
+      }
     } catch (error) {
       console.error("Failed to extract PDF:", error);
-    } finally {
-      setFileName(file.name);
-      const url = URL.createObjectURL(file);
-      setPdfUrl(url);
-
-      const reader = new FileReader();
-
-      reader.onprogress = (e) => {
-        if (e.lengthComputable) {
-          const percent = Math.round((e.loaded / e.total) * 100);
-          setProgress(percent);
-        }
-      };
-
-      reader.onloadend = () => setProgress(100);
-
-      reader.readAsDataURL(file);
     }
   }
-
-  console.log("PDF Data:", dataPdf);
 
   return {
     fileName,
@@ -54,5 +48,7 @@ export function useViewDoc() {
     dataPdf,
     pdfUrl,
     setPdfUrl,
+    openDialogViewPdf,
+    setOpenDialogViewPdf,
   };
 }

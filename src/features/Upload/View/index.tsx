@@ -1,25 +1,24 @@
 import { Input } from "@/shared/components/ui/input";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { SlCloudUpload } from "react-icons/sl";
 import { useViewDoc } from "../viewModel/useViewDoc";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { TbFileTextSpark } from "react-icons/tb";
 import { InputComponent } from "@/shared/components/InputComponent";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
+import { ButtonComponent } from "@/shared/components/ButtonComponent";
+import { LuSend } from "react-icons/lu";
 
 export function UploadView() {
-  const { handleFile, fileName, progress, pdfUrl, dataPdf } = useViewDoc();
+  const {
+    handleFile,
+    fileName,
+    progress,
+    pdfUrl,
+    dataPdf,
+    openDialogViewPdf,
+    setOpenDialogViewPdf,
+  } = useViewDoc();
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
   return (
     <div className="flex flex-col justify-center items-center mt-8 gap-4">
@@ -73,8 +72,8 @@ export function UploadView() {
         onOpenChange={setOpenDialogViewPdf as any}
         title={fileName || "Visualização do PDF"}
       >
-        <div className="flex items-start justify-around gap-2">
-          <div>
+        <div className="flex items-center justify-around gap-4">
+          <div className="w-full">
             {pdfUrl && (
               <iframe
                 loading="lazy"
@@ -89,24 +88,30 @@ export function UploadView() {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <InputComponent value={dataPdf?.collaborator} label="Nome do colaborador" />
+          <div className="flex w-full flex-col gap-2">
+            <InputComponent
+              className="w-full"
+              value={dataPdf?.collaborator}
+              label="Nome do colaborador"
+            />
             <InputComponent value={dataPdf?.registration} label="Matrícula" />
-            <InputComponent value={dataPdf?.inc_req} label="Incidente/Requisição" />
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Tipo de movimentação</label>
-              <Select>
-                <SelectTrigger className="w-full p-4">
-                  <SelectValue placeholder="Selecione" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="delivery">Entrega</SelectItem>
-                    <SelectItem value="return">Devolução</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
+            <InputComponent
+              value={dataPdf?.inc_req}
+              label="Incidente/Requisição"
+            />
+            <ButtonComponent
+              text="Enviar"
+              type="submit"
+              className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              icon={<LuSend size={20} />}
+            />
+            <Input
+              onChange={handleFile}
+              ref={inputRef}
+              type="file"
+              accept="application/pdf"
+              className="hidden"
+            />
           </div>
         </div>
       </DialogComponent>
