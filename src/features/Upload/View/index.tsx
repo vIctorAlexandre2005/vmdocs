@@ -1,5 +1,5 @@
 import { Input } from "@/shared/components/ui/input";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { SlCloudUpload } from "react-icons/sl";
 import { useViewDoc } from "../viewModel/useViewDoc";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
@@ -17,13 +17,26 @@ export function UploadView() {
     dataPdf,
     openDialogViewPdf,
     setOpenDialogViewPdf,
+    collaborator,
+    registration,
+    incReq,
+    setRegistration,
+    setCollaborator,
+    setIncReq,
+    handleOpenFileDialog,
+    inputRef,
   } = useViewDoc();
-  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setCollaborator(dataPdf?.collaborator || "");
+    setRegistration(dataPdf?.registration || "");
+    setIncReq(dataPdf?.inc_req || "");
+  }, [collaborator, registration, incReq, dataPdf, inputRef]);
 
   return (
     <div className="flex flex-col justify-center items-center mt-8 gap-4">
       <div
-        onClick={() => inputRef.current?.click()}
+        onClick={handleOpenFileDialog}
         className="bg-transparent rounded-2xl transition duration-300 cursor-pointer w-full p-4 border-indigo-500 border border-dashed"
       >
         <div className="flex flex-col text-slate-800 justify-center items-center">
@@ -91,12 +104,18 @@ export function UploadView() {
           <div className="flex w-full flex-col gap-2">
             <InputComponent
               className="w-full"
-              value={dataPdf?.collaborator}
+              value={collaborator}
+              onChange={(e) => setCollaborator(e.target.value)}
               label="Nome do colaborador"
             />
-            <InputComponent value={dataPdf?.registration} label="Matrícula" />
             <InputComponent
-              value={dataPdf?.inc_req}
+              value={registration}
+              onChange={(e) => setRegistration(e.target.value)}
+              label="Matrícula"
+            />
+            <InputComponent
+              value={incReq}
+              onChange={(e) => setIncReq(e.target.value)}
               label="Incidente/Requisição"
             />
             <ButtonComponent
@@ -104,13 +123,6 @@ export function UploadView() {
               type="submit"
               className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               icon={<LuSend size={20} />}
-            />
-            <Input
-              onChange={handleFile}
-              ref={inputRef}
-              type="file"
-              accept="application/pdf"
-              className="hidden"
             />
           </div>
         </div>

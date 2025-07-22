@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { extractPdf } from "../service/extractPdf";
 import axios from "axios";
+import { createPdf } from "../service/pdfData";
 
 export function useViewDoc() {
   const [fileName, setFileName] = useState<string>("");
@@ -9,12 +10,28 @@ export function useViewDoc() {
   const [dataPdf, setDataPdf] = useState<any>([]);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
+  const [incReq, setIncReq] = useState<string>("");
+  const [collaborator, setCollaborator] = useState<string>("");
+  const [registration, setRegistration] = useState<string>("");
+
+  const [filePdf, setFilePdf] = useState<File>();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  function handleOpenFileDialog() {
+    if (inputRef.current) {
+      inputRef.current.value = ""; // limpa valor anterior
+      inputRef.current.click();
+    }
+  }
+
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setFilePdf(file); // ainda atualiza o state, se precisar usar em outro lugar
+
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", file); // ← usa `file`, não `filePdf`
 
     try {
       const response = await extractPdf(formData);
@@ -23,7 +40,6 @@ export function useViewDoc() {
         setDataPdf(extractedData);
         setOpenDialogViewPdf(true);
 
-        //setFileName(file.name);
         const url = URL.createObjectURL(file);
         setPdfUrl(url);
 
@@ -41,6 +57,26 @@ export function useViewDoc() {
     }
   }
 
+  useEffect(() => {}, [filePdf]);
+
+  async function createDataPdf() {
+    const data = {
+      inc_req: incReq,
+      collaborator: collaborator,
+      registration: registration,
+      pdf_file: filePdf,
+    };
+    const formData = new FormData();
+    try {
+      const response = await createPdf(data, formData);
+      if (response.status === 200) {
+        console.log("PDF data created successfully:", response.data);
+      }
+    } catch (error) {
+      console.error("Failed to create PDF data:", error);
+    }
+  }
+
   return {
     fileName,
     progress,
@@ -50,5 +86,18 @@ export function useViewDoc() {
     setPdfUrl,
     openDialogViewPdf,
     setOpenDialogViewPdf,
+
+    filePdf,
+    setFilePdf,
+
+    incReq,
+    setIncReq,
+    collaborator,
+    setCollaborator,
+    registration,
+    setRegistration,
+
+    inputRef,
+    handleOpenFileDialog,
   };
 }
