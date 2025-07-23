@@ -1,21 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { extractPdf } from "../service/extractPdf";
-import axios from "axios";
-import { createPdf } from "../service/pdfData";
+import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 
 export function useViewDoc() {
-  const [fileName, setFileName] = useState<string>("");
-  const [progress, setProgress] = useState<number>(0);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [dataPdf, setDataPdf] = useState<any>([]);
-  const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
-
-  const [filePdf, setFilePdf] = useState<File>();
+  const {
+    fileName,
+    setFileName,
+    progress,
+    setProgress,
+    pdfUrl,
+    setPdfUrl,
+    dataExtractedPdf,
+    setDataExtractedPdf,
+    openDialogViewPdf,
+    setOpenDialogViewPdf,
+    filePdf,
+    setFilePdf,
+  } = useUploadPdfContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   function handleOpenFileDialog() {
     if (inputRef.current) {
-      inputRef.current.value = ""; // limpa valor anterior
+      inputRef.current.value = "";
       inputRef.current.click();
     }
   }
@@ -24,16 +30,16 @@ export function useViewDoc() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setFilePdf(file); // ainda atualiza o state, se precisar usar em outro lugar
+    setFilePdf(file);
 
     const formData = new FormData();
-    formData.append("file", file); // ← usa `file`, não `filePdf`
+    formData.append("file", file);
 
     try {
       const response = await extractPdf(formData);
       if (response.status === 200) {
         const extractedData = response.data;
-        setDataPdf(extractedData);
+        setDataExtractedPdf(extractedData);
         setFileName(file.name);
         setOpenDialogViewPdf(true);
 
@@ -54,30 +60,11 @@ export function useViewDoc() {
     }
   }
 
-  async function createDataPdf(filename: string, incReq: string, collaborator: string, registration: string) {
-    const data = {
-      file_name: filename,
-      inc_req: incReq,
-      collaborator: collaborator,
-      registration: registration,
-      pdf_file: filePdf,
-    };
-    const formData = new FormData();
-    try {
-      const response = await createPdf(data, formData);
-      if (response.status === 200) {
-        console.log("PDF data created successfully:", response.data);
-      }
-    } catch (error) {
-      console.error("Failed to create PDF data:", error);
-    }
-  }
-
   return {
     fileName,
     progress,
     handleFile,
-    dataPdf,
+    dataExtractedPdf,
     pdfUrl,
     setPdfUrl,
     openDialogViewPdf,
@@ -88,7 +75,5 @@ export function useViewDoc() {
 
     inputRef,
     handleOpenFileDialog,
-
-    createDataPdf
   };
 }
