@@ -10,10 +10,6 @@ export function useViewDoc() {
   const [dataPdf, setDataPdf] = useState<any>([]);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
-  const [incReq, setIncReq] = useState<string>("");
-  const [collaborator, setCollaborator] = useState<string>("");
-  const [registration, setRegistration] = useState<string>("");
-
   const [filePdf, setFilePdf] = useState<File>();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -57,9 +53,7 @@ export function useViewDoc() {
     }
   }
 
-  useEffect(() => {}, [filePdf]);
-
-  async function createDataPdf() {
+  async function createDataPdf(incReq: string, collaborator: string, registration: string) {
     const data = {
       inc_req: incReq,
       collaborator: collaborator,
@@ -90,14 +84,9 @@ export function useViewDoc() {
     filePdf,
     setFilePdf,
 
-    incReq,
-    setIncReq,
-    collaborator,
-    setCollaborator,
-    registration,
-    setRegistration,
-
     inputRef,
     handleOpenFileDialog,
+
+    createDataPdf
   };
 }

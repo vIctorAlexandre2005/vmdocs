@@ -13,11 +13,13 @@ export async function createPdf(
   formData.append("collaborator", pdfExtractor.collaborator);
   formData.append("registration", pdfExtractor.registration);
   formData.append("pdf_file", pdfExtractor.pdf_file as Blob);
+  console.log("FormData being sent:", formData);
   try {
     const response = await axios.post(
       "http://localhost:8080/api/v1/pdf/data",
       formData
     );
+    console.log("PDF data created successfully:", response.data);
     return response;
   } catch (error: any) {
     throw new Error("Failed to extract PDF: " + error.message);

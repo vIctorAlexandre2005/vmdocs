@@ -24,6 +24,7 @@ export function ButtonComponent({
       type="button"
       disabled={loading ? disabled : false}
       className={`p-2 cursor-pointer flex items-center justify-center ${className}`}
+      onClick={onClick}
     >
       {!loading && (
         <span className="flex items-center gap-2">

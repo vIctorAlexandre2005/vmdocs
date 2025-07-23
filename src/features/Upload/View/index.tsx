@@ -1,5 +1,5 @@
 import { Input } from "@/shared/components/ui/input";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
 import { useViewDoc } from "../viewModel/useViewDoc";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
@@ -17,21 +17,22 @@ export function UploadView() {
     dataPdf,
     openDialogViewPdf,
     setOpenDialogViewPdf,
-    collaborator,
-    registration,
-    incReq,
-    setRegistration,
-    setCollaborator,
-    setIncReq,
     handleOpenFileDialog,
     inputRef,
+    createDataPdf,
   } = useViewDoc();
 
+  const [incReq, setIncReq] = useState<string>(dataPdf?.inc_req || "");
+  const [collaborator, setCollaborator] = useState<string>(dataPdf?.collaborator || "");
+  const [registration, setRegistration] = useState<string>(dataPdf?.registration || "");
+
   useEffect(() => {
-    setCollaborator(dataPdf?.collaborator || "");
-    setRegistration(dataPdf?.registration || "");
-    setIncReq(dataPdf?.inc_req || "");
-  }, [collaborator, registration, incReq, dataPdf, inputRef]);
+    if (dataPdf) {
+      setIncReq(dataPdf.inc_req || "");
+      setCollaborator(dataPdf.collaborator || "");
+      setRegistration(dataPdf.registration || "");
+    }
+  }, [dataPdf]);
 
   return (
     <div className="flex flex-col justify-center items-center mt-8 gap-4">
@@ -123,6 +124,7 @@ export function UploadView() {
               type="submit"
               className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               icon={<LuSend size={20} />}
+              onClick={() => createDataPdf(incReq, collaborator, registration)}
             />
           </div>
         </div>
