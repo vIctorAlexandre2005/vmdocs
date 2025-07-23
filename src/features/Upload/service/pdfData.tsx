@@ -2,6 +2,7 @@ import axios from "axios";
 
 export async function createPdf(
   pdfExtractor: {
+    file_name: string;
     inc_req: string;
     collaborator: string;
     registration: string;
@@ -9,6 +10,7 @@ export async function createPdf(
   },
   formData: FormData
 ) {
+  formData.append("file_name", pdfExtractor.file_name);
   formData.append("inc_req", pdfExtractor.inc_req);
   formData.append("collaborator", pdfExtractor.collaborator);
   formData.append("registration", pdfExtractor.registration);

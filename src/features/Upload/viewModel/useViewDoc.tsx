@@ -34,6 +34,7 @@ export function useViewDoc() {
       if (response.status === 200) {
         const extractedData = response.data;
         setDataPdf(extractedData);
+        setFileName(file.name);
         setOpenDialogViewPdf(true);
 
         const url = URL.createObjectURL(file);
@@ -53,8 +54,9 @@ export function useViewDoc() {
     }
   }
 
-  async function createDataPdf(incReq: string, collaborator: string, registration: string) {
+  async function createDataPdf(filename: string, incReq: string, collaborator: string, registration: string) {
     const data = {
+      file_name: filename,
       inc_req: incReq,
       collaborator: collaborator,
       registration: registration,
