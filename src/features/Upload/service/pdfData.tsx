@@ -26,4 +26,14 @@ export async function createPdf(
   } catch (error: any) {
     throw new Error("Failed to extract PDF: " + error.message);
   }
-}
+};
+
+export async function getDataPdfService() {
+  try {
+    const response = await axios.get("/api/getDataPdf");
+    console.log("PDF data retrieved successfully:", response.data.content);
+    return response.data.content;
+  } catch (error: any) {
+    throw new Error("Failed to extract PDF: " + error.message);
+  }
+};

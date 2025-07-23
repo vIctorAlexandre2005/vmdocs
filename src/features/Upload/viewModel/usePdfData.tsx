@@ -1,9 +1,9 @@
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
-import { createPdf } from "../service/pdfData";
-import { useViewDoc } from "./useViewDoc";
+import { createPdf, getDataPdfService } from "../service/pdfData";
+import { useEffect } from "react";
 
 export function usePdfData() {
-  const { filePdf } = useUploadPdfContext();
+  const { filePdf, dataPdf, setDataPdf, progress, setProgress } = useUploadPdfContext();
 
   async function createDataPdf(
     filename: string,
@@ -29,7 +29,26 @@ export function usePdfData() {
     }
   };
 
+  async function getDataPdf() {
+    try {
+      const response = await getDataPdfService();
+      console.log("PDF data retrieved successfully:", response);
+      setDataPdf(response);
+      setProgress(100); // Assuming the progress is 100% after fetching data
+    } catch (error) {
+      console.error("Failed to create PDF data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getDataPdf();
+  }, []);
+
   return {
     createDataPdf,
+    getDataPdf,
+    dataPdf,
+    setDataPdf,
+    progress, setProgress
   };
 }

@@ -11,7 +11,18 @@ interface DataExtractedPdfProps {
   inc_req: string;
   collaborator: string;
   registration: string;
-}
+};
+
+interface DataPdfProps {
+  id: number;
+  file_name: string;
+  inc_req: string;
+  registration: string;
+  collaborator: string;
+  created_at: string;
+  last_change: string;
+  pdf_file: string;
+};
 
 type UploadPdfContextType = {
   fileName: string;
@@ -28,6 +39,8 @@ type UploadPdfContextType = {
   setOpenDialogViewPdf: (open: boolean) => void;
   filePdf: File | undefined;
   setFilePdf: Dispatch<SetStateAction<File | undefined>>;
+  dataPdf: DataPdfProps[];
+  setDataPdf: Dispatch<SetStateAction<DataPdfProps[]>>;
 };
 
 const UploadPdfContext = createContext<UploadPdfContextType | undefined>(
@@ -42,6 +55,7 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
     useState<DataExtractedPdfProps>();
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [filePdf, setFilePdf] = useState<File>();
+  const [dataPdf, setDataPdf] = useState<DataPdfProps[]>([]);
 
   return (
     <UploadPdfContext.Provider
@@ -58,6 +72,8 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         setOpenDialogViewPdf,
         filePdf,
         setFilePdf,
+        dataPdf,
+        setDataPdf,
       }}
     >
       {children}
