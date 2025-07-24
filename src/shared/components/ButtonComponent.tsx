@@ -1,6 +1,8 @@
 type ButtonComponentProps = {
   text?: string;
   icon?: React.ReactNode;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
@@ -18,6 +20,8 @@ export function ButtonComponent({
   loading,
   onClick,
   type,
+  iconLeft,
+  iconRight,
 }: ButtonComponentProps) {
   return (
     <button
@@ -28,11 +32,15 @@ export function ButtonComponent({
     >
       {!loading && (
         <span className="flex items-center gap-2">
+          {iconLeft}
           {text}
+          {iconRight}
           {icon}
         </span>
       )}
-      {loading && <span className="flex items-center justify-center">{loaderIcon}</span>}
+      {loading && (
+        <span className="flex items-center justify-center">{loaderIcon}</span>
+      )}
     </button>
   );
 }

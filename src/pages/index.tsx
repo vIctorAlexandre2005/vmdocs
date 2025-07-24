@@ -1,11 +1,5 @@
-import { UploadView } from "@/features/Upload/View";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { DashboardView } from "@/features/Dashboard/View";
 
 export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push("/upload");
-  });
+  return <DashboardView />;
 }
