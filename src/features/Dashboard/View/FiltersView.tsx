@@ -2,10 +2,12 @@ import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { InputComponent } from "@/shared/components/InputComponent";
 import { IoFilter } from "react-icons/io5";
 import { TbSearch } from "react-icons/tb";
+import { PiExport } from "react-icons/pi";
+
 
 export function FiltersView() {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-2">
       <InputComponent
         label=""
         placeholder="Pesquisar..."
@@ -14,8 +16,13 @@ export function FiltersView() {
       />
       <ButtonComponent
         text="Filtrar"
-        className="w-28 text-sm text-gray-100 rounded-full bg-indigo-600"
+        className="w-32 text-sm text-gray-100 rounded-full bg-indigo-600"
         iconLeft={<IoFilter size={20} />}
+      />
+      <ButtonComponent
+        text="Exportar .CSV"
+        className=" w-52 text-center text-sm text-gray-100 rounded-full bg-indigo-600"
+        iconLeft={<PiExport size={20} />}
       />
     </div>
   );
