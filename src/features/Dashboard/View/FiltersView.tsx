@@ -3,9 +3,18 @@ import { InputComponent } from "@/shared/components/InputComponent";
 import { IoFilter } from "react-icons/io5";
 import { TbSearch } from "react-icons/tb";
 import { PiExport } from "react-icons/pi";
+import { DataPdfProps } from "@/shared/contexts/UploadPdfContext";
+import { useCSVDownloader } from "react-papaparse";
 
+export function FiltersView({ dataPdf }: { dataPdf: DataPdfProps[] }) {
+  const { CSVDownloader, Type } = useCSVDownloader();
 
-export function FiltersView() {
+  const exportData = dataPdf.map(({ file_name, collaborator, inc_req }) => ({
+    "Nome do termo": file_name,
+    Colaborador: collaborator,
+    "Incidente/Requisição": inc_req,
+  }));
+
   return (
     <div className="flex items-center gap-2">
       <InputComponent
@@ -19,11 +28,20 @@ export function FiltersView() {
         className="w-32 text-sm text-gray-100 rounded-full bg-indigo-600"
         iconLeft={<IoFilter size={20} />}
       /> */}
-      <ButtonComponent
+      {/* <ButtonComponent
         text="Exportar .CSV"
         className=" w-52 text-center text-sm text-gray-100 rounded-full bg-indigo-600"
         iconLeft={<PiExport size={20} />}
-      />
+      /> */}
+
+      <CSVDownloader
+        type={Type.Button}
+        filename={"my_data_export"}
+        bom={true}
+        data={exportData}
+      >
+        Download CSV
+      </CSVDownloader>
     </div>
   );
 }

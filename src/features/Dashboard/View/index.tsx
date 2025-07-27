@@ -1,7 +1,9 @@
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { FiltersView } from "./FiltersView";
 import { TableWithData } from "./Table/TableWithData";
+import { usePdfData } from "@/features/Upload/viewModel/usePdfData";
 export function DashboardView() {
+  const { dataPdf } = usePdfData();
   return (
     <div className="w-full border rounded-3xl shadow-sm flex flex-col gap-4 bg-white overflow-auto">
       <div className="flex p-4 items-center justify-between">
@@ -9,7 +11,7 @@ export function DashboardView() {
           Meus uploads <MdOutlineCloudUpload size={24} />{" "}
         </h1>
         <div className="flex justify-end">
-          <FiltersView />
+          <FiltersView dataPdf={dataPdf} />
         </div>
       </div>
       <TableWithData />
