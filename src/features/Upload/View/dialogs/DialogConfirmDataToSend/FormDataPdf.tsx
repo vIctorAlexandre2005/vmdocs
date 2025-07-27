@@ -32,18 +32,20 @@ export function FormDataPdf({
   return (
     <div className="flex w-full flex-col gap-2">
       <InputComponent
-        className="w-full"
+        className="w-full p-2"
         value={collaborator}
         onChange={(e) => setCollaborator(e.target.value)}
         label="Nome do colaborador"
       />
       <InputComponent
         value={registration}
+        className="w-full p-2"
         onChange={(e) => setRegistration(e.target.value)}
         label="Matrícula"
       />
       <InputComponent
         value={incReq}
+        className="w-full p-2"
         onChange={(e) => setIncReq(e.target.value)}
         label="Incidente/Requisição"
       />

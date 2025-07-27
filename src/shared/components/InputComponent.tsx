@@ -4,6 +4,7 @@ interface InputComponentProps {
   label: string;
   placeholder?: string;
   value?: string;
+  classNameLabel?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   iconInside?: React.ReactNode;
@@ -16,10 +17,11 @@ export function InputComponent({
   onChange,
   className,
   iconInside,
+  classNameLabel
 }: InputComponentProps) {
   return (
     <div className="flex w-full flex-col">
-      <label className="block text-sm font-bold text-gray-700">
+      <label className={`block font-bold mb-2 text-gray-700 ${classNameLabel}`}>
         {label}
       </label>
       <div className="relative w-full">

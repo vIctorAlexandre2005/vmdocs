@@ -13,7 +13,7 @@ interface DataExtractedPdfProps {
   registration: string;
 };
 
-interface DataPdfProps {
+export interface DataPdfProps {
   id: number;
   file_name: string;
   inc_req: string;

@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +14,7 @@ interface DialogComponentProps {
   iconTrigger?: React.ReactNode;
   textTrigger?: string;
   open?: boolean;
-  onOpenChange?: () => void;
+  onOpenChange?: Dispatch<SetStateAction<boolean>>;
   className?: string;
 }
 

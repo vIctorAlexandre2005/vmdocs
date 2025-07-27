@@ -1,6 +1,6 @@
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { FiltersView } from "./FiltersView";
-import { TableWithData } from "./TableWithData";
+import { TableWithData } from "./Table/TableWithData";
 export function DashboardView() {
   return (
     <div className="w-full border rounded-3xl shadow-sm flex flex-col gap-4 bg-white overflow-auto">
