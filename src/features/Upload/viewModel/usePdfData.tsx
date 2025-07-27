@@ -1,9 +1,14 @@
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
-import { createPdf, getDataPdfService } from "../service/pdfData";
+import {
+  createPdf,
+  getDataPdfService,
+  updateDataPdfService,
+} from "../service/pdfDataService";
 import { useEffect } from "react";
 
 export function usePdfData() {
-  const { filePdf, dataPdf, setDataPdf, progress, setProgress } = useUploadPdfContext();
+  const { filePdf, dataPdf, setDataPdf, progress, setProgress } =
+    useUploadPdfContext();
 
   async function createDataPdf(
     filename: string,
@@ -27,7 +32,7 @@ export function usePdfData() {
     } catch (error) {
       console.error("Failed to create PDF data:", error);
     }
-  };
+  }
 
   async function getDataPdf() {
     try {
@@ -38,17 +43,42 @@ export function usePdfData() {
     } catch (error) {
       console.error("Failed to create PDF data:", error);
     }
-  };
+  }
 
   useEffect(() => {
     getDataPdf();
   }, []);
+
+  async function updateDataPdf(
+    id: number,
+    pdf_file: string,
+    inc_req: string,
+    collaborator: string,
+    registration: string
+  ) {
+    const formData = new FormData();
+    try {
+      const response = await updateDataPdfService(
+        id,
+        pdf_file,
+        inc_req,
+        collaborator,
+        registration,
+        formData
+      );
+      console.log("PDF data updated successfully:", response);
+    } catch (error) {
+      console.error("Failed to update PDF data:", error);
+    }
+  }
 
   return {
     createDataPdf,
     getDataPdf,
     dataPdf,
     setDataPdf,
-    progress, setProgress
+    progress,
+    setProgress,
+    updateDataPdf
   };
 }

@@ -1,4 +1,5 @@
 import { useTable } from "@/features/Dashboard/viewModel/useTable";
+import { usePdfData } from "@/features/Upload/viewModel/usePdfData";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { InputComponent } from "@/shared/components/InputComponent";
 import { useEffect, useState } from "react";
@@ -29,6 +30,7 @@ export function UpdateDataPdf({
   const [updateCollaborator, setUpdateCollaborator] = useState<string>("");
 
   const { convertBase64ToPdf, pdfUrl } = useTable();
+  const { updateDataPdf } = usePdfData();
 
   useEffect(() => {
     convertBase64ToPdf(pdf_file);
@@ -80,6 +82,7 @@ export function UpdateDataPdf({
           type="submit"
           className="items-baseline text-base mt-16 font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           icon={<FaRegEdit size={20} />}
+          onClick={() => updateDataPdf(id, pdf_file, updateIncReq, updateCollaborator, updateRegistration)}
         />
       </div>
     </div>
