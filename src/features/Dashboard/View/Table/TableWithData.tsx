@@ -16,9 +16,11 @@ import { InputComponent } from "@/shared/components/InputComponent";
 import { LuSend } from "react-icons/lu";
 import { UpdateDataPdf } from "./dialogs/updateDataPdf";
 import { DataPdfProps } from "@/shared/contexts/UploadPdfContext";
+import { FaEye } from "react-icons/fa";
+import { TbTrash } from "react-icons/tb";
 
 export function TableWithData() {
-  const { dataPdf } = usePdfData();
+  const { dataPdf, deleteDataPdf } = usePdfData();
   const [selectedPdf, setSelectedPdf] = useState<DataPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
 
@@ -73,8 +75,24 @@ export function TableWithData() {
                   {pdf.inc_req}
                 </TableCell>
                 <TableCell className="p-2 font-semibold flex items-center">
-                  <ButtonComponent text="Excluir" className="font-semibold" />
-                  <ButtonComponent text="Editar" className="font-semibold" />
+                  <ButtonComponent
+                    onClick={() => {
+                      setSelectedPdf(pdf);
+                      setOpenDialogViewPdf(true);
+                    }}
+                    iconLeft={<FaEye size={18} />}
+                    text="Visualizar"
+                    className="font-semibold text-indigo-500"
+                  />
+                  {/* <ButtonComponent iconLeft={<TbTrash size={20} />} text="Excluir" className="font-semibold text-red-500" /> */}
+                  <DialogComponent
+                    iconTriggerLeft={<TbTrash size={20} />}
+                    textTrigger="Excluir"
+                    isDelete={true}
+                    onClick={() => deleteDataPdf(pdf.id)}
+                    title="Deseja excluir os dados deste termo?"
+                    classNameTrigger="font-semibold cursor-pointer flex gap-1 items-center text-red-500"
+                  />
                 </TableCell>
 
                 {selectedPdf && (

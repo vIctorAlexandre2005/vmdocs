@@ -1,6 +1,7 @@
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 import {
   createPdf,
+  deleteDataPdfService,
   getDataPdfService,
   updateDataPdfService,
 } from "../service/pdfDataService";
@@ -72,6 +73,15 @@ export function usePdfData() {
     }
   }
 
+  async function deleteDataPdf(id: number) {
+    try {
+      const response = await deleteDataPdfService(id);
+      console.log("PDF data deleted successfully:", response);
+    } catch (error) {
+      console.error("Failed to delete PDF data:", error);
+    }
+  }
+
   return {
     createDataPdf,
     getDataPdf,
@@ -79,6 +89,7 @@ export function usePdfData() {
     setDataPdf,
     progress,
     setProgress,
-    updateDataPdf
+    updateDataPdf,
+    deleteDataPdf
   };
 }

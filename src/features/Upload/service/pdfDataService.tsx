@@ -47,17 +47,24 @@ export async function updateDataPdfService(
   formData: FormData
 ) {
   try {
-    const response = await axios.post(
-      `/api/updateDataPdf`,
-      {
-        id: id,
-        pdf_file: pdf_file,
-        inc_req: inc_req,
-        collaborator: collaborator,
-        registration: registration,
-        formData: formData,
-      }
-    );
+    const response = await axios.post(`/api/updateDataPdf`, {
+      id: id,
+      pdf_file: pdf_file,
+      inc_req: inc_req,
+      collaborator: collaborator,
+      registration: registration,
+      formData: formData,
+    });
+    console.log("PDF data created successfully:", response.data);
+    return response;
+  } catch (error: any) {
+    throw new Error("Failed to extract PDF: " + error.message);
+  }
+}
+
+export async function deleteDataPdfService(id: number) {
+  try {
+    const response = await axios.post(`/api/deleteDataPdf`, { id: id });
     console.log("PDF data created successfully:", response.data);
     return response;
   } catch (error: any) {
