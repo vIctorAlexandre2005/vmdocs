@@ -15,26 +15,23 @@ export async function createPdf(
   formData.append("collaborator", pdfExtractor.collaborator);
   formData.append("registration", pdfExtractor.registration);
   formData.append("pdf_file", pdfExtractor.pdf_file as Blob);
-  console.log("FormData being sent:", formData);
   try {
     const response = await axios.post(
       "http://localhost:8080/api/v1/pdf/data",
       formData
     );
-    console.log("PDF data created successfully:", response.data);
     return response;
   } catch (error: any) {
-    throw new Error("Failed to extract PDF: " + error.message);
+    console.error("Failed to extract PDF: " + error.message);
   }
 }
 
 export async function getDataPdfService() {
   try {
     const response = await axios.get("/api/getDataPdf");
-    console.log("PDF data retrieved successfully:", response.data.content);
     return response.data.content;
   } catch (error: any) {
-    throw new Error("Failed to extract PDF: " + error.message);
+    console.error("Failed to extract PDF: " + error.message);
   }
 }
 
@@ -55,19 +52,17 @@ export async function updateDataPdfService(
       registration: registration,
       formData: formData,
     });
-    console.log("PDF data created successfully:", response.data);
     return response;
   } catch (error: any) {
-    throw new Error("Failed to extract PDF: " + error.message);
+    console.error("Failed to extract PDF: " + error.message);
   }
 }
 
 export async function deleteDataPdfService(id: number) {
   try {
     const response = await axios.post(`/api/deleteDataPdf`, { id: id });
-    console.log("PDF data created successfully:", response.data);
     return response;
   } catch (error: any) {
-    throw new Error("Failed to extract PDF: " + error.message);
+    console.error("Failed to extract PDF: " + error.message);
   }
 }

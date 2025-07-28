@@ -37,7 +37,7 @@ export function useViewDoc() {
 
     try {
       const response = await extractPdf(formData);
-      if (response.status === 200) {
+      if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);
         setFileName(file.name);

@@ -3,8 +3,14 @@ import { ClipLoader, PacmanLoader } from "react-spinners";
 import { useAuth } from "../../modelView/useAuth";
 
 export function LoginComponent() {
-  const { userNameLogin, passwordLogin, setUserNameLogin, setPasswordLogin, handleLogin } =
-    useAuth();
+  const {
+    userNameLogin,
+    passwordLogin,
+    setUserNameLogin,
+    setPasswordLogin,
+    handleLogin,
+    loadingSendRequestLogin,
+  } = useAuth();
   return (
     <AuthComponent
       headerTitle="Entre na sua conta"
@@ -22,8 +28,8 @@ export function LoginComponent() {
       footerLinkText="Registre-se"
       footerLink="/auth/register"
       loaderIconButton={<ClipLoader size={20} color="#fff" />}
-      disabledButton={false}
-      loadingButton={false}
+      disabledButton={loadingSendRequestLogin}
+      loadingButton={loadingSendRequestLogin}
     />
   );
 }

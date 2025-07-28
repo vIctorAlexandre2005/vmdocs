@@ -1,14 +1,14 @@
 import { createContext, Dispatch, ReactNode, useContext, useState } from "react";
 
 type UserContextType = {
-  user: any;
-  setUser: Dispatch<React.SetStateAction<any>>;
+  user: { tokenJWT: string } | null;
+  setUser: Dispatch<React.SetStateAction<{ tokenJWT: string } | null>>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserContextProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<{ tokenJWT: string } | null>(null);
 
   return (
     <UserContext.Provider

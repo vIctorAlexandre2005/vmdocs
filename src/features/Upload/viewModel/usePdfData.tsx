@@ -27,9 +27,6 @@ export function usePdfData() {
     const formData = new FormData();
     try {
       const response = await createPdf(data, formData);
-      if (response.status === 200) {
-        console.log("PDF data created successfully:", response.data);
-      }
     } catch (error) {
       console.error("Failed to create PDF data:", error);
     }
@@ -38,7 +35,6 @@ export function usePdfData() {
   async function getDataPdf() {
     try {
       const response = await getDataPdfService();
-      console.log("PDF data retrieved successfully:", response);
       setDataPdf(response);
       setProgress(100); // Assuming the progress is 100% after fetching data
     } catch (error) {
@@ -67,7 +63,6 @@ export function usePdfData() {
         registration,
         formData
       );
-      console.log("PDF data updated successfully:", response);
     } catch (error) {
       console.error("Failed to update PDF data:", error);
     }
@@ -75,8 +70,7 @@ export function usePdfData() {
 
   async function deleteDataPdf(id: number) {
     try {
-      const response = await deleteDataPdfService(id);
-      console.log("PDF data deleted successfully:", response);
+      await deleteDataPdfService(id);
     } catch (error) {
       console.error("Failed to delete PDF data:", error);
     }
