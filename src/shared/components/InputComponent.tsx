@@ -8,6 +8,7 @@ interface InputComponentProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   iconInside?: React.ReactNode;
+  type?: string;
 }
 
 export function InputComponent({
@@ -17,7 +18,8 @@ export function InputComponent({
   onChange,
   className,
   iconInside,
-  classNameLabel
+  classNameLabel,
+  type
 }: InputComponentProps) {
   return (
     <div className="flex w-full flex-col">
@@ -31,7 +33,7 @@ export function InputComponent({
           </div>
         )}
         <input
-          type="text"
+          type={type ? type : "text"}
           className={`${className} ${
             iconInside ? "pl-10" : ""
           } w-full border border-gray-300 transition duration-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500`}

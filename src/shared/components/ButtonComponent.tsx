@@ -27,7 +27,7 @@ export function ButtonComponent({
     <button
       type="button"
       disabled={loading ? disabled : false}
-      className={`p-2 cursor-pointer flex items-center justify-center ${className}`}
+      className={`p-2 cursor-pointer flex items-center ${disabled && "opacity-50"} justify-center ${className}`}
       onClick={onClick}
     >
       {!loading && (
