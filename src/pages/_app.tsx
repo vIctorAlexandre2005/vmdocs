@@ -8,13 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <LayoutApp>
-      <UserContextProvider>
+    <UserContextProvider>
+      <LayoutApp>
         <UploadPdfProvider>
           <Component {...pageProps} />
           <ToastContainer pauseOnHover={false} position="bottom-right" />
         </UploadPdfProvider>
-      </UserContextProvider>
-    </LayoutApp>
+      </LayoutApp>
+    </UserContextProvider>
   );
 }

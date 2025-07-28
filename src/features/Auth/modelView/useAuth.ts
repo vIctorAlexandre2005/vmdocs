@@ -21,6 +21,9 @@ export function useAuth() {
     setLoadingSendRequestLogin(true);
     try {
       const response = await loginService(login, password);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user", JSON.stringify(response));
+      };
       setUser(response);
       successToast("Login realizado com sucesso!");
       router.push("/");
@@ -58,7 +61,12 @@ export function useAuth() {
       setConfirmPassword("");
       setLoadingSendRequestRegister(false);
     }
-  }
+  };
+
+  function handleLogout() {
+    localStorage.removeItem("user");
+    router.push("/auth/login");
+  };
 
   return {
     user,
@@ -83,5 +91,7 @@ export function useAuth() {
     loadingSendRequestRegister,
     setLoadingSendRequestRegister,
     handleRegister,
+
+    handleLogout,
   };
 }
