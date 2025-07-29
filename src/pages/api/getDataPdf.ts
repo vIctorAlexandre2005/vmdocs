@@ -5,8 +5,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  const { token } = req.body;
+
+  console.log("Token:", token);
+
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/pdf/data");
+    const response = await axios.get("http://localhost:8080/api/v1/pdf/data", { 
+      headers: { 
+        Authorization: `Bearer ${token}`
+      } 
+    });
     console.log("PDF extraction response:", response);
     res.status(200).json(response.data);
   } catch (error: any) {

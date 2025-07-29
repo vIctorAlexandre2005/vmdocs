@@ -1,14 +1,22 @@
-import { createContext, Dispatch, ReactNode, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, useContext, useEffect, useState } from "react";
 
 type UserContextType = {
-  user: { tokenJWT: string } | null;
-  setUser: Dispatch<React.SetStateAction<{ tokenJWT: string } | null>>;
+  user: string | null;
+  setUser: Dispatch<React.SetStateAction<string | null>>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserContextProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<{ tokenJWT: string } | null>(null);
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("user");
+    console.log("token", token);
+    if (token) {
+      setUser(token);
+    }
+  }, []); // <- dependência vazia
 
   return (
     <UserContext.Provider

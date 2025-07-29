@@ -1,9 +1,11 @@
 import { useRef } from "react";
 import { extractPdf } from "../service/extractPdf";
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
+import { useUserContext } from "@/shared/contexts/UserContext";
 
 export function useViewDoc() {
-  const {
+ const { user } = useUserContext(); 
+ const {
     fileName,
     setFileName,
     progress,
@@ -17,6 +19,7 @@ export function useViewDoc() {
     filePdf,
     setFilePdf,
   } = useUploadPdfContext();
+
 
   const inputRef = useRef<HTMLInputElement>(null);
   function handleOpenFileDialog() {
@@ -36,7 +39,7 @@ export function useViewDoc() {
     formData.append("file", file);
 
     try {
-      const response = await extractPdf(formData);
+      const response = await extractPdf(user, formData);
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);

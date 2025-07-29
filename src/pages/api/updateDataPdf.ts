@@ -5,7 +5,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id, pdf_file, inc_req, collaborator, registration } = req.body;
+  const {
+    token: token,
+    id,
+    pdf_file,
+    inc_req,
+    collaborator,
+    registration,
+  } = req.body;
 
   const formData = new FormData();
 
@@ -14,13 +21,25 @@ export default async function handler(
   formData?.append("collaborator", collaborator);
   formData?.append("registration", registration);
 
-  console.log("Received file:", id, pdf_file, inc_req, collaborator, registration);
+  console.log(
+    "Received file:",
+    id,
+    pdf_file,
+    inc_req,
+    collaborator,
+    registration
+  );
 
   try {
     const response = await axios.put(
       `http://localhost:8080/api/v1/pdf/data/${id}`,
-      //{ pdf_file, inc_req, collaborator, registration }
-      formData
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     console.log("PDF data SERVER:", response.data);
     res.status(200).json(response.data);

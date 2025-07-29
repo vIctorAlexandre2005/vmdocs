@@ -6,8 +6,11 @@ import {
   updateDataPdfService,
 } from "../service/pdfDataService";
 import { useEffect } from "react";
+import { useUserContext } from "@/shared/contexts/UserContext";
+import { useAuth } from "@/features/Auth/modelView/useAuth";
 
 export function usePdfData() {
+  const { user } = useUserContext();
   const { filePdf, dataPdf, setDataPdf, progress, setProgress } =
     useUploadPdfContext();
 
@@ -26,7 +29,8 @@ export function usePdfData() {
     };
     const formData = new FormData();
     try {
-      const response = await createPdf(data, formData);
+      const response = await createPdf(user, data, formData);
+      setDataPdf([...(dataPdf || []), response?.data]);
     } catch (error) {
       console.error("Failed to create PDF data:", error);
     }
@@ -34,8 +38,10 @@ export function usePdfData() {
 
   async function getDataPdf() {
     try {
-      const response = await getDataPdfService();
-      setDataPdf(response);
+      if (user) {
+        const response = await getDataPdfService(user);
+        setDataPdf(response);
+      }
       setProgress(100); // Assuming the progress is 100% after fetching data
     } catch (error) {
       console.error("Failed to create PDF data:", error);
@@ -43,8 +49,10 @@ export function usePdfData() {
   }
 
   useEffect(() => {
+  if (user) {
     getDataPdf();
-  }, []);
+  }
+}, [user]);
 
   async function updateDataPdf(
     id: number,
@@ -56,6 +64,7 @@ export function usePdfData() {
     const formData = new FormData();
     try {
       const response = await updateDataPdfService(
+        user, 
         id,
         pdf_file,
         inc_req,
@@ -63,6 +72,7 @@ export function usePdfData() {
         registration,
         formData
       );
+      setDataPdf([...(dataPdf || []), response?.data]);
     } catch (error) {
       console.error("Failed to update PDF data:", error);
     }
@@ -70,7 +80,8 @@ export function usePdfData() {
 
   async function deleteDataPdf(id: number) {
     try {
-      await deleteDataPdfService(id);
+      await deleteDataPdfService(user, id);
+      setDataPdf(dataPdf?.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Failed to delete PDF data:", error);
     }

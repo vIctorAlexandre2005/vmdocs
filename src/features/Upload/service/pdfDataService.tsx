@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export async function createPdf(
+  token: string | null,
   pdfExtractor: {
     file_name: string;
     inc_req: string;
@@ -18,7 +19,13 @@ export async function createPdf(
   try {
     const response = await axios.post(
       "http://localhost:8080/api/v1/pdf/data",
-      formData
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        }
+      },
     );
     return response;
   } catch (error: any) {
@@ -26,9 +33,9 @@ export async function createPdf(
   }
 }
 
-export async function getDataPdfService() {
+export async function getDataPdfService(token: string) {
   try {
-    const response = await axios.get("/api/getDataPdf");
+    const response = await axios.post("/api/getDataPdf", { token: token });
     return response.data.content;
   } catch (error: any) {
     console.error("Failed to extract PDF: " + error.message);
@@ -36,6 +43,7 @@ export async function getDataPdfService() {
 }
 
 export async function updateDataPdfService(
+  token: string | null,
   id: number,
   pdf_file: string,
   inc_req: string,
@@ -45,6 +53,7 @@ export async function updateDataPdfService(
 ) {
   try {
     const response = await axios.post(`/api/updateDataPdf`, {
+      token: token,
       id: id,
       pdf_file: pdf_file,
       inc_req: inc_req,
@@ -58,9 +67,9 @@ export async function updateDataPdfService(
   }
 }
 
-export async function deleteDataPdfService(id: number) {
+export async function deleteDataPdfService(token: string | null, id: number) {
   try {
-    const response = await axios.post(`/api/deleteDataPdf`, { id: id });
+    const response = await axios.post(`/api/deleteDataPdf`, { token: token, id: id });
     return response;
   } catch (error: any) {
     console.error("Failed to extract PDF: " + error.message);

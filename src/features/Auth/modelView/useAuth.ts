@@ -22,9 +22,9 @@ export function useAuth() {
     try {
       const response = await loginService(login, password);
       if (typeof window !== "undefined") {
-        localStorage.setItem("user", JSON.stringify(response));
+        localStorage.setItem("user", response.tokenJWT); // se for string
       };
-      setUser(response);
+      setUser(response?.tokenJWT);
       successToast("Login realizado com sucesso!");
       router.push("/");
     } catch (error) {

@@ -7,6 +7,7 @@ export async function extractPdf(token: string | null, formData: FormData) {
       formData,
       {
         headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }

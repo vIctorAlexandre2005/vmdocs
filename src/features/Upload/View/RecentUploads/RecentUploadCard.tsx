@@ -16,8 +16,7 @@ export function RecentUploadCard({
 }: RecentUploadCardProps) {
   return (
     <div
-      className="mt-4 w-full gap-2 flex flex-col cursor-pointer border bg-white border-slate-200 shadow hover:bg-slate-100 rounded-3xl p-4 transition duration-300"
-      onClick={() => setOpenDialogViewPdf(true)}
+      className="mt-4 w-full gap-2 flex flex-col border bg-white border-slate-200 shadow hover:bg-slate-100 rounded-3xl p-4 transition duration-300"
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
