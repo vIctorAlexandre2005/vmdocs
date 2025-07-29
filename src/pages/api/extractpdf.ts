@@ -19,7 +19,6 @@ export default async function handler(
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }

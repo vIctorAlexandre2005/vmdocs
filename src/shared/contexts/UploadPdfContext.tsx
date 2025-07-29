@@ -41,6 +41,9 @@ type UploadPdfContextType = {
   setFilePdf: Dispatch<SetStateAction<File | undefined>>;
   dataPdf: DataPdfProps[];
   setDataPdf: Dispatch<SetStateAction<DataPdfProps[]>>;
+
+  loadingReaderPdf: boolean;
+  setLoadingReaderPdf: Dispatch<SetStateAction<boolean>>;
 };
 
 const UploadPdfContext = createContext<UploadPdfContextType | undefined>(
@@ -56,6 +59,8 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [filePdf, setFilePdf] = useState<File>();
   const [dataPdf, setDataPdf] = useState<DataPdfProps[]>([]);
+
+  const [loadingReaderPdf, setLoadingReaderPdf] = useState(false);
 
   return (
     <UploadPdfContext.Provider
@@ -74,6 +79,8 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         setFilePdf,
         dataPdf,
         setDataPdf,
+        loadingReaderPdf,
+        setLoadingReaderPdf
       }}
     >
       {children}

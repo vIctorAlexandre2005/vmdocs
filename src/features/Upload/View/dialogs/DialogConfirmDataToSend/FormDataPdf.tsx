@@ -2,6 +2,7 @@ import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { InputComponent } from "@/shared/components/InputComponent";
 import { Dispatch } from "react";
 import { LuSend } from "react-icons/lu";
+import { ClipLoader } from "react-spinners";
 
 interface FormDataPdfProps {
   collaborator: string;
@@ -17,6 +18,8 @@ interface FormDataPdfProps {
   setCollaborator: Dispatch<React.SetStateAction<string>>;
   setRegistration: Dispatch<React.SetStateAction<string>>;
   setIncReq: Dispatch<React.SetStateAction<string>>;
+  loadingCreatePdf: boolean;
+  setOpenDialogViewPdf: (open: boolean) => void;
 }
 
 export function FormDataPdf({
@@ -28,6 +31,8 @@ export function FormDataPdf({
   setCollaborator,
   setRegistration,
   setIncReq,
+  loadingCreatePdf,
+  setOpenDialogViewPdf,
 }: FormDataPdfProps) {
   return (
     <div className="flex w-full flex-col gap-2">
@@ -54,9 +59,12 @@ export function FormDataPdf({
         type="submit"
         className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         icon={<LuSend size={20} />}
-        onClick={() =>
-          createDataPdf(fileName, incReq, collaborator, registration)
-        }
+        loading={loadingCreatePdf}
+        disabled={loadingCreatePdf}
+        loaderIcon={<ClipLoader size={20} />}
+        onClick={() => {
+          createDataPdf(fileName, incReq, collaborator, registration);
+        }}
       />
     </div>
   );

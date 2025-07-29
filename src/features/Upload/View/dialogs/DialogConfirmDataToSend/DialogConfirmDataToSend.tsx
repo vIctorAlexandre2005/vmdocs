@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useViewDoc } from "../../../viewModel/useViewDoc";
 import { ViewPdfInDialog } from "./ViewPdfInDialog";
 import { FormDataPdf } from "./FormDataPdf";
+import { Loader } from "@/shared/components/Loader";
 
 export function DialogConfirmDataToSend() {
   const {
@@ -12,8 +13,9 @@ export function DialogConfirmDataToSend() {
     fileName,
     openDialogViewPdf,
     setOpenDialogViewPdf,
+    loadingReaderPdf,
   } = useViewDoc();
-  const { createDataPdf } = usePdfData();
+  const { createDataPdf, loadingCreatePdf } = usePdfData();
 
   const [incReq, setIncReq] = useState<string>(dataExtractedPdf?.inc_req || "");
   const [collaborator, setCollaborator] = useState<string>(
@@ -30,7 +32,7 @@ export function DialogConfirmDataToSend() {
       setRegistration(dataExtractedPdf.registration || "");
     }
   }, [dataExtractedPdf]);
-  
+
   return (
     <DialogComponent
       open={openDialogViewPdf}
@@ -38,17 +40,27 @@ export function DialogConfirmDataToSend() {
       title={fileName || "Visualização do PDF"}
     >
       <div className="flex items-center justify-around gap-4">
-        <ViewPdfInDialog pdfUrl={pdfUrl} />
-        <FormDataPdf
-          collaborator={collaborator}
-          registration={registration}
-          incReq={incReq}
-          fileName={fileName || ""}
-          createDataPdf={createDataPdf}
-          setCollaborator={setCollaborator}
-          setRegistration={setRegistration}
-          setIncReq={setIncReq}
-        />
+        {loadingReaderPdf ? (
+          <div className="flex justify-center items-center">
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <ViewPdfInDialog pdfUrl={pdfUrl} />
+            <FormDataPdf
+              loadingCreatePdf={loadingCreatePdf}
+              collaborator={collaborator}
+              registration={registration}
+              incReq={incReq}
+              fileName={fileName || ""}
+              createDataPdf={createDataPdf}
+              setCollaborator={setCollaborator}
+              setRegistration={setRegistration}
+              setIncReq={setIncReq}
+              setOpenDialogViewPdf={setOpenDialogViewPdf}
+            />
+          </>
+        )}
       </div>
     </DialogComponent>
   );

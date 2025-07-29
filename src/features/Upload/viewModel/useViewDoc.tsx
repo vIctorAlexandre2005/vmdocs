@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { extractPdf } from "../service/extractPdf";
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 import { useUserContext } from "@/shared/contexts/UserContext";
@@ -18,8 +18,9 @@ export function useViewDoc() {
     setOpenDialogViewPdf,
     filePdf,
     setFilePdf,
+    loadingReaderPdf,
+    setLoadingReaderPdf
   } = useUploadPdfContext();
-
 
   const inputRef = useRef<HTMLInputElement>(null);
   function handleOpenFileDialog() {
@@ -37,14 +38,14 @@ export function useViewDoc() {
 
     const formData = new FormData();
     formData.append("file", file);
-
+    setOpenDialogViewPdf(true);
+    setLoadingReaderPdf(true);
     try {
       const response = await extractPdf(user, formData);
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);
         setFileName(file.name);
-        setOpenDialogViewPdf(true);
 
         const url = URL.createObjectURL(file);
         setPdfUrl(url);
@@ -60,6 +61,8 @@ export function useViewDoc() {
       }
     } catch (error) {
       console.error("Failed to extract PDF:", error);
+    } finally {
+      setLoadingReaderPdf(false);
     }
   }
 
@@ -78,5 +81,7 @@ export function useViewDoc() {
 
     inputRef,
     handleOpenFileDialog,
+
+    loadingReaderPdf
   };
 }

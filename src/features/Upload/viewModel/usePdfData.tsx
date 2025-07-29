@@ -5,7 +5,7 @@ import {
   getDataPdfService,
   updateDataPdfService,
 } from "../service/pdfDataService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUserContext } from "@/shared/contexts/UserContext";
 import { useAuth } from "@/features/Auth/modelView/useAuth";
 
@@ -14,12 +14,18 @@ export function usePdfData() {
   const { filePdf, dataPdf, setDataPdf, progress, setProgress } =
     useUploadPdfContext();
 
+    const [loadingCreatePdf, setLoadingCreatePdf] = useState(false);
+    const [loadingGetDataPdf, setLoadingGetDataPdf] = useState(false);
+    const [loadingDeleteDataPdf, setLoadingDeleteDataPdf] = useState(false);
+    const [loadingUpdateDataPdf, setLoadingUpdateDataPdf] = useState(false);
+
   async function createDataPdf(
     filename: string,
     incReq: string,
     collaborator: string,
     registration: string
   ) {
+    setLoadingCreatePdf(true);
     const data = {
       file_name: filename,
       inc_req: incReq,
@@ -33,10 +39,13 @@ export function usePdfData() {
       setDataPdf([...(dataPdf || []), response?.data]);
     } catch (error) {
       console.error("Failed to create PDF data:", error);
+    } finally {
+      setLoadingCreatePdf(false);
     }
   }
 
   async function getDataPdf() {
+    setLoadingGetDataPdf(true);
     try {
       if (user) {
         const response = await getDataPdfService(user);
@@ -45,6 +54,8 @@ export function usePdfData() {
       setProgress(100); // Assuming the progress is 100% after fetching data
     } catch (error) {
       console.error("Failed to create PDF data:", error);
+    } finally {
+      setLoadingGetDataPdf(false);
     }
   }
 
@@ -61,6 +72,7 @@ export function usePdfData() {
     collaborator: string,
     registration: string
   ) {
+    setLoadingUpdateDataPdf(true);
     const formData = new FormData();
     try {
       const response = await updateDataPdfService(
@@ -75,15 +87,20 @@ export function usePdfData() {
       setDataPdf([...(dataPdf || []), response?.data]);
     } catch (error) {
       console.error("Failed to update PDF data:", error);
+    } finally {
+      setLoadingUpdateDataPdf(false);
     }
   }
 
   async function deleteDataPdf(id: number) {
+    setLoadingDeleteDataPdf(true);
     try {
       await deleteDataPdfService(user, id);
       setDataPdf(dataPdf?.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Failed to delete PDF data:", error);
+    } finally {
+      setLoadingDeleteDataPdf(false);
     }
   }
 
@@ -95,6 +112,16 @@ export function usePdfData() {
     progress,
     setProgress,
     updateDataPdf,
-    deleteDataPdf
+    deleteDataPdf,
+
+    //loaders
+    loadingCreatePdf,
+    loadingGetDataPdf,
+    loadingDeleteDataPdf,
+    loadingUpdateDataPdf,
+    setLoadingCreatePdf,
+    setLoadingGetDataPdf,
+    setLoadingDeleteDataPdf,
+    setLoadingUpdateDataPdf
   };
 }

@@ -9,6 +9,14 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   const { user, setUser } = useUserContext();
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem("user");
+    console.log("token", token);
+    if (token) {
+      setUser(token);
+    }
+  }, []);
+
   return (
     <div className="w-full h-screen overflow-hidden">
       <div className="flex h-full">
