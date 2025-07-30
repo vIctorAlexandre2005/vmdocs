@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { createContext, Dispatch, ReactNode, useContext, useEffect, useState } from "react";
 
 type UserContextType = {
@@ -10,11 +11,14 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<string | null>(null);
 
+  const router = useRouter();
+
   useEffect(() => {
     const token = localStorage.getItem("user");
-    console.log("token", token);
     if (token) {
       setUser(token);
+    } else {
+      router.push("/auth/login");
     }
   }, []); // <- dependência vazia
 

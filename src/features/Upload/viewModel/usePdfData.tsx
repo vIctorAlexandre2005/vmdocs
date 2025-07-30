@@ -8,16 +8,20 @@ import {
 import { useEffect, useState } from "react";
 import { useUserContext } from "@/shared/contexts/UserContext";
 import { useAuth } from "@/features/Auth/modelView/useAuth";
+import { useRouter } from "next/router";
+import { errorToast, infoToast, successToast } from "@/shared/utils/toasts";
 
 export function usePdfData() {
   const { user } = useUserContext();
   const { filePdf, dataPdf, setDataPdf, progress, setProgress } =
     useUploadPdfContext();
 
-    const [loadingCreatePdf, setLoadingCreatePdf] = useState(false);
-    const [loadingGetDataPdf, setLoadingGetDataPdf] = useState(false);
-    const [loadingDeleteDataPdf, setLoadingDeleteDataPdf] = useState(false);
-    const [loadingUpdateDataPdf, setLoadingUpdateDataPdf] = useState(false);
+  const router = useRouter();
+
+  const [loadingCreatePdf, setLoadingCreatePdf] = useState(false);
+  const [loadingGetDataPdf, setLoadingGetDataPdf] = useState(false);
+  const [loadingDeleteDataPdf, setLoadingDeleteDataPdf] = useState(false);
+  const [loadingUpdateDataPdf, setLoadingUpdateDataPdf] = useState(false);
 
   async function createDataPdf(
     filename: string,
@@ -52,31 +56,40 @@ export function usePdfData() {
         setDataPdf(response);
       }
       setProgress(100); // Assuming the progress is 100% after fetching data
-    } catch (error) {
-      console.error("Failed to create PDF data:", error);
+    } catch (error: any) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        router.push("/auth/login");
+        errorToast("Sua sessão expirou!");
+      }
+      console.error("Erro:", error.response?.data?.error || error.message);
     } finally {
       setLoadingGetDataPdf(false);
     }
   }
 
   useEffect(() => {
-  if (user) {
-    getDataPdf();
-  }
-}, [user]);
+    if (user) {
+      getDataPdf();
+    }
+  }, [user]);
 
   async function updateDataPdf(
     id: number,
     pdf_file: string,
     inc_req: string,
     collaborator: string,
-    registration: string
+    registration: string,
+    sameData: boolean
   ) {
+    if (sameData) {
+      infoToast("Os dados não foram alterados!");
+      return;
+    }
     setLoadingUpdateDataPdf(true);
     const formData = new FormData();
     try {
       const response = await updateDataPdfService(
-        user, 
+        user,
         id,
         pdf_file,
         inc_req,
@@ -84,7 +97,14 @@ export function usePdfData() {
         registration,
         formData
       );
-      setDataPdf([...(dataPdf || []), response?.data]);
+      setDataPdf((prev) =>
+        prev?.map((item) =>
+          item.id === id
+            ? { ...item, pdf_file, inc_req, collaborator, registration }
+            : item
+        )
+      );
+      successToast("Dados atualizado com sucesso!");
     } catch (error) {
       console.error("Failed to update PDF data:", error);
     } finally {
@@ -122,6 +142,6 @@ export function usePdfData() {
     setLoadingCreatePdf,
     setLoadingGetDataPdf,
     setLoadingDeleteDataPdf,
-    setLoadingUpdateDataPdf
+    setLoadingUpdateDataPdf,
   };
 }

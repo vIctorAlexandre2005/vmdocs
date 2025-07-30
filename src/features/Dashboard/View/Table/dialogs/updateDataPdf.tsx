@@ -2,9 +2,9 @@ import { useTable } from "@/features/Dashboard/viewModel/useTable";
 import { usePdfData } from "@/features/Upload/viewModel/usePdfData";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { InputComponent } from "@/shared/components/InputComponent";
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
-
+import { ClipLoader } from "react-spinners";
 
 interface UpdateDataPdfProps {
   id: number;
@@ -14,6 +14,7 @@ interface UpdateDataPdfProps {
   pdf_file: string;
   file_name: string;
   last_change: string;
+  setOpenDialogViewPdf: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function UpdateDataPdf({
@@ -24,13 +25,19 @@ export function UpdateDataPdf({
   pdf_file,
   file_name,
   last_change,
+  setOpenDialogViewPdf,
 }: UpdateDataPdfProps) {
   const [updateRegistration, setUpdateRegistration] = useState<string>("");
   const [updateIncReq, setUpdateIncReq] = useState<string>("");
   const [updateCollaborator, setUpdateCollaborator] = useState<string>("");
 
   const { convertBase64ToPdf, pdfUrl } = useTable();
-  const { updateDataPdf } = usePdfData();
+  const { updateDataPdf, loadingUpdateDataPdf } = usePdfData();
+
+  const sameData =
+    updateRegistration === registration &&
+    updateIncReq === inc_req &&
+    updateCollaborator === collaborator;
 
   useEffect(() => {
     convertBase64ToPdf(pdf_file);
@@ -51,11 +58,14 @@ export function UpdateDataPdf({
             height={450}
             src={pdfUrl || ""}
             className="w-full border border-slate-300 rounded-lg"
-            title="Visualização do PDF"
+            title={file_name}
           />
         )}
       </div>
       <div className="flex flex-col gap-2 w-full">
+        <h1 className="text-lg mb-4 font-semibold text-slate-700">
+          Última alteração: {last_change}
+        </h1>
         <InputComponent
           className="w-full p-2"
           value={updateRegistration}
@@ -80,9 +90,22 @@ export function UpdateDataPdf({
         <ButtonComponent
           text="Alterar"
           type="submit"
+          disabled={sameData}
+          loading={loadingUpdateDataPdf}
+          loaderIcon={<ClipLoader size={20} color="#fff" />}
           className="items-baseline text-base mt-16 font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           icon={<FaRegEdit size={20} />}
-          onClick={() => updateDataPdf(id, pdf_file, updateIncReq, updateCollaborator, updateRegistration)}
+          onClick={() => {
+            updateDataPdf(
+              id,
+              pdf_file,
+              updateIncReq,
+              updateCollaborator,
+              updateRegistration,
+              sameData
+            );
+            setOpenDialogViewPdf(false);
+          }}
         />
       </div>
     </div>

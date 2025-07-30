@@ -12,7 +12,6 @@ export default async function handler(
       login: login,
       password: password,
     });
-    console.log("TOKEN JWT", response.data);
     res.status(200).json(response.data);
   } catch (error: any) {
     res.status(500).json({ error: "Failed to extract PDF: " + error.message });

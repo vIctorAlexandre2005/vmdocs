@@ -115,6 +115,7 @@ export function TableWithData() {
                           collaborator={selectedPdf.collaborator}
                           inc_req={selectedPdf.inc_req}
                           pdf_file={selectedPdf.pdf_file}
+                          setOpenDialogViewPdf={setOpenDialogViewPdf}
                         />
                       </DialogComponent>
                     )}

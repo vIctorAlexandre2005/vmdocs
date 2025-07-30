@@ -5,20 +5,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   const { token } = req.body;
 
-  console.log("Token:", token);
-
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/pdf/data", { 
-      headers: { 
-        Authorization: `Bearer ${token}`
-      } 
+    const response = await axios.get("http://localhost:8080/api/v1/pdf/data", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    console.log("PDF extraction response:", response);
     res.status(200).json(response.data);
   } catch (error: any) {
-    res.status(500).json({ error: "Failed to extract PDF: " + error.message });
+    const status = error?.response?.status || 500;
+    const message = error?.response?.data?.message || "Erro ao extrair PDF";
+    res.status(status).json({ error: message });
   }
 }

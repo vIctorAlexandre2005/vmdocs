@@ -6,7 +6,7 @@ export function DashboardView() {
   const { dataPdf } = usePdfData();
   return (
     <div className="w-full border rounded-3xl shadow-sm flex flex-col gap-4 bg-white overflow-auto">
-      <div className="flex p-4 items-center justify-between">
+      <div className="flex p-2 items-center justify-between">
         <h1 className="text-xl flex items-center gap-2 font-bold text-indigo-600">
           Meus uploads <MdOutlineCloudUpload size={24} />{" "}
         </h1>

@@ -11,7 +11,6 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem("user");
-    console.log("token", token);
     if (token) {
       setUser(token);
     }

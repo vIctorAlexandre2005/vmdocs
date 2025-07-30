@@ -10,9 +10,6 @@ export default async function handler(
   const formData = new FormData();
   formData.append("file", file);
 
-  console.log("Received file:", file);
-  console.log("formData:", formData);
-
   try {
     const response = await axios.post(
       "http://localhost:8080/api/v1/pdf/reader",
@@ -23,7 +20,6 @@ export default async function handler(
         },
       }
     );
-    console.log("PDF extraction response:", response);
     res.status(200).json(response.data);
   } catch (error: any) {
     res.status(500).json({ error: "Failed to extract PDF: " + error.message });
