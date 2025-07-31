@@ -1,0 +1,19 @@
+import axios from "axios";
+import type { NextApiRequest, NextApiResponse } from "next";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { token: token, id } = req.body;
+  try {
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    res.status(200).json(response.data);
+  } catch (error: any) {
+    res.status(500).json({ error: "Failed to extract PDF: " + error.message });
+  }
+}

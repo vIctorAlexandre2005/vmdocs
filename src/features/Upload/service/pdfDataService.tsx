@@ -1,0 +1,77 @@
+import axios from "axios";
+import { useRouter } from "next/router";
+
+export async function createPdf(
+  token: string | null,
+  pdfExtractor: {
+    file_name: string;
+    inc_req: string;
+    collaborator: string;
+    registration: string;
+    pdf_file: File | undefined;
+  },
+  formData: FormData
+) {
+  formData.append("file_name", pdfExtractor.file_name);
+  formData.append("inc_req", pdfExtractor.inc_req);
+  formData.append("collaborator", pdfExtractor.collaborator);
+  formData.append("registration", pdfExtractor.registration);
+  formData.append("pdf_file", pdfExtractor.pdf_file as Blob);
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/v1/pdf/data",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error: any) {
+    console.error("Failed to extract PDF: " + error.message);
+  }
+}
+
+export async function getDataPdfService(token: string) {
+  const response = await axios.post("/api/getDataPdf", { token: token });
+  return response.data.content;
+}
+
+export async function updateDataPdfService(
+  token: string | null,
+  id: number,
+  pdf_file: string,
+  inc_req: string,
+  collaborator: string,
+  registration: string,
+  formData: FormData
+) {
+  try {
+    const response = await axios.post(`/api/updateDataPdf`, {
+      token: token,
+      id: id,
+      pdf_file: pdf_file,
+      inc_req: inc_req,
+      collaborator: collaborator,
+      registration: registration,
+      formData: formData,
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("Failed to extract PDF: " + error.message);
+  }
+}
+
+export async function deleteDataPdfService(token: string | null, id: number) {
+  try {
+    const response = await axios.post(`/api/deleteDataPdf`, {
+      token: token,
+      id: id,
+    });
+    return response;
+  } catch (error: any) {
+    console.error("Failed to extract PDF: " + error.message);
+  }
+}
