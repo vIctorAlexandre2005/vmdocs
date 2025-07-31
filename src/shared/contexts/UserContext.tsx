@@ -17,7 +17,7 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
     const token = localStorage.getItem("user");
     if (token) {
       setUser(token);
-    } else {
+    } else if (!["/auth/login", "/auth/register"].includes(router.pathname)) {
       router.push("/auth/login");
     }
   }, []); // <- dependência vazia

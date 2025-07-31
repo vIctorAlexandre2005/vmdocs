@@ -8,7 +8,7 @@ export default async function handler(
   const { login, password } = req.body;
 
   try {
-    const response = await axios.post(`http://localhost:8080/api/login`, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
       login: login,
       password: password,
     });

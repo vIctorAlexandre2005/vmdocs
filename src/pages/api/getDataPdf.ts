@@ -8,7 +8,7 @@ export default async function handler(
   const { token } = req.body;
 
   try {
-    const response = await axios.get("http://localhost:8080/api/v1/pdf/data", {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

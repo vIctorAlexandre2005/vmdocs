@@ -61,7 +61,7 @@ export function FormDataPdf({
         icon={<LuSend size={20} />}
         loading={loadingCreatePdf}
         disabled={loadingCreatePdf}
-        loaderIcon={<ClipLoader size={20} />}
+        loaderIcon={<ClipLoader size={20} color="#fff" />}
         onClick={() => {
           createDataPdf(fileName, incReq, collaborator, registration);
         }}

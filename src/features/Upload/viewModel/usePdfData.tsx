@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useUserContext } from "@/shared/contexts/UserContext";
 import { useAuth } from "@/features/Auth/modelView/useAuth";
 import { useRouter } from "next/router";
-import { errorToast, infoToast, successToast } from "@/shared/utils/toasts";
+import { clearToast, errorToast, infoToast, loadingToast, successToast } from "@/shared/utils/toasts";
 
 export function usePdfData() {
   const { user } = useUserContext();
@@ -41,10 +41,13 @@ export function usePdfData() {
     try {
       const response = await createPdf(user, data, formData);
       setDataPdf([...(dataPdf || []), response?.data]);
+      successToast("Criado com sucesso!");
     } catch (error) {
+      errorToast("Erro ao criar!");
       console.error("Failed to create PDF data:", error);
     } finally {
       setLoadingCreatePdf(false);
+      clearToast();
     }
   }
 
@@ -117,7 +120,9 @@ export function usePdfData() {
     try {
       await deleteDataPdfService(user, id);
       setDataPdf(dataPdf?.filter((item) => item.id !== id));
+      successToast("Deletado com sucesso!");
     } catch (error) {
+      errorToast("Erro ao deletar!");
       console.error("Failed to delete PDF data:", error);
     } finally {
       setLoadingDeleteDataPdf(false);

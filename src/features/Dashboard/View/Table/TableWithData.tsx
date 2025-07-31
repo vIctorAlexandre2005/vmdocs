@@ -24,6 +24,7 @@ export function TableWithData() {
   const { dataPdf, deleteDataPdf, loadingGetDataPdf } = usePdfData();
   const [selectedPdf, setSelectedPdf] = useState<DataPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
+  const [openDialogDeleteDataPdf, setOpenDialogDeleteDataPdf] = useState(false);
 
   return (
     <div className="max-h-[400px] overflow-y-auto">
@@ -95,7 +96,12 @@ export function TableWithData() {
                         iconTriggerLeft={<TbTrash size={20} />}
                         textTrigger="Excluir"
                         isDelete={true}
-                        onClick={() => deleteDataPdf(pdf.id)}
+                        open={openDialogDeleteDataPdf}
+                        onOpenChange={setOpenDialogDeleteDataPdf}
+                        onClick={() => {
+                          deleteDataPdf(pdf.id);
+                          setOpenDialogDeleteDataPdf(false);
+                        }}
                         title="Deseja excluir os dados deste termo?"
                         classNameTrigger="font-semibold cursor-pointer flex gap-1 items-center text-red-500"
                       />
