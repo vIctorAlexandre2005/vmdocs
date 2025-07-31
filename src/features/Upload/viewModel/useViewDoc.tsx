@@ -38,6 +38,7 @@ export function useViewDoc() {
 
     const formData = new FormData();
     formData.append("file", file);
+    setOpenDialogViewPdf(true);
     setLoadingReaderPdf(true);
     try {
       const response = await extractPdf(user, formData);

@@ -30,7 +30,6 @@ export function DialogConfirmDataToSend() {
       setIncReq(dataExtractedPdf.inc_req || "");
       setCollaborator(dataExtractedPdf.collaborator || "");
       setRegistration(dataExtractedPdf.registration || "");
-      setOpenDialogViewPdf(true);
     }
   }, [dataExtractedPdf]);
 
