@@ -54,7 +54,7 @@ export function FormDataPdf({
         onChange={(e) => setIncReq(e.target.value)}
         label="Incidente/Requisição"
       />
-      <ButtonComponent
+      {/* <ButtonComponent
         text="Enviar"
         type="submit"
         className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -65,7 +65,7 @@ export function FormDataPdf({
         onClick={() => {
           createDataPdf(fileName, incReq, collaborator, registration);
         }}
-      />
+      /> */}
     </div>
   );
 }

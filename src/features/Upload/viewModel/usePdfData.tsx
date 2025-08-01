@@ -9,13 +9,21 @@ import { useEffect, useState } from "react";
 import { useUserContext } from "@/shared/contexts/UserContext";
 import { useAuth } from "@/features/Auth/modelView/useAuth";
 import { useRouter } from "next/router";
-import { clearToast, errorToast, infoToast, loadingToast, successToast } from "@/shared/utils/toasts";
+import {
+  clearToast,
+  errorToast,
+  infoToast,
+  loadingToast,
+  successToast,
+} from "@/shared/utils/toasts";
+import { useContextAsyncDialog } from "@/shared/contexts/AsyncDialogContext";
 
 export function usePdfData() {
   const { user } = useUserContext();
   const { filePdf, dataPdf, setDataPdf, progress, setProgress } =
     useUploadPdfContext();
 
+  const { execute, isLoading } = useContextAsyncDialog();
   const router = useRouter();
 
   const [loadingCreatePdf, setLoadingCreatePdf] = useState(false);
@@ -29,27 +37,34 @@ export function usePdfData() {
     collaborator: string,
     registration: string
   ) {
+    let success = false;
     setLoadingCreatePdf(true);
-    const data = {
-      file_name: filename,
-      inc_req: incReq,
-      collaborator: collaborator,
-      registration: registration,
-      pdf_file: filePdf,
-    };
-    const formData = new FormData();
-    try {
-      const response = await createPdf(user, data, formData);
-      console.log(response);
-      setDataPdf([...(dataPdf || []), response?.data]);
-      successToast("Criado com sucesso!");
-    } catch (error) {
-      errorToast("Erro ao criar!");
-      console.error("Failed to create PDF data:", error);
-    } finally {
-      setLoadingCreatePdf(false);
-      clearToast();
-    }
+    await execute(
+      async () => {
+        const data = {
+          file_name: filename,
+          inc_req: incReq,
+          collaborator: collaborator,
+          registration: registration,
+          pdf_file: filePdf,
+        };
+        const formData = new FormData();
+        try {
+          const response = await createPdf(user, data, formData);
+          console.log(response);
+          setDataPdf([...(dataPdf || []), response?.data]);
+          successToast("Criado com sucesso!");
+        } catch (error) {
+          errorToast("Erro ao criar!");
+          console.error("Failed to create PDF data:", error);
+        } finally {
+          setLoadingCreatePdf(false);
+          clearToast();
+        }
+      },
+      { onSuccess: () => (success = true) }
+    );
+    return { success };
   }
 
   async function getDataPdf() {

@@ -38,6 +38,11 @@ export function DialogConfirmDataToSend() {
       open={openDialogViewPdf}
       onOpenChange={setOpenDialogViewPdf as any}
       title={fileName || "Visualização do PDF"}
+      onClick={() => createDataPdf(fileName || "", incReq, collaborator, registration)}
+      textButtonCancel="Fechar"
+      textButtonConfirm="Enviar"
+      loadingShowButton={loadingReaderPdf}
+      loadingFallbackButton={loadingCreatePdf}
     >
       <div className="flex items-center justify-around gap-4">
         {loadingReaderPdf ? (

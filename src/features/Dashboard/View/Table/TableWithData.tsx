@@ -101,11 +101,13 @@ export function TableWithData() {
                       <DialogComponent
                         iconTriggerLeft={<TbTrash size={20} />}
                         textTrigger="Excluir"
+                        textButtonCancel="Cancelar"
+                        textButtonConfirm="Sim, excluir"
                         isDelete={true}
                         open={openDialogDeleteDataPdf}
                         onOpenChange={setOpenDialogDeleteDataPdf}
                         onClick={() => {
-                          deleteDataPdf(pdf.id);
+                          deleteDataPdf(selectedPdf?.id as number);
                           setOpenDialogDeleteDataPdf(false);
                         }}
                         title="Deseja excluir os dados deste termo?"
@@ -117,6 +119,9 @@ export function TableWithData() {
                       <DialogComponent
                         open={openDialogViewPdf}
                         onOpenChange={setOpenDialogViewPdf}
+                        textButtonCancel="Fechar"
+                        textButtonConfirm="Alterar"
+                        loadingShowButton={true}
                       >
                         <UpdateDataPdf
                           key={selectedPdf.id}
