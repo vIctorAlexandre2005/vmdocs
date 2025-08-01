@@ -29,10 +29,16 @@ export function TableWithData() {
   return (
     <div className="max-h-[400px] overflow-y-auto">
       <div className="flex items-center justify-center">
-          {loadingGetDataPdf && <ClipLoader size={32} color="#4636f5" />}
+        {loadingGetDataPdf && <ClipLoader size={32} color="#4636f5" />}
+      </div>
+      {dataPdf.length === 0 && (
+        <div className="flex justify-center items-center gap-4 flex-col">
+          <img src={"/no_data.svg"} height={150} width={150} />
+          <p className="text-slate-800">Nenhum upload encontrado</p>
         </div>
+      )}
       <Table className="text-slate-800">
-        {!loadingGetDataPdf && (
+        {dataPdf.length > 0 && (
           <>
             <TableHeader className="border-t p-2">
               <TableRow className="text-slate-800 text-sm p-2">
