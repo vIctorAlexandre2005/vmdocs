@@ -40,6 +40,7 @@ export function usePdfData() {
     const formData = new FormData();
     try {
       const response = await createPdf(user, data, formData);
+      console.log(response);
       setDataPdf([...(dataPdf || []), response?.data]);
       successToast("Criado com sucesso!");
     } catch (error) {

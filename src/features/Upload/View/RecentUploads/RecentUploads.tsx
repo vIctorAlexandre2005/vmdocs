@@ -19,18 +19,18 @@ export function RecentUploads() {
       ) : (
         // lista os últimos 5 uploads
         <>
-          {dataPdf.length === 0 && (
+          {dataPdf?.length === 0 && (
             <div className="flex justify-center items-center">
               <img src={"/undraw_empty.svg"} height={150} width={150} />
               <p className="text-slate-800">Nenhum upload encontrado</p>
             </div>
           )}
-          {dataPdf.slice(0, 5)?.map((item, index) => (
+          {dataPdf?.slice(0, 5)?.map((item, index) => (
             <RecentUploadCard
               key={index}
-              fileName={item.file_name}
-              created_at={item.created_at}
-              last_change={item.last_change}
+              fileName={item?.file_name}
+              created_at={item?.created_at}
+              last_change={item?.last_change}
               progress={progress}
               setOpenDialogViewPdf={setOpenDialogViewPdf}
             />
