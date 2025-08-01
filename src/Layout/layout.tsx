@@ -16,16 +16,16 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const pageAuth = !["/auth/login", "/auth/register"].includes(
+    router.pathname
+  );
+
   return (
     <div className="w-full h-screen overflow-hidden">
       <div className="flex h-full">
-        {!["/auth/login", "/auth/register"].includes(router.pathname) && (
-          <Sidebar />
-        )}
+        {pageAuth && <Sidebar />}
         <div className="flex-1 h-full">
-          {!["/auth/login", "/auth/register"].includes(router.pathname) && (
-            <Header />
-          )}
+          {pageAuth && <Header />}
           <Main>{children}</Main>
         </div>
       </div>
