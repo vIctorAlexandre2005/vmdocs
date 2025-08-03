@@ -5,6 +5,7 @@ import { useViewDoc } from "../../../viewModel/useViewDoc";
 import { ViewPdfInDialog } from "./ViewPdfInDialog";
 import { FormDataPdf } from "./FormDataPdf";
 import { Loader } from "@/shared/components/Loader";
+import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 
 export function DialogConfirmDataToSend() {
   const {
@@ -19,10 +20,16 @@ export function DialogConfirmDataToSend() {
     expandPageData,
   } = useViewDoc();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
-  const [incReq, setIncReq] = useState<string>("");
-  const [collaborator, setCollaborator] = useState<string>("");
-  const [registration, setRegistration] = useState<string>("");
-  const [patrimony, setPatrimony] = useState<string>("");
+  const {
+    collaborator,
+    incReq,
+    patrimony,
+    registration,
+    setCollaborator,
+    setIncReq,
+    setPatrimony,
+    setRegistration,
+  } = useUploadPdfContext();
 
   return (
     <DialogComponent
@@ -30,7 +37,13 @@ export function DialogConfirmDataToSend() {
       onOpenChange={setOpenDialogViewPdf as any}
       title={fileName || "Visualização do PDF"}
       onClick={() =>
-        createDataPdf(fileName || "", incReq, collaborator, registration, patrimony)
+        createDataPdf(
+          fileName || "",
+          incReq,
+          collaborator,
+          registration,
+          patrimony
+        )
       }
       textButtonCancel="Fechar"
       textButtonConfirm="Enviar"
@@ -56,7 +69,7 @@ export function DialogConfirmDataToSend() {
                   registration={registration}
                   key={idx}
                   pageNumber={item?.pageNumber}
-                  setCollaborator={setCollaborator}
+                  setCollaborator={() => setCollaborator(item?.collaborator)}
                   setIncReq={setIncReq}
                   setRegistration={setRegistration}
                   setPatrimony={setPatrimony}

@@ -51,6 +51,14 @@ type UploadPdfContextType = {
 
   loadingReaderPdf: boolean;
   setLoadingReaderPdf: Dispatch<SetStateAction<boolean>>;
+  incReq: string;
+  setIncReq: Dispatch<SetStateAction<string>>;
+  collaborator: string;
+  setCollaborator: Dispatch<SetStateAction<string>>;
+  registration: string;
+  setRegistration: Dispatch<SetStateAction<string>>;
+  patrimony: string;
+  setPatrimony: Dispatch<SetStateAction<string>>;
 };
 
 const UploadPdfContext = createContext<UploadPdfContextType | undefined>(
@@ -70,6 +78,11 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [dataPdf, setDataPdf] = useState<DataPdfProps[]>([]);
 
   const [loadingReaderPdf, setLoadingReaderPdf] = useState(false);
+
+    const [incReq, setIncReq] = useState<string>("");
+    const [collaborator, setCollaborator] = useState<string>("");
+    const [registration, setRegistration] = useState<string>("");
+    const [patrimony, setPatrimony] = useState<string>("");
 
   return (
     <UploadPdfContext.Provider
@@ -91,7 +104,15 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         loadingReaderPdf,
         setLoadingReaderPdf,
         selectedPdfExtracted,
-        setSelectedPdfExtracted
+        setSelectedPdfExtracted,
+        collaborator,
+        setCollaborator,
+        incReq,
+        setIncReq,
+        registration,
+        setRegistration,
+        patrimony,
+        setPatrimony
       }}
     >
       {children}
