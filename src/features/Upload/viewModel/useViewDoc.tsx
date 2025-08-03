@@ -22,6 +22,8 @@ export function useViewDoc() {
     setLoadingReaderPdf
   } = useUploadPdfContext();
 
+  const [expand, setExpand] = useState<number | null>(null);
+
   const inputRef = useRef<HTMLInputElement>(null);
   function handleOpenFileDialog() {
     if (inputRef.current) {
@@ -45,6 +47,7 @@ export function useViewDoc() {
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);
+        console.log("Dados extraídos: ", dataExtractedPdf);
         setFileName(file.name);
 
         const url = URL.createObjectURL(file);
@@ -64,7 +67,11 @@ export function useViewDoc() {
     } finally {
       setLoadingReaderPdf(false);
     }
-  }
+  };
+
+  function expandPageData(idx: number) {
+    setExpand(idx);
+  };
 
   return {
     fileName,
@@ -82,6 +89,9 @@ export function useViewDoc() {
     inputRef,
     handleOpenFileDialog,
 
-    loadingReaderPdf
+    loadingReaderPdf,
+    expand,
+    setExpand,
+    expandPageData
   };
 }

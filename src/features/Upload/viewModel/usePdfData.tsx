@@ -35,7 +35,8 @@ export function usePdfData() {
     filename: string,
     incReq: string,
     collaborator: string,
-    registration: string
+    registration: string,
+    patrimony: string,
   ) {
     let success = false;
     setLoadingCreatePdf(true);
@@ -46,6 +47,7 @@ export function usePdfData() {
           inc_req: incReq,
           collaborator: collaborator,
           registration: registration,
+          patrimony: patrimony,
           pdf_file: filePdf,
         };
         const formData = new FormData();

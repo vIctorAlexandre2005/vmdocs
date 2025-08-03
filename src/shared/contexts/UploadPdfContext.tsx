@@ -7,11 +7,13 @@ import {
   SetStateAction,
 } from "react";
 
-interface DataExtractedPdfProps {
+export interface DataExtractedPdfProps {
   inc_req: string;
   collaborator: string;
   registration: string;
-};
+  patrimony: string;
+  pageNumber: number;
+}
 
 export interface DataPdfProps {
   id: number;
@@ -22,7 +24,7 @@ export interface DataPdfProps {
   created_at: string;
   last_change: string;
   pdf_file: string;
-};
+}
 
 type UploadPdfContextType = {
   fileName: string;
@@ -31,9 +33,9 @@ type UploadPdfContextType = {
   setProgress: Dispatch<SetStateAction<number>>;
   pdfUrl: string | null;
   setPdfUrl: Dispatch<SetStateAction<string | null>>;
-  dataExtractedPdf: DataExtractedPdfProps | undefined;
+  dataExtractedPdf: DataExtractedPdfProps[] | undefined;
   setDataExtractedPdf: Dispatch<
-    SetStateAction<DataExtractedPdfProps | undefined>
+    SetStateAction<DataExtractedPdfProps[] | undefined>
   >;
   openDialogViewPdf: boolean;
   setOpenDialogViewPdf: (open: boolean) => void;
@@ -41,6 +43,11 @@ type UploadPdfContextType = {
   setFilePdf: Dispatch<SetStateAction<File | undefined>>;
   dataPdf: DataPdfProps[];
   setDataPdf: Dispatch<SetStateAction<DataPdfProps[]>>;
+
+  selectedPdfExtracted: DataExtractedPdfProps | null;
+  setSelectedPdfExtracted: Dispatch<
+    SetStateAction<DataExtractedPdfProps | null>
+  >;
 
   loadingReaderPdf: boolean;
   setLoadingReaderPdf: Dispatch<SetStateAction<boolean>>;
@@ -55,7 +62,9 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<number>(0);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [dataExtractedPdf, setDataExtractedPdf] =
-    useState<DataExtractedPdfProps>();
+    useState<DataExtractedPdfProps[] | undefined>([]);
+  const [selectedPdfExtracted, setSelectedPdfExtracted] =
+    useState<DataExtractedPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [filePdf, setFilePdf] = useState<File>();
   const [dataPdf, setDataPdf] = useState<DataPdfProps[]>([]);
@@ -80,7 +89,9 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         dataPdf,
         setDataPdf,
         loadingReaderPdf,
-        setLoadingReaderPdf
+        setLoadingReaderPdf,
+        selectedPdfExtracted,
+        setSelectedPdfExtracted
       }}
     >
       {children}

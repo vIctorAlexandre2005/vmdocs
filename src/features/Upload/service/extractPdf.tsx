@@ -4,7 +4,8 @@ export async function extractPdf(token: string | null, formData: FormData) {
 
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/reader`,
+      /* `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/reader`, */
+      `http://localhost:8080/api/v1/pdf/reader`,
       formData,
       {
         headers: {

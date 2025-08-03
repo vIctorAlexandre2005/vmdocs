@@ -1,71 +1,90 @@
-import { ButtonComponent } from "@/shared/components/ButtonComponent";
+import { useViewDoc } from "@/features/Upload/viewModel/useViewDoc";
 import { InputComponent } from "@/shared/components/InputComponent";
-import { Dispatch } from "react";
-import { LuSend } from "react-icons/lu";
-import { ClipLoader } from "react-spinners";
+import { DataExtractedPdfProps } from "@/shared/contexts/UploadPdfContext";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 
 interface FormDataPdfProps {
+  item: DataExtractedPdfProps;
   collaborator: string;
   registration: string;
-  incReq: string;
-  fileName: string;
-  createDataPdf: (
-    filename: string,
-    incReq: string,
-    collaborator: string,
-    registration: string
-  ) => void;
-  setCollaborator: Dispatch<React.SetStateAction<string>>;
-  setRegistration: Dispatch<React.SetStateAction<string>>;
-  setIncReq: Dispatch<React.SetStateAction<string>>;
-  loadingCreatePdf: boolean;
-  setOpenDialogViewPdf: (open: boolean) => void;
+  inc_req: string;
+  patrimony: string;
+  idx: number;
+  pageNumber: number;
+  setCollaborator: Dispatch<SetStateAction<string>>;
+  setRegistration: Dispatch<SetStateAction<string>>;
+  setIncReq: Dispatch<SetStateAction<string>>;
+  setPatrimony: Dispatch<SetStateAction<string>>;
 }
 
 export function FormDataPdf({
+  idx,
   collaborator,
+  inc_req,
+  patrimony,
   registration,
-  incReq,
-  fileName,
-  createDataPdf,
+  pageNumber,
   setCollaborator,
-  setRegistration,
   setIncReq,
-  loadingCreatePdf,
-  setOpenDialogViewPdf,
+  setPatrimony,
+  setRegistration,
+  item,
 }: FormDataPdfProps) {
+  const { expand, setExpand, expandPageData } = useViewDoc();
+
+  useEffect(() => {
+    if (pageNumber) {
+      setCollaborator(item?.collaborator || "");
+      setIncReq(item?.inc_req || "");
+      setPatrimony(item?.patrimony || "");
+      setRegistration(item?.registration || "");
+    }
+  }, []);
+
   return (
-    <div className="flex w-full flex-col gap-2">
-      <InputComponent
-        className="w-full p-2"
-        value={collaborator}
-        onChange={(e) => setCollaborator(e.target.value)}
-        label="Nome do colaborador"
-      />
-      <InputComponent
-        value={registration}
-        className="w-full p-2"
-        onChange={(e) => setRegistration(e.target.value)}
-        label="Matrícula"
-      />
-      <InputComponent
-        value={incReq}
-        className="w-full p-2"
-        onChange={(e) => setIncReq(e.target.value)}
-        label="Incidente/Requisição"
-      />
-      {/* <ButtonComponent
-        text="Enviar"
-        type="submit"
-        className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        icon={<LuSend size={20} />}
-        loading={loadingCreatePdf}
-        disabled={loadingCreatePdf}
-        loaderIcon={<ClipLoader size={20} color="#fff" />}
-        onClick={() => {
-          createDataPdf(fileName, incReq, collaborator, registration);
-        }}
-      /> */}
+    <div key={pageNumber}>
+      <p
+        onClick={() => expandPageData(idx || 0)}
+        className="text-indigo-500 font-bold cursor-pointer flex gap-2 items-center mb-2"
+      >
+        Página {pageNumber}
+        {expand === idx ? (
+          <IoIosArrowDown size={24} />
+        ) : (
+          <IoIosArrowBack size={24} />
+        )}
+      </p>
+
+      {expand === idx && (
+        <div>
+          <InputComponent
+            className="w-full p-2"
+            value={collaborator}
+            onChange={(e) => setCollaborator(e.target.value)}
+            label="Nome do colaborador"
+          />
+          <InputComponent
+            value={registration}
+            className="w-full p-2"
+            onChange={(e) => setRegistration(e.target.value)}
+            label="Matrícula"
+          />
+          <InputComponent
+            value={inc_req}
+            className="w-full p-2"
+            onChange={(e) => setIncReq(e.target.value)}
+            label="Incidente/Requisição"
+          />
+
+          <InputComponent
+            value={patrimony}
+            className="w-full p-2"
+            onChange={(e) => setPatrimony(e.target.value)}
+            label="Patrimônio"
+          />
+        </div>
+      )}
     </div>
   );
 }
