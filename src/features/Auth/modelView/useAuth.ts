@@ -19,10 +19,15 @@ export function useAuth() {
 
   async function handleLogin(login: string, password: string) {
     setLoadingSendRequestLogin(true);
+    if (login.trim() === "" || password.trim() === "") {
+      errorToast("Preencha todos os campos!");
+      setLoadingSendRequestLogin(false);
+      return null;
+    };
     try {
       const response = await loginService(login, password);
       if (typeof window !== "undefined") {
-        localStorage.setItem("user", response.tokenJWT); // se for string
+        localStorage.setItem("user", response?.tokenJWT); // se for string
       };
       setUser(response?.tokenJWT);
       successToast("Login realizado com sucesso!");
@@ -42,6 +47,11 @@ export function useAuth() {
     password: string,
     confirmPassword: string
   ) {
+    if (login.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
+      errorToast("Preencha todos os campos!");
+      setLoadingSendRequestLogin(false);
+      return null;
+    };
     setLoadingSendRequestRegister(true);
     try {
       await registerService(

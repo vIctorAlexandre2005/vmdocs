@@ -29,10 +29,16 @@ export function TableWithData() {
   return (
     <div className="max-h-[400px] overflow-y-auto">
       <div className="flex items-center justify-center">
-          {loadingGetDataPdf && <ClipLoader size={32} color="#4636f5" />}
+        {loadingGetDataPdf && <ClipLoader size={32} color="#4636f5" />}
+      </div>
+      {dataPdf.length === 0 && (
+        <div className="flex justify-center items-center gap-4 flex-col">
+          <img src={"/no_data.svg"} height={150} width={150} />
+          <p className="text-slate-800">Nenhum upload encontrado</p>
         </div>
+      )}
       <Table className="text-slate-800">
-        {!loadingGetDataPdf && (
+        {dataPdf.length > 0 && (
           <>
             <TableHeader className="border-t p-2">
               <TableRow className="text-slate-800 text-sm p-2">
@@ -95,11 +101,13 @@ export function TableWithData() {
                       <DialogComponent
                         iconTriggerLeft={<TbTrash size={20} />}
                         textTrigger="Excluir"
+                        textButtonCancel="Cancelar"
+                        textButtonConfirm="Sim, excluir"
                         isDelete={true}
                         open={openDialogDeleteDataPdf}
                         onOpenChange={setOpenDialogDeleteDataPdf}
                         onClick={() => {
-                          deleteDataPdf(pdf.id);
+                          deleteDataPdf(selectedPdf?.id as number);
                           setOpenDialogDeleteDataPdf(false);
                         }}
                         title="Deseja excluir os dados deste termo?"
@@ -111,6 +119,9 @@ export function TableWithData() {
                       <DialogComponent
                         open={openDialogViewPdf}
                         onOpenChange={setOpenDialogViewPdf}
+                        textButtonCancel="Fechar"
+                        textButtonConfirm="Alterar"
+                        loadingShowButton={true}
                       >
                         <UpdateDataPdf
                           key={selectedPdf.id}

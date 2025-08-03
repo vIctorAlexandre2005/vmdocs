@@ -63,9 +63,9 @@ export function UpdateDataPdf({
         )}
       </div>
       <div className="flex flex-col gap-2 w-full">
-        <h1 className="text-lg mb-4 font-semibold text-slate-700">
+        {/* <h1 className="text-lg mb-4 font-semibold text-slate-700">
           Última alteração: {last_change}
-        </h1>
+        </h1> */}
         <InputComponent
           className="w-full p-2"
           value={updateRegistration}

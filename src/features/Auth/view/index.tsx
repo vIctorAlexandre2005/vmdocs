@@ -1,5 +1,6 @@
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { InputComponent } from "@/shared/components/InputComponent";
+import { useRouter } from "next/router";
 import { IoLogIn } from "react-icons/io5";
 
 interface AuthComponentProps {
@@ -66,12 +67,20 @@ export function AuthComponent({
   footerLinkText,
   footerText,
 }: AuthComponentProps) {
+  const router = useRouter();
+  const pageAuth = !["/auth/login", "/auth/register"].includes(router.pathname);
+
   return (
     <div className="w-full h-screen bg-gray-50">
       <div className="fixed top-1/2 left-1/2 transform flex flex-col gap-12 -translate-x-1/2 -translate-y-1/2">
         <header className="flex justify-center items-center flex-col gap-2">
           <img src={"/logo-vmdocs.png"} height={150} width={150} />
           <h1 className="text-3xl font-bold text-slate-800">{headerTitle}</h1>
+          {!pageAuth && (
+            <p className="text-slate-400 font-medium text-base">
+              Desenvolvido por Victor Alexandre. Todos os direitos reservados
+            </p>
+          )}
         </header>
 
         <div className="flex justify-center items-center flex-col gap-6">

@@ -11,12 +11,12 @@ export function FiltersView({ dataPdf }: { dataPdf: DataPdfProps[] }) {
 
   return (
     <div className="flex items-center gap-2">
-      <InputComponent
+      {/* <InputComponent
         label=""
         placeholder="Pesquisar..."
         iconInside={<TbSearch size={20} />}
         className="pb-2 pt-2 pl-2 w-sm placeholder:text-gray-600 bg-transparent border-gray-300 hover:border-indigo-400 placeholder:text-sm text-sm text-gray-800 focus:ring-1 focus:ring-indigo-500 rounded-full"
-      />
+      /> */}
       {/* <ButtonComponent
         text="Filtrar"
         className="w-32 text-sm text-gray-100 rounded-full bg-indigo-600"
