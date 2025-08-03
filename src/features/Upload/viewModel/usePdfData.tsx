@@ -1,4 +1,4 @@
-import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
+import { DataExtractedPdfProps, useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 import {
   createPdf,
   deleteDataPdfService,
@@ -33,26 +33,20 @@ export function usePdfData() {
 
   async function createDataPdf(
     filename: string,
-    incReq: string,
-    collaborator: string,
-    registration: string,
-    patrimony: string,
+    pages: DataExtractedPdfProps[],
   ) {
     let success = false;
     setLoadingCreatePdf(true);
     await execute(
       async () => {
-        const data = {
+        const payload = {
           file_name: filename,
-          inc_req: incReq,
-          collaborator: collaborator,
-          registration: registration,
-          patrimony: patrimony,
+          pages: pages,
           pdf_file: filePdf,
         };
         const formData = new FormData();
         try {
-          const response = await createPdf(user, data, formData);
+          const response = await createPdf(user, payload);
           console.log(response);
           setDataPdf([...(dataPdf || []), response?.data]);
           successToast("Criado com sucesso!");

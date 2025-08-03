@@ -5,6 +5,7 @@ import {
   useState,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 
 export interface DataExtractedPdfProps {
@@ -51,14 +52,6 @@ type UploadPdfContextType = {
 
   loadingReaderPdf: boolean;
   setLoadingReaderPdf: Dispatch<SetStateAction<boolean>>;
-  incReq: string;
-  setIncReq: Dispatch<SetStateAction<string>>;
-  collaborator: string;
-  setCollaborator: Dispatch<SetStateAction<string>>;
-  registration: string;
-  setRegistration: Dispatch<SetStateAction<string>>;
-  patrimony: string;
-  setPatrimony: Dispatch<SetStateAction<string>>;
 };
 
 const UploadPdfContext = createContext<UploadPdfContextType | undefined>(
@@ -69,8 +62,9 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [fileName, setFileName] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [dataExtractedPdf, setDataExtractedPdf] =
-    useState<DataExtractedPdfProps[] | undefined>([]);
+  const [dataExtractedPdf, setDataExtractedPdf] = useState<
+    DataExtractedPdfProps[] | undefined
+  >([]);
   const [selectedPdfExtracted, setSelectedPdfExtracted] =
     useState<DataExtractedPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
@@ -78,11 +72,6 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [dataPdf, setDataPdf] = useState<DataPdfProps[]>([]);
 
   const [loadingReaderPdf, setLoadingReaderPdf] = useState(false);
-
-    const [incReq, setIncReq] = useState<string>("");
-    const [collaborator, setCollaborator] = useState<string>("");
-    const [registration, setRegistration] = useState<string>("");
-    const [patrimony, setPatrimony] = useState<string>("");
 
   return (
     <UploadPdfContext.Provider
@@ -105,14 +94,6 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         setLoadingReaderPdf,
         selectedPdfExtracted,
         setSelectedPdfExtracted,
-        collaborator,
-        setCollaborator,
-        incReq,
-        setIncReq,
-        registration,
-        setRegistration,
-        patrimony,
-        setPatrimony
       }}
     >
       {children}

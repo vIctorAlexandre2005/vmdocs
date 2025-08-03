@@ -18,18 +18,17 @@ export function DialogConfirmDataToSend() {
     expand,
     setExpand,
     expandPageData,
+    formDataByPage,
+    updateField
   } = useViewDoc();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
-  const {
-    collaborator,
-    incReq,
-    patrimony,
-    registration,
-    setCollaborator,
-    setIncReq,
-    setPatrimony,
-    setRegistration,
-  } = useUploadPdfContext();
+
+    const incReq = formDataByPage?.map(item => item.inc_req);
+    const collaborator = formDataByPage?.map(item => item.collaborator);
+    const registration = formDataByPage?.map(item => item.registration);
+    const patrimony = formDataByPage?.map(item => item.patrimony);
+
+    console.log(incReq, collaborator, registration, patrimony);
 
   return (
     <DialogComponent
@@ -39,10 +38,7 @@ export function DialogConfirmDataToSend() {
       onClick={() =>
         createDataPdf(
           fileName || "",
-          incReq,
-          collaborator,
-          registration,
-          patrimony
+          formDataByPage
         )
       }
       textButtonCancel="Fechar"
@@ -63,16 +59,10 @@ export function DialogConfirmDataToSend() {
                 <FormDataPdf
                   idx={idx}
                   item={item}
-                  collaborator={collaborator}
-                  inc_req={incReq}
-                  patrimony={patrimony}
-                  registration={registration}
                   key={idx}
+                  data={formDataByPage[idx]}
+                  updateField={updateField}
                   pageNumber={item?.pageNumber}
-                  setCollaborator={() => setCollaborator(item?.collaborator)}
-                  setIncReq={setIncReq}
-                  setRegistration={setRegistration}
-                  setPatrimony={setPatrimony}
                 />
               ))}
             </div>

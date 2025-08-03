@@ -1,11 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { extractPdf } from "../service/extractPdf";
-import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
+import {
+  DataExtractedPdfProps,
+  useUploadPdfContext,
+} from "@/shared/contexts/UploadPdfContext";
 import { useUserContext } from "@/shared/contexts/UserContext";
 
 export function useViewDoc() {
- const { user } = useUserContext(); 
- const {
+  const { user } = useUserContext();
+  const {
     fileName,
     setFileName,
     progress,
@@ -19,7 +22,7 @@ export function useViewDoc() {
     filePdf,
     setFilePdf,
     loadingReaderPdf,
-    setLoadingReaderPdf
+    setLoadingReaderPdf,
   } = useUploadPdfContext();
 
   const [expand, setExpand] = useState<number | null>(null);
@@ -67,11 +70,33 @@ export function useViewDoc() {
     } finally {
       setLoadingReaderPdf(false);
     }
-  };
+  }
 
   function expandPageData(idx: number) {
     setExpand(idx);
-  };
+  }
+
+  const [formDataByPage, setFormDataByPage] = useState<DataExtractedPdfProps[]>(
+    []
+  );
+
+  useEffect(() => {
+    if (dataExtractedPdf) {
+      setFormDataByPage(dataExtractedPdf);
+    }
+  }, [dataExtractedPdf]);
+
+  function updateField(
+    pageIdx: number,
+    field: keyof DataExtractedPdfProps,
+    value: string
+  ) {
+    setFormDataByPage((prev) =>
+      prev.map((item, idx) =>
+        idx === pageIdx ? { ...item, [field]: value } : item
+      )
+    );
+  }
 
   return {
     fileName,
@@ -92,6 +117,9 @@ export function useViewDoc() {
     loadingReaderPdf,
     expand,
     setExpand,
-    expandPageData
+    expandPageData,
+    updateField,
+    formDataByPage,
+    setFormDataByPage,
   };
 }
