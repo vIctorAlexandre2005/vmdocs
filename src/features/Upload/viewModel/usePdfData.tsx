@@ -37,6 +37,9 @@ export function usePdfData() {
   ) {
     let success = false;
     setLoadingCreatePdf(true);
+
+    console.log("Páginas antes de setar no objeto: ", pages);
+
     await execute(
       async () => {
         const payload = {
@@ -44,7 +47,7 @@ export function usePdfData() {
           pages: pages,
           pdf_file: filePdf,
         };
-        const formData = new FormData();
+        console.log("Objeto antes de enviar pro service: ",payload);
         try {
           const response = await createPdf(user, payload);
           console.log(response);

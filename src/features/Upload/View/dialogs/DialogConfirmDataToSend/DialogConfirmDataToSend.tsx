@@ -23,12 +23,7 @@ export function DialogConfirmDataToSend() {
   } = useViewDoc();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
 
-    const incReq = formDataByPage?.map(item => item.inc_req);
-    const collaborator = formDataByPage?.map(item => item.collaborator);
-    const registration = formDataByPage?.map(item => item.registration);
-    const patrimony = formDataByPage?.map(item => item.patrimony);
-
-    console.log(incReq, collaborator, registration, patrimony);
+    console.log("Enviando para o usePdfData: ", formDataByPage);
 
   return (
     <DialogComponent

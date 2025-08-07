@@ -67,8 +67,8 @@ export function FormDataPdf({
             />
 
             <InputComponent
-              value={data?.inc_req}
-              onChange={(e) => updateField(idx, "inc_req", e.target.value)}
+              value={data?.patrimony}
+              onChange={(e) => updateField(idx, "patrimony", e.target.value)}
               className="w-full p-2"
               label="Patrimônio"
             />

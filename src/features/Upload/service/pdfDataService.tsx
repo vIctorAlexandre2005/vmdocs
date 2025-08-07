@@ -7,25 +7,26 @@ export async function createPdf(
   payload: {
     file_name: string;
     pages: DataExtractedPdfProps[];
+    pdf_file: File | undefined;
   }
 ) {
-  /* formData.append("file_name", pdfExtractor.file_name);
-  formData.append("inc_req", pdfExtractor.inc_req);
-  formData.append("collaborator", pdfExtractor.collaborator);
-  formData.append("registration", pdfExtractor.registration);
-  formData.append("pdf_file", pdfExtractor.pdf_file as Blob); */
+  console.log("Payload em pdfDataService: ", payload);
+
+  const formData = new FormData();
+  formData.append("pages", JSON.stringify(payload.pages));
+
   try {
     const response = await axios.post(
-      /* "http://localhost:8080/api/v1/pdf/data", */
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`,
-      payload,
+      "http://localhost:8080/api/v1/pdf/data",
+      /* `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`, */
+      formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }
     );
+    console.log("Response em pdfDataService: ", response);
     return response;
   } catch (error: any) {
     console.error("Failed to extract PDF: " + error.message);
