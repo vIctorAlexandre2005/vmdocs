@@ -1,4 +1,7 @@
-import { DataExtractedPdfProps, useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
+import {
+  DataExtractedPdfProps,
+  useUploadPdfContext,
+} from "@/shared/contexts/UploadPdfContext";
 import {
   createPdf,
   deleteDataPdfService,
@@ -31,28 +34,47 @@ export function usePdfData() {
   const [loadingDeleteDataPdf, setLoadingDeleteDataPdf] = useState(false);
   const [loadingUpdateDataPdf, setLoadingUpdateDataPdf] = useState(false);
 
+  function getBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        const base64 = reader.result.split(",")[1]; // remove prefixo data:application/pdf;base64,
+        resolve(base64);
+      } else {
+        reject("Erro ao ler arquivo");
+      }
+    };
+    reader.onerror = (error) => reject(error);
+  });
+}
+
+
   async function createDataPdf(
     filename: string,
-    pages: DataExtractedPdfProps[],
+    pages: DataExtractedPdfProps[]
   ) {
     let success = false;
     setLoadingCreatePdf(true);
 
     console.log("Páginas antes de setar no objeto: ", pages);
 
+    const base64Pdf = await getBase64(filePdf!);
+
     await execute(
       async () => {
         const payload = {
           file_name: filename,
           pages: pages,
-          pdf_file: filePdf,
+          pdf_file: base64Pdf, // string base64 aqui
         };
-        console.log("Objeto antes de enviar pro service: ",payload);
         try {
           const response = await createPdf(user, payload);
           console.log(response);
           setDataPdf([...(dataPdf || []), response?.data]);
           successToast("Criado com sucesso!");
+          setLoadingCreatePdf(false);
         } catch (error) {
           errorToast("Erro ao criar!");
           console.error("Failed to create PDF data:", error);

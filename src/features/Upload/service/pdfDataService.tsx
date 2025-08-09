@@ -2,24 +2,22 @@ import { DataExtractedPdfProps } from "@/shared/contexts/UploadPdfContext";
 import axios from "axios";
 import { useRouter } from "next/router";
 
+interface PayloadCreatePdf {
+  file_name: string;
+  pages: DataExtractedPdfProps[];
+  pdf_file: string;
+}
+
 export async function createPdf(
   token: string | null,
-  payload: {
-    file_name: string;
-    pages: DataExtractedPdfProps[];
-    pdf_file: File | undefined;
-  }
+  payload: PayloadCreatePdf
 ) {
   console.log("Payload em pdfDataService: ", payload);
-
-  const formData = new FormData();
-  formData.append("pages", JSON.stringify(payload.pages));
-
   try {
     const response = await axios.post(
       "http://localhost:8080/api/v1/pdf/data",
       /* `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`, */
-      formData,
+      payload,
       {
         headers: {
           Authorization: `Bearer ${token}`,

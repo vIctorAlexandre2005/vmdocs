@@ -19,9 +19,7 @@ export interface DataExtractedPdfProps {
 export interface DataPdfProps {
   id: number;
   file_name: string;
-  inc_req: string;
-  registration: string;
-  collaborator: string;
+  pages: DataExtractedPdfProps[];
   created_at: string;
   last_change: string;
   pdf_file: string;

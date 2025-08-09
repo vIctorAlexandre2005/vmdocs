@@ -76,7 +76,7 @@ export function TableWithData() {
                       }}
                       className="font-semibold p-2"
                     >
-                      {pdf.collaborator}
+                      {pdf.pages[0].collaborator}
                     </TableCell>
                     <TableCell
                       onClick={() => {
@@ -85,7 +85,7 @@ export function TableWithData() {
                       }}
                       className="font-semibold p-2"
                     >
-                      {pdf.inc_req}
+                      {pdf.pages[0].inc_req}
                     </TableCell>
                     <TableCell className="p-2 font-semibold flex items-center">
                       <ButtonComponent
@@ -128,9 +128,9 @@ export function TableWithData() {
                           id={selectedPdf.id}
                           last_change={selectedPdf.last_change}
                           file_name={selectedPdf.file_name}
-                          registration={selectedPdf.registration}
-                          collaborator={selectedPdf.collaborator}
-                          inc_req={selectedPdf.inc_req}
+                          registration={selectedPdf.pages[0].registration}
+                          collaborator={selectedPdf.pages[0].collaborator}
+                          inc_req={selectedPdf.pages[0].inc_req}
                           pdf_file={selectedPdf.pdf_file}
                           setOpenDialogViewPdf={setOpenDialogViewPdf}
                         />

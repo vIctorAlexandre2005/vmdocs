@@ -23,12 +23,13 @@ export function useTable() {
 
   function exportDataExcel(data: DataPdfProps[]) {
     const exportData = data.map(
-      ({ file_name, collaborator, inc_req, registration, created_at }) => ({
+      ({ file_name, pages, last_change, created_at }) => ({
         "Nome do arquivo": file_name,
-        "Colaborador": collaborator,
-        "Incidente/Requisição": inc_req,
-        "Matricula": registration,
+        "Colaborador": pages[0].collaborator,
+        "Incidente/Requisição": pages[0].inc_req,
+        "Matricula": pages[0].registration,
         "Data de criação": created_at,
+        "Última alteração": last_change,
       })
     );
 
