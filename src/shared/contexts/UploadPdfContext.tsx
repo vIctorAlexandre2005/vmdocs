@@ -50,6 +50,15 @@ type UploadPdfContextType = {
 
   loadingReaderPdf: boolean;
   setLoadingReaderPdf: Dispatch<SetStateAction<boolean>>;
+
+  formDataByPage: DataExtractedPdfProps[];
+  setFormDataByPage: Dispatch<SetStateAction<DataExtractedPdfProps[]>>;
+
+  updateField: (
+    pageIdx: number,
+    field: keyof DataExtractedPdfProps,
+    value: string
+  ) => void;
 };
 
 const UploadPdfContext = createContext<UploadPdfContextType | undefined>(
@@ -70,6 +79,22 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [dataPdf, setDataPdf] = useState<DataPdfProps[]>([]);
 
   const [loadingReaderPdf, setLoadingReaderPdf] = useState(false);
+
+  const [formDataByPage, setFormDataByPage] = useState<DataExtractedPdfProps[]>(
+    []
+  );
+
+  function updateField(
+    pageIdx: number,
+    field: keyof DataExtractedPdfProps,
+    value: string
+  ) {
+    setFormDataByPage((prev) =>
+      prev.map((item, idx) =>
+        idx === pageIdx ? { ...item, [field]: value } : item
+      )
+    );
+  }
 
   return (
     <UploadPdfContext.Provider
@@ -92,6 +117,9 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         setLoadingReaderPdf,
         selectedPdfExtracted,
         setSelectedPdfExtracted,
+        formDataByPage,
+        setFormDataByPage,
+        updateField
       }}
     >
       {children}

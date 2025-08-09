@@ -26,6 +26,9 @@ export function TableWithData() {
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [openDialogDeleteDataPdf, setOpenDialogDeleteDataPdf] = useState(false);
 
+  console.log("dataPdf: ", dataPdf);
+  console.log("selectedPdf: ", selectedPdf);
+
   return (
     <div className="max-h-[400px] overflow-y-auto">
       <div className="flex items-center justify-center">
@@ -121,19 +124,30 @@ export function TableWithData() {
                         onOpenChange={setOpenDialogViewPdf}
                         textButtonCancel="Fechar"
                         textButtonConfirm="Alterar"
-                        loadingShowButton={true}
+                        //loadingShowButton={true}
                       >
-                        <UpdateDataPdf
-                          key={selectedPdf.id}
-                          id={selectedPdf.id}
-                          last_change={selectedPdf.last_change}
-                          file_name={selectedPdf.file_name}
-                          registration={selectedPdf.pages[0].registration}
-                          collaborator={selectedPdf.pages[0].collaborator}
-                          inc_req={selectedPdf.pages[0].inc_req}
-                          pdf_file={selectedPdf.pdf_file}
-                          setOpenDialogViewPdf={setOpenDialogViewPdf}
-                        />
+                        <div className="flex w-full items-start gap-2">
+                          <ViewPdfInDialog pdfUrl={selectedPdf?.pdf_file} />
+                          <div className="flex w-full flex-col overflow-auto max-h-[400px] gap-2">
+                            {selectedPdf.pages.map((page) => (
+                              <UpdateDataPdf
+                                key={selectedPdf.id}
+                                item={page}
+                                id={selectedPdf.id}
+                                last_change={selectedPdf.last_change}
+                                file_name={selectedPdf.file_name}
+                                registration={selectedPdf.pages[0].registration}
+                                collaborator={selectedPdf.pages[0].collaborator}
+                                inc_req={selectedPdf.pages[0].inc_req}
+                                pdf_file={selectedPdf.pdf_file}
+                                pageNumber={selectedPdf.pages[0].pageNumber}
+                                pages={selectedPdf.pages}
+                                patrimony={selectedPdf.pages[0].patrimony}
+                                setOpenDialogViewPdf={setOpenDialogViewPdf}
+                              />
+                            ))}
+                          </div>
+                        </div>
                       </DialogComponent>
                     )}
                   </TableRow>

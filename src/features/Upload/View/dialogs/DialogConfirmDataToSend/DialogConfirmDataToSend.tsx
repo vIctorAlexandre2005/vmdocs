@@ -19,23 +19,19 @@ export function DialogConfirmDataToSend() {
     setExpand,
     expandPageData,
     formDataByPage,
-    updateField
+    updateField,
   } = useViewDoc();
+  //const { pdfUrl } = useUploadPdfContext();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
 
-    console.log("Enviando para o usePdfData: ", formDataByPage);
+  console.log("pdfUrl do useViewDoc: ", pdfUrl);
 
   return (
     <DialogComponent
       open={openDialogViewPdf}
       onOpenChange={setOpenDialogViewPdf as any}
       title={fileName || "Visualização do PDF"}
-      onClick={() =>
-        createDataPdf(
-          fileName || "",
-          formDataByPage
-        )
-      }
+      onClick={() => createDataPdf(fileName || "", formDataByPage)}
       textButtonCancel="Fechar"
       textButtonConfirm="Enviar"
       loadingShowButton={loadingReaderPdf}

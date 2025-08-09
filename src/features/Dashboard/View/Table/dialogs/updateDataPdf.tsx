@@ -5,6 +5,17 @@ import { InputComponent } from "@/shared/components/InputComponent";
 import { Dispatch, useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/shared/components/ui/accordion";
+import {
+  DataExtractedPdfProps,
+  useUploadPdfContext,
+} from "@/shared/contexts/UploadPdfContext";
+import { ViewPdfInDialog } from "@/features/Upload/View/dialogs/DialogConfirmDataToSend/ViewPdfInDialog";
 
 interface UpdateDataPdfProps {
   id: number;
@@ -15,6 +26,10 @@ interface UpdateDataPdfProps {
   file_name: string;
   last_change: string;
   setOpenDialogViewPdf: Dispatch<React.SetStateAction<boolean>>;
+  pageNumber: number;
+  patrimony: string;
+  item: DataExtractedPdfProps;
+  pages: DataExtractedPdfProps[];
 }
 
 export function UpdateDataPdf({
@@ -25,14 +40,22 @@ export function UpdateDataPdf({
   pdf_file,
   file_name,
   last_change,
+  patrimony,
   setOpenDialogViewPdf,
+  pages,
+  pageNumber,
+  item,
 }: UpdateDataPdfProps) {
+  const { updateField, pdfUrl } = useUploadPdfContext();
   const [updateRegistration, setUpdateRegistration] = useState<string>("");
   const [updateIncReq, setUpdateIncReq] = useState<string>("");
   const [updateCollaborator, setUpdateCollaborator] = useState<string>("");
+  const [updatePatrimony, setUpdatePatrimony] = useState<string>("");
 
-  const { convertBase64ToPdf, pdfUrl } = useTable();
+  const { convertBase64ToPdf } = useTable();
   const { updateDataPdf, loadingUpdateDataPdf } = usePdfData();
+
+  console.log("pdfUrl: ", pdf_file);
 
   const sameData =
     updateRegistration === registration &&
@@ -40,74 +63,64 @@ export function UpdateDataPdf({
     updateCollaborator === collaborator;
 
   useEffect(() => {
-    convertBase64ToPdf(pdf_file);
-    setUpdateRegistration(registration);
-    setUpdateIncReq(inc_req);
-    setUpdateCollaborator(collaborator);
+    setUpdateRegistration(item.registration);
+    setUpdateIncReq(item.inc_req);
+    setUpdateCollaborator(item.collaborator);
+    setUpdatePatrimony(item.patrimony);
   }, [registration, inc_req, collaborator]);
 
   return (
-    <div className="flex w-full items-center gap-2">
-      <div className="w-full">
-        {pdfUrl && (
-          <iframe
-            loading="lazy"
-            allowFullScreen
-            allow="fullscreen"
-            allowTransparency
-            height={450}
-            src={pdfUrl || ""}
-            className="w-full border border-slate-300 rounded-lg"
-            title={file_name}
-          />
-        )}
-      </div>
-      <div className="flex flex-col gap-2 w-full">
-        {/* <h1 className="text-lg mb-4 font-semibold text-slate-700">
-          Última alteração: {last_change}
-        </h1> */}
-        <InputComponent
-          className="w-full p-2"
-          value={updateRegistration}
-          onChange={(e) => setUpdateRegistration(e.target.value)}
-          label="Matrícula"
-          classNameLabel="text-base"
-        />
-        <InputComponent
-          value={updateCollaborator}
-          onChange={(e) => setUpdateCollaborator(e.target.value)}
-          className="w-full p-2"
-          label="Colaborador(a)"
-          classNameLabel="text-base"
-        />
-        <InputComponent
-          value={updateIncReq}
-          onChange={(e) => setUpdateIncReq(e.target.value)}
-          className="w-full p-2"
-          label="Incidente/Requisição"
-          classNameLabel="text-base"
-        />
-        <ButtonComponent
-          text="Alterar"
-          type="submit"
-          disabled={sameData}
-          loading={loadingUpdateDataPdf}
-          loaderIcon={<ClipLoader size={20} color="#fff" />}
-          className="items-baseline text-base mt-16 font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          icon={<FaRegEdit size={20} />}
-          onClick={() => {
-            updateDataPdf(
-              id,
-              pdf_file,
-              updateIncReq,
-              updateCollaborator,
-              updateRegistration,
-              sameData
-            );
-            setOpenDialogViewPdf(false);
-          }}
-        />
-      </div>
+    <div className="w-full flex-col flex">
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full"
+        defaultValue={item.pageNumber === 1 ? "item-1" : ""}
+      >
+        <AccordionItem
+          value={"item-1"}
+          className="border-t p-2 border-indigo-200"
+        >
+          <AccordionTrigger className="font-bold text-indigo-500 text-lg cursor-pointer">
+            Página {item.pageNumber}
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-4 text-balance">
+            <InputComponent
+              className="w-full p-2"
+              value={updateCollaborator}
+              onChange={(e) =>
+                updateField(item.pageNumber, "collaborator", e.target.value)
+              }
+              label="Nome do colaborador"
+            />
+            <InputComponent
+              className="w-full p-2"
+              value={updateRegistration}
+              onChange={(e) =>
+                updateField(item.pageNumber, "registration", e.target.value)
+              }
+              label="Matrícula"
+            />
+            <InputComponent
+              className="w-full p-2"
+              value={updateIncReq}
+              onChange={(e) =>
+                updateField(item.pageNumber, "inc_req", e.target.value)
+              }
+              label="Incidente/Requisição"
+            />
+
+            <InputComponent
+              value={updatePatrimony}
+              onChange={(e) =>
+                updateField(item.pageNumber, "patrimony", e.target.value)
+              }
+              className="w-full p-2"
+              label="Patrimônio"
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 }

@@ -23,7 +23,7 @@ import { useContextAsyncDialog } from "@/shared/contexts/AsyncDialogContext";
 
 export function usePdfData() {
   const { user } = useUserContext();
-  const { filePdf, dataPdf, setDataPdf, progress, setProgress } =
+  const { filePdf, dataPdf, pdfUrl, setPdfUrl, setDataPdf, progress, setProgress } =
     useUploadPdfContext();
 
   const { execute, isLoading } = useContextAsyncDialog();
@@ -73,6 +73,7 @@ export function usePdfData() {
           const response = await createPdf(user, payload);
           console.log(response);
           setDataPdf([...(dataPdf || []), response?.data]);
+          console.log(response?.data);
           successToast("Criado com sucesso!");
           setLoadingCreatePdf(false);
         } catch (error) {
@@ -94,6 +95,7 @@ export function usePdfData() {
       if (user) {
         const response = await getDataPdfService(user);
         setDataPdf(response);
+        setPdfUrl(response?.pdf_url);
       }
       setProgress(100); // Assuming the progress is 100% after fetching data
     } catch (error: any) {

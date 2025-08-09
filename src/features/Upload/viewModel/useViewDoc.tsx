@@ -23,6 +23,9 @@ export function useViewDoc() {
     setFilePdf,
     loadingReaderPdf,
     setLoadingReaderPdf,
+    formDataByPage,
+    setFormDataByPage,
+    updateField
   } = useUploadPdfContext();
 
   const [expand, setExpand] = useState<number | null>(null);
@@ -43,6 +46,7 @@ export function useViewDoc() {
 
     const formData = new FormData();
     formData.append("file", file);
+    setFileName(file.name);
     setOpenDialogViewPdf(true);
     setLoadingReaderPdf(true);
     try {
@@ -50,8 +54,6 @@ export function useViewDoc() {
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);
-        console.log("Dados extraídos: ", dataExtractedPdf);
-        setFileName(file.name);
 
         const url = URL.createObjectURL(file);
         setPdfUrl(url);
@@ -76,27 +78,11 @@ export function useViewDoc() {
     setExpand(idx);
   }
 
-  const [formDataByPage, setFormDataByPage] = useState<DataExtractedPdfProps[]>(
-    []
-  );
-
   useEffect(() => {
     if (dataExtractedPdf) {
       setFormDataByPage(dataExtractedPdf);
     }
   }, [dataExtractedPdf]);
-
-  function updateField(
-    pageIdx: number,
-    field: keyof DataExtractedPdfProps,
-    value: string
-  ) {
-    setFormDataByPage((prev) =>
-      prev.map((item, idx) =>
-        idx === pageIdx ? { ...item, [field]: value } : item
-      )
-    );
-  }
 
   return {
     fileName,
