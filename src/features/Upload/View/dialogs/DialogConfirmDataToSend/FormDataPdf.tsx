@@ -57,7 +57,7 @@ export function FormDataPdf({
               className="w-full p-2"
               value={data?.registration}
               onChange={(e) => updateField(idx, "registration", e.target.value)}
-              label="Matrícula"
+              label="Matrícula do colaborador"
             />
             <InputComponent
               className="w-full p-2"
@@ -70,7 +70,7 @@ export function FormDataPdf({
               value={data?.patrimony}
               onChange={(e) => updateField(idx, "patrimony", e.target.value)}
               className="w-full p-2"
-              label="Patrimônio"
+              label="Patrimônio do equipamento"
             />
           </AccordionContent>
         </AccordionItem>

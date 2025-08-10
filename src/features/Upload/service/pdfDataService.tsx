@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 interface PayloadCreatePdf {
   file_name: string;
   pages: DataExtractedPdfProps[];
-  pdf_file: string;
+  pdf_file?: string;
 }
 
 export async function createPdf(
@@ -15,8 +15,8 @@ export async function createPdf(
   console.log("Payload em pdfDataService: ", payload);
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/v1/pdf/data",
-      /* `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`, */
+      /* "http://localhost:8080/api/v1/pdf/data", */
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`,
       payload,
       {
         headers: {
@@ -39,25 +39,18 @@ export async function getDataPdfService(token: string) {
 export async function updateDataPdfService(
   token: string | null,
   id: number,
-  pdf_file: string,
-  inc_req: string,
-  collaborator: string,
-  registration: string,
-  formData: FormData
+  payload: PayloadCreatePdf,
 ) {
   try {
     const response = await axios.post(`/api/updateDataPdf`, {
       token: token,
       id: id,
-      pdf_file: pdf_file,
-      inc_req: inc_req,
-      collaborator: collaborator,
-      registration: registration,
-      formData: formData,
+      payload: payload,
     });
     return response.data;
   } catch (error: any) {
     console.error("Failed to extract PDF: " + error.message);
+    throw new Error(error.message);
   }
 }
 
@@ -70,5 +63,6 @@ export async function deleteDataPdfService(token: string | null, id: number) {
     return response;
   } catch (error: any) {
     console.error("Failed to extract PDF: " + error.message);
+    throw new Error(error.message);
   }
 }

@@ -14,6 +14,7 @@ export async function loginService(login: string, password: string) {
     return response.data;
   } catch (error: any) {
     console.error("Failed to login: " + error.message);
+    throw new Error("Failed to login: " + error.message);
   }
 }
 

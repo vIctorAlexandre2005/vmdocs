@@ -23,8 +23,15 @@ import { useContextAsyncDialog } from "@/shared/contexts/AsyncDialogContext";
 
 export function usePdfData() {
   const { user } = useUserContext();
-  const { filePdf, dataPdf, pdfUrl, setPdfUrl, setDataPdf, progress, setProgress } =
-    useUploadPdfContext();
+  const {
+    filePdf,
+    dataPdf,
+    pdfUrl,
+    setPdfUrl,
+    setDataPdf,
+    progress,
+    setProgress,
+  } = useUploadPdfContext();
 
   const { execute, isLoading } = useContextAsyncDialog();
   const router = useRouter();
@@ -35,21 +42,20 @@ export function usePdfData() {
   const [loadingUpdateDataPdf, setLoadingUpdateDataPdf] = useState(false);
 
   function getBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        const base64 = reader.result.split(",")[1]; // remove prefixo data:application/pdf;base64,
-        resolve(base64);
-      } else {
-        reject("Erro ao ler arquivo");
-      }
-    };
-    reader.onerror = (error) => reject(error);
-  });
-}
-
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          const base64 = reader.result.split(",")[1]; // remove prefixo data:application/pdf;base64,
+          resolve(base64);
+        } else {
+          reject("Erro ao ler arquivo");
+        }
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  }
 
   async function createDataPdf(
     filename: string,
@@ -117,44 +123,47 @@ export function usePdfData() {
 
   async function updateDataPdf(
     id: number,
+    filename: string,
+    pages: DataExtractedPdfProps[],
     pdf_file: string,
-    inc_req: string,
-    collaborator: string,
-    registration: string,
     sameData: boolean
   ) {
+    let success = false;
     if (sameData) {
       infoToast("Os dados não foram alterados!");
       return;
     }
+
     setLoadingUpdateDataPdf(true);
-    const formData = new FormData();
-    try {
-      const response = await updateDataPdfService(
-        user,
-        id,
-        pdf_file,
-        inc_req,
-        collaborator,
-        registration,
-        formData
-      );
-      setDataPdf((prev) =>
-        prev?.map((item) =>
-          item.id === id
-            ? { ...item, pdf_file, inc_req, collaborator, registration }
-            : item
-        )
-      );
-      successToast("Dados atualizado com sucesso!");
-    } catch (error) {
-      console.error("Failed to update PDF data:", error);
-    } finally {
-      setLoadingUpdateDataPdf(false);
-    }
+
+    await execute(
+      async () => {
+        const payload = {
+          file_name: filename,
+          pages: pages,
+          //pdf_file: pdf_file,
+        };
+        try {
+          await updateDataPdfService(user, id, payload);
+          setDataPdf((prev) => prev?.map((item) => item.id === id ? 
+            { ...item, ...payload } : item));
+          successToast("Atualizado com sucesso!");
+        } catch (error) {
+          errorToast("Erro ao atualizar!");
+          console.error("Failed to update PDF data:", error);
+        } finally {
+          setLoadingUpdateDataPdf(false);
+          clearToast();
+        }
+      },
+      { onSuccess: () => (success = true) }
+    );
+
+    return { success: true };
   }
 
   async function deleteDataPdf(id: number) {
+    console.log("id: ", id);
     setLoadingDeleteDataPdf(true);
     try {
       await deleteDataPdfService(user, id);
@@ -187,5 +196,6 @@ export function usePdfData() {
     setLoadingGetDataPdf,
     setLoadingDeleteDataPdf,
     setLoadingUpdateDataPdf,
+    isLoading,
   };
 }

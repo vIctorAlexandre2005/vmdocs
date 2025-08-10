@@ -21,18 +21,16 @@ export function useTable() {
     return () => URL.revokeObjectURL(url);
   }
 
-  function exportDataExcel(tableData: DataPdfProps[]) {
-    const exportData = tableData.flatMap(
-      ({ file_name, pages, last_change, created_at }) =>
-        pages.map((page) => ({
-          "Nome do arquivo": file_name,
-          "Colaborador": page.collaborator,
-          "Incidente/Requisição": page.inc_req,
-          "Matrícula": page.registration,
-          "Patrimônio": page.patrimony,
-          "Data de criação": created_at,
-          "Última alteração": last_change,
-        }))
+  function exportDataExcel(data: DataPdfProps[]) {
+    const exportData = data.map(
+      ({ file_name, pages, last_change, created_at }) => ({
+        "Nome do arquivo": file_name,
+        "Colaborador": pages[0].collaborator,
+        "Incidente/Requisição": pages[0].inc_req,
+        "Matricula": pages[0].registration,
+        "Data de criação": created_at,
+        "Última alteração": last_change,
+      })
     );
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);

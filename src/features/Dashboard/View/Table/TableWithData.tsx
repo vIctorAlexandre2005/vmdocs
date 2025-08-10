@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -12,29 +11,41 @@ import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { useState } from "react";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { ViewPdfInDialog } from "@/features/Upload/View/dialogs/DialogConfirmDataToSend/ViewPdfInDialog";
-import { InputComponent } from "@/shared/components/InputComponent";
-import { LuSend } from "react-icons/lu";
 import { UpdateDataPdf } from "./dialogs/updateDataPdf";
-import { DataPdfProps } from "@/shared/contexts/UploadPdfContext";
-import { FaEye } from "react-icons/fa";
+import {
+  DataPdfProps,
+  useUploadPdfContext,
+} from "@/shared/contexts/UploadPdfContext";
+import { FaEdit, FaEye } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
 import { ClipLoader } from "react-spinners";
 
+const tableHeaders = [
+  "Arquivo",
+  "Colaborador",
+  "Incidente/Requisição",
+  "Patrimônio",
+  "Qtd. Páginas",
+  "Data de criação",
+  "Última alteração",
+  "Ações",
+];
+
 export function TableWithData() {
-  const { dataPdf, deleteDataPdf, loadingGetDataPdf } = usePdfData();
+  const { dataPdf, deleteDataPdf, loadingGetDataPdf, updateDataPdf, isLoading } =
+    usePdfData();
   const [selectedPdf, setSelectedPdf] = useState<DataPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [openDialogDeleteDataPdf, setOpenDialogDeleteDataPdf] = useState(false);
 
-  console.log("dataPdf: ", dataPdf);
-  console.log("selectedPdf: ", selectedPdf);
+  const { formDataByPage, setFormDataByPage } = useUploadPdfContext();
 
   return (
     <div className="max-h-[400px] overflow-y-auto">
-      <div className="flex items-center justify-center">
-        {loadingGetDataPdf && <ClipLoader size={32} color="#4636f5" />}
+      <div className="fixed top-1/2 left-3/5 transform flex flex-col gap-12 -translate-x-1/2 -translate-y-1/2">
+        {loadingGetDataPdf && <ClipLoader size={42} color="#4636f5" />}
       </div>
-      {dataPdf.length === 0 && (
+      {dataPdf.length === 0 && !loadingGetDataPdf && (
         <div className="flex justify-center items-center gap-4 flex-col">
           <img src={"/no_data.svg"} height={150} width={150} />
           <p className="text-slate-800">Nenhum upload encontrado</p>
@@ -45,18 +56,14 @@ export function TableWithData() {
           <>
             <TableHeader className="border-t p-2">
               <TableRow className="text-slate-800 text-sm p-2">
-                <TableHead className="text-slate-800 font-bold p-2">
-                  Nome do termo
-                </TableHead>
-                <TableHead className="text-slate-800 p-2 font-bold">
-                  Colaborador
-                </TableHead>
-                <TableHead className="text-slate-800 p-2 font-bold">
-                  Incidente/Requisição
-                </TableHead>
-                <TableHead className=" p-2 font-bold text-slate-800">
-                  Ações
-                </TableHead>
+                {tableHeaders.map((header, idx) => (
+                  <TableHead
+                    key={idx}
+                    className="text-slate-800 p-2 font-bold border"
+                  >
+                    {header}
+                  </TableHead>
+                ))}
               </TableRow>
             </TableHeader>
             <TableBody className="text-xs">
@@ -65,34 +72,83 @@ export function TableWithData() {
                   <TableRow key={pdf.id} className="cursor-pointer">
                     <TableCell
                       onClick={() => {
+                        setFormDataByPage(pdf.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
-                      className="font-semibold p-2"
+                      className="font-semibold p-2 border"
                     >
-                      {pdf.file_name}
+                      {pdf.file_name.toUpperCase()}
                     </TableCell>
                     <TableCell
                       onClick={() => {
+                        setFormDataByPage(pdf.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
-                      className="font-semibold p-2"
+                      className="font-semibold p-2 border"
                     >
-                      {pdf.pages[0].collaborator}
+                      {`${pdf.pages[0].collaborator.toUpperCase()} ${
+                        pdf.pages.length > 1 ? "(...)" : ""
+                      }`}
                     </TableCell>
                     <TableCell
                       onClick={() => {
+                        setFormDataByPage(pdf.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
-                      className="font-semibold p-2"
+                      className="font-semibold p-2 border"
                     >
-                      {pdf.pages[0].inc_req}
+                      {`${pdf.pages[0].inc_req.toUpperCase()} ${
+                        pdf.pages.length > 1 ? "(...)" : ""
+                      }`}
                     </TableCell>
-                    <TableCell className="p-2 font-semibold flex items-center">
+                    <TableCell
+                      onClick={() => {
+                        setFormDataByPage(pdf.pages);
+                        setSelectedPdf(pdf);
+                        setOpenDialogViewPdf(true);
+                      }}
+                      className="font-semibold p-2 border"
+                    >
+                      {`${pdf.pages[0].patrimony.toUpperCase()} ${
+                        pdf.pages.length > 1 ? "(...)" : ""
+                      }`}
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        setFormDataByPage(pdf.pages);
+                        setSelectedPdf(pdf);
+                        setOpenDialogViewPdf(true);
+                      }}
+                      className="font-semibold p-2 border"
+                    >
+                      {pdf.pages.length} {/* busca o último pageNumber */}
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        setFormDataByPage(pdf.pages);
+                        setSelectedPdf(pdf);
+                        setOpenDialogViewPdf(true);
+                      }}
+                      className="font-semibold p-2 border"
+                    >
+                      {pdf.created_at}
+                    </TableCell>
+                    <TableCell
+                      onClick={() => {
+                        setFormDataByPage(pdf.pages);
+                        setOpenDialogViewPdf(true);
+                      }}
+                      className="font-semibold p-2 border"
+                    >
+                      {pdf.last_change}
+                    </TableCell>
+                    <TableCell className="p-2 font-semibold border flex items-center">
                       <ButtonComponent
                         onClick={() => {
+                          setFormDataByPage(pdf.pages);
                           setSelectedPdf(pdf);
                           setOpenDialogViewPdf(true);
                         }}
@@ -110,51 +166,55 @@ export function TableWithData() {
                         open={openDialogDeleteDataPdf}
                         onOpenChange={setOpenDialogDeleteDataPdf}
                         onClick={() => {
-                          deleteDataPdf(selectedPdf?.id as number);
+                          deleteDataPdf(pdf?.id as number);
                           setOpenDialogDeleteDataPdf(false);
                         }}
                         title="Deseja excluir os dados deste termo?"
                         classNameTrigger="font-semibold cursor-pointer flex gap-1 items-center text-red-500"
                       />
                     </TableCell>
-
-                    {selectedPdf && (
-                      <DialogComponent
-                        open={openDialogViewPdf}
-                        onOpenChange={setOpenDialogViewPdf}
-                        textButtonCancel="Fechar"
-                        textButtonConfirm="Alterar"
-                        //loadingShowButton={true}
-                      >
-                        <div className="flex w-full items-start gap-2">
-                          <ViewPdfInDialog pdfUrl={selectedPdf?.pdf_file} />
-                          <div className="flex w-full flex-col overflow-auto max-h-[400px] gap-2">
-                            {selectedPdf.pages.map((page) => (
-                              <UpdateDataPdf
-                                key={selectedPdf.id}
-                                item={page}
-                                id={selectedPdf.id}
-                                last_change={selectedPdf.last_change}
-                                file_name={selectedPdf.file_name}
-                                registration={selectedPdf.pages[0].registration}
-                                collaborator={selectedPdf.pages[0].collaborator}
-                                inc_req={selectedPdf.pages[0].inc_req}
-                                pdf_file={selectedPdf.pdf_file}
-                                pageNumber={selectedPdf.pages[0].pageNumber}
-                                pages={selectedPdf.pages}
-                                patrimony={selectedPdf.pages[0].patrimony}
-                                setOpenDialogViewPdf={setOpenDialogViewPdf}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </DialogComponent>
-                    )}
                   </TableRow>
                 </>
               ))}
             </TableBody>
           </>
+        )}
+
+        {openDialogViewPdf && (
+          <DialogComponent
+            open={openDialogViewPdf}
+            onOpenChange={setOpenDialogViewPdf}
+            textButtonCancel="Fechar"
+            textButtonConfirm="Alterar"
+            iconButton={<FaEdit size={18} />}
+            loadingFallbackButton={isLoading}
+            onClick={() =>
+              updateDataPdf(
+                selectedPdf?.id as number,
+                selectedPdf?.file_name as string,
+                formDataByPage,
+                selectedPdf?.pdf_file as string,
+                false
+              )
+            }
+          >
+            <div className="flex w-full items-start gap-4">
+              <ViewPdfInDialog pdfUrl={selectedPdf?.pdf_file as string} />
+              <div className="flex w-full flex-col overflow-auto max-h-[400px] gap-2">
+                {selectedPdf?.pages.map((page, idx) => (
+                  <UpdateDataPdf
+                    key={`${page.inc_req}-${page.pageNumber}`}
+                    item={formDataByPage[idx]}
+                    id={idx}
+                    last_change={selectedPdf.last_change}
+                    file_name={selectedPdf.file_name}
+                    pages={selectedPdf.pages}
+                    setOpenDialogViewPdf={setOpenDialogViewPdf}
+                  />
+                ))}
+              </div>
+            </div>
+          </DialogComponent>
         )}
       </Table>
     </div>

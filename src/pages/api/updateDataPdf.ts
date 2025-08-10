@@ -5,29 +5,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const {
-    token: token,
-    id,
-    pdf_file,
-    inc_req,
-    collaborator,
-    registration,
-  } = req.body;
-
-  const formData = new FormData();
-
-  formData?.append("file", pdf_file);
-  formData?.append("inc_req", inc_req);
-  formData?.append("collaborator", collaborator);
-  formData?.append("registration", registration);
+  const { token: token, id: id, payload: payload } = req.body;
 
   try {
     const response = await axios.put(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data/${id}`,
-      formData,
+      /* `http://localhost:8080/api/v1/pdf/data/${id}`, */
+      payload,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       }
