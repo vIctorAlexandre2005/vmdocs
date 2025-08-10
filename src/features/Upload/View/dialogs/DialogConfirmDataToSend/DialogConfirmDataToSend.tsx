@@ -5,6 +5,7 @@ import { useViewDoc } from "../../../viewModel/useViewDoc";
 import { ViewPdfInDialog } from "./ViewPdfInDialog";
 import { FormDataPdf } from "./FormDataPdf";
 import { Loader } from "@/shared/components/Loader";
+import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 
 export function DialogConfirmDataToSend() {
   const {
@@ -14,31 +15,23 @@ export function DialogConfirmDataToSend() {
     openDialogViewPdf,
     setOpenDialogViewPdf,
     loadingReaderPdf,
+    expand,
+    setExpand,
+    expandPageData,
+    formDataByPage,
+    updateField,
   } = useViewDoc();
+  //const { pdfUrl } = useUploadPdfContext();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
 
-  const [incReq, setIncReq] = useState<string>(dataExtractedPdf?.inc_req || "");
-  const [collaborator, setCollaborator] = useState<string>(
-    dataExtractedPdf?.collaborator || ""
-  );
-  const [registration, setRegistration] = useState<string>(
-    dataExtractedPdf?.registration || ""
-  );
-
-  useEffect(() => {
-    if (dataExtractedPdf) {
-      setIncReq(dataExtractedPdf.inc_req || "");
-      setCollaborator(dataExtractedPdf.collaborator || "");
-      setRegistration(dataExtractedPdf.registration || "");
-    }
-  }, [dataExtractedPdf]);
+  console.log("pdfUrl do useViewDoc: ", pdfUrl);
 
   return (
     <DialogComponent
       open={openDialogViewPdf}
       onOpenChange={setOpenDialogViewPdf as any}
       title={fileName || "Visualização do PDF"}
-      onClick={() => createDataPdf(fileName || "", incReq, collaborator, registration)}
+      onClick={() => createDataPdf(fileName || "", formDataByPage)}
       textButtonCancel="Fechar"
       textButtonConfirm="Enviar"
       loadingShowButton={loadingReaderPdf}
@@ -52,18 +45,18 @@ export function DialogConfirmDataToSend() {
         ) : (
           <>
             <ViewPdfInDialog pdfUrl={pdfUrl} />
-            <FormDataPdf
-              loadingCreatePdf={loadingCreatePdf}
-              collaborator={collaborator}
-              registration={registration}
-              incReq={incReq}
-              fileName={fileName || ""}
-              createDataPdf={createDataPdf}
-              setCollaborator={setCollaborator}
-              setRegistration={setRegistration}
-              setIncReq={setIncReq}
-              setOpenDialogViewPdf={setOpenDialogViewPdf}
-            />
+            <div className="flex w-full flex-col overflow-auto max-h-[400px] gap-2">
+              {dataExtractedPdf?.map((item, idx) => (
+                <FormDataPdf
+                  idx={idx}
+                  item={item}
+                  key={idx}
+                  data={formDataByPage[idx]}
+                  updateField={updateField}
+                  pageNumber={item?.pageNumber}
+                />
+              ))}
+            </div>
           </>
         )}
       </div>

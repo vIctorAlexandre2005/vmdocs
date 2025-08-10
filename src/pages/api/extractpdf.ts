@@ -10,9 +10,11 @@ export default async function handler(
   const formData = new FormData();
   formData.append("file", file);
 
+  console.log(file);
+
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/v1/pdf/reader",
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/reader`,
       formData,
       {
         headers: {

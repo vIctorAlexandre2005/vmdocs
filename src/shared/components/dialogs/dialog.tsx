@@ -25,6 +25,9 @@ interface DialogComponentProps {
   textButtonCancel?: string;
   loadingShowButton?: boolean;
   loadingFallbackButton?: boolean;
+  iconButton?: React.ReactNode;
+  iconLeftButton?: React.ReactNode;
+  iconRightButton?: React.ReactNode;
 }
 
 export function DialogComponent({
@@ -41,7 +44,10 @@ export function DialogComponent({
   textButtonCancel,
   textButtonConfirm,
   loadingShowButton,
-  loadingFallbackButton
+  loadingFallbackButton,
+  iconButton,
+  iconLeftButton,
+  iconRightButton,
 }: DialogComponentProps) {
   async function handleConfirm() {
     const result: any = await onClick?.();
@@ -57,8 +63,8 @@ export function DialogComponent({
       </DialogTrigger>
 
       <DialogContent
-        className={`bg-slate-50 text-slate-900 sm:max-w-[425px] ${
-          isDelete ? "lg:max-w-[425px]" : "lg:max-w-[900px]"
+        className={`bg-slate-50 text-slate-900 ${
+          isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:max-w-11/12 overflow-auto"
         }`}
       >
         <DialogHeader className="text-slate-900 text-center text-lg font-bold">
@@ -80,7 +86,9 @@ export function DialogComponent({
                 loading={loadingFallbackButton}
                 disabled={loadingFallbackButton}
                 className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                icon={<LuSend size={20} />}
+                icon={iconButton}
+                iconLeft={iconLeftButton}
+                iconRight={iconRightButton}
                 loaderIcon={<ClipLoader size={20} color="#fff" />}
               />
             </>

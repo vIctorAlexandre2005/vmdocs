@@ -1,11 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { extractPdf } from "../service/extractPdf";
-import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
+import {
+  DataExtractedPdfProps,
+  useUploadPdfContext,
+} from "@/shared/contexts/UploadPdfContext";
 import { useUserContext } from "@/shared/contexts/UserContext";
 
 export function useViewDoc() {
- const { user } = useUserContext(); 
- const {
+  const { user } = useUserContext();
+  const {
     fileName,
     setFileName,
     progress,
@@ -19,8 +22,13 @@ export function useViewDoc() {
     filePdf,
     setFilePdf,
     loadingReaderPdf,
-    setLoadingReaderPdf
+    setLoadingReaderPdf,
+    formDataByPage,
+    setFormDataByPage,
+    updateField
   } = useUploadPdfContext();
+
+  const [expand, setExpand] = useState<number | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   function handleOpenFileDialog() {
@@ -38,6 +46,7 @@ export function useViewDoc() {
 
     const formData = new FormData();
     formData.append("file", file);
+    setFileName(file.name);
     setOpenDialogViewPdf(true);
     setLoadingReaderPdf(true);
     try {
@@ -45,7 +54,6 @@ export function useViewDoc() {
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);
-        setFileName(file.name);
 
         const url = URL.createObjectURL(file);
         setPdfUrl(url);
@@ -66,6 +74,16 @@ export function useViewDoc() {
     }
   }
 
+  function expandPageData(idx: number) {
+    setExpand(idx);
+  }
+
+  useEffect(() => {
+    if (dataExtractedPdf) {
+      setFormDataByPage(dataExtractedPdf);
+    }
+  }, [dataExtractedPdf]);
+
   return {
     fileName,
     progress,
@@ -82,6 +100,12 @@ export function useViewDoc() {
     inputRef,
     handleOpenFileDialog,
 
-    loadingReaderPdf
+    loadingReaderPdf,
+    expand,
+    setExpand,
+    expandPageData,
+    updateField,
+    formDataByPage,
+    setFormDataByPage,
   };
 }

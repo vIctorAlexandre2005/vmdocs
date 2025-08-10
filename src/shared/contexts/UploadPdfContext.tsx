@@ -5,24 +5,25 @@ import {
   useState,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 
-interface DataExtractedPdfProps {
+export interface DataExtractedPdfProps {
   inc_req: string;
   collaborator: string;
   registration: string;
-};
+  patrimony: string;
+  pageNumber: number;
+}
 
 export interface DataPdfProps {
   id: number;
   file_name: string;
-  inc_req: string;
-  registration: string;
-  collaborator: string;
+  pages: DataExtractedPdfProps[];
   created_at: string;
   last_change: string;
   pdf_file: string;
-};
+}
 
 type UploadPdfContextType = {
   fileName: string;
@@ -31,9 +32,9 @@ type UploadPdfContextType = {
   setProgress: Dispatch<SetStateAction<number>>;
   pdfUrl: string | null;
   setPdfUrl: Dispatch<SetStateAction<string | null>>;
-  dataExtractedPdf: DataExtractedPdfProps | undefined;
+  dataExtractedPdf: DataExtractedPdfProps[] | undefined;
   setDataExtractedPdf: Dispatch<
-    SetStateAction<DataExtractedPdfProps | undefined>
+    SetStateAction<DataExtractedPdfProps[] | undefined>
   >;
   openDialogViewPdf: boolean;
   setOpenDialogViewPdf: (open: boolean) => void;
@@ -42,8 +43,22 @@ type UploadPdfContextType = {
   dataPdf: DataPdfProps[];
   setDataPdf: Dispatch<SetStateAction<DataPdfProps[]>>;
 
+  selectedPdfExtracted: DataExtractedPdfProps | null;
+  setSelectedPdfExtracted: Dispatch<
+    SetStateAction<DataExtractedPdfProps | null>
+  >;
+
   loadingReaderPdf: boolean;
   setLoadingReaderPdf: Dispatch<SetStateAction<boolean>>;
+
+  formDataByPage: DataExtractedPdfProps[];
+  setFormDataByPage: Dispatch<SetStateAction<DataExtractedPdfProps[]>>;
+
+  updateField: (
+    pageIdx: number,
+    field: keyof DataExtractedPdfProps,
+    value: string
+  ) => void;
 };
 
 const UploadPdfContext = createContext<UploadPdfContextType | undefined>(
@@ -54,13 +69,32 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [fileName, setFileName] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [dataExtractedPdf, setDataExtractedPdf] =
-    useState<DataExtractedPdfProps>();
+  const [dataExtractedPdf, setDataExtractedPdf] = useState<
+    DataExtractedPdfProps[] | undefined
+  >([]);
+  const [selectedPdfExtracted, setSelectedPdfExtracted] =
+    useState<DataExtractedPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [filePdf, setFilePdf] = useState<File>();
   const [dataPdf, setDataPdf] = useState<DataPdfProps[]>([]);
 
   const [loadingReaderPdf, setLoadingReaderPdf] = useState(false);
+
+  const [formDataByPage, setFormDataByPage] = useState<DataExtractedPdfProps[]>(
+    []
+  );
+
+  function updateField(
+    pageIdx: number,
+    field: keyof DataExtractedPdfProps,
+    value: string
+  ) {
+    setFormDataByPage((prev) =>
+      prev.map((item, idx) =>
+        idx === pageIdx ? { ...item, [field]: value } : item
+      )
+    );
+  }
 
   return (
     <UploadPdfContext.Provider
@@ -80,7 +114,12 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         dataPdf,
         setDataPdf,
         loadingReaderPdf,
-        setLoadingReaderPdf
+        setLoadingReaderPdf,
+        selectedPdfExtracted,
+        setSelectedPdfExtracted,
+        formDataByPage,
+        setFormDataByPage,
+        updateField
       }}
     >
       {children}

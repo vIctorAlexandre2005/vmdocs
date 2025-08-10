@@ -33,10 +33,8 @@ export function useAuth() {
       successToast("Login realizado com sucesso!");
       router.push("/");
     } catch (error) {
-      errorToast("Login não realizado!");
-      console.error("Failed to login:", error);
+      errorToast("Usuário ou senha incorretos!");
     } finally {
-      setUserNameLogin("");
       setPasswordLogin("");
       setLoadingSendRequestLogin(false);
     }
