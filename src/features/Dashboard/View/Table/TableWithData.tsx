@@ -69,86 +69,86 @@ export function TableWithData() {
             <TableBody className="text-xs">
               {dataPdf?.map((pdf) => (
                 <>
-                  <TableRow key={pdf.id} className="cursor-pointer">
+                  <TableRow key={pdf?.id} className="cursor-pointer">
                     <TableCell
                       onClick={() => {
-                        setFormDataByPage(pdf.pages);
+                        setFormDataByPage(pdf?.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
                       className="font-semibold p-2 border"
                     >
-                      {pdf.file_name.toUpperCase()}
+                      {pdf?.file_name?.toUpperCase()}
                     </TableCell>
                     <TableCell
                       onClick={() => {
-                        setFormDataByPage(pdf.pages);
+                        setFormDataByPage(pdf?.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
                       className="font-semibold p-2 border"
                     >
-                      {`${pdf.pages[0].collaborator.toUpperCase()} ${
-                        pdf.pages.length > 1 ? "(...)" : ""
+                      {`${pdf?.pages[0]?.collaborator?.toUpperCase()} ${
+                        pdf?.pages?.length > 1 ? "(...)" : ""
                       }`}
                     </TableCell>
                     <TableCell
                       onClick={() => {
-                        setFormDataByPage(pdf.pages);
+                        setFormDataByPage(pdf?.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
                       className="font-semibold p-2 border"
                     >
-                      {`${pdf.pages[0].inc_req.toUpperCase()} ${
-                        pdf.pages.length > 1 ? "(...)" : ""
+                      {`${pdf?.pages[0]?.inc_req?.toUpperCase()} ${
+                        pdf?.pages?.length > 1 ? "(...)" : ""
                       }`}
                     </TableCell>
                     <TableCell
                       onClick={() => {
-                        setFormDataByPage(pdf.pages);
+                        setFormDataByPage(pdf?.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
                       className="font-semibold p-2 border"
                     >
-                      {`${pdf.pages[0].patrimony.toUpperCase()} ${
-                        pdf.pages.length > 1 ? "(...)" : ""
+                      {`${pdf?.pages[0]?.patrimony?.toUpperCase()} ${
+                        pdf?.pages?.length > 1 ? "(...)" : ""
                       }`}
                     </TableCell>
                     <TableCell
                       onClick={() => {
-                        setFormDataByPage(pdf.pages);
+                        setFormDataByPage(pdf?.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
                       className="font-semibold p-2 border"
                     >
-                      {pdf.pages.length} {/* busca o último pageNumber */}
+                      {pdf?.pages?.length} {/* busca o último pageNumber */}
                     </TableCell>
                     <TableCell
                       onClick={() => {
-                        setFormDataByPage(pdf.pages);
+                        setFormDataByPage(pdf?.pages);
                         setSelectedPdf(pdf);
                         setOpenDialogViewPdf(true);
                       }}
                       className="font-semibold p-2 border"
                     >
-                      {pdf.created_at}
+                      {pdf?.created_at}
                     </TableCell>
                     <TableCell
                       onClick={() => {
-                        setFormDataByPage(pdf.pages);
+                        setFormDataByPage(pdf?.pages);
                         setOpenDialogViewPdf(true);
                       }}
                       className="font-semibold p-2 border"
                     >
-                      {pdf.last_change}
+                      {pdf?.last_change}
                     </TableCell>
                     <TableCell className="p-2 font-semibold border flex items-center">
                       <ButtonComponent
                         onClick={() => {
-                          setFormDataByPage(pdf.pages);
+                          setFormDataByPage(pdf?.pages);
                           setSelectedPdf(pdf);
                           setOpenDialogViewPdf(true);
                         }}
@@ -203,12 +203,12 @@ export function TableWithData() {
               <div className="flex w-full flex-col overflow-auto max-h-[400px] gap-2">
                 {selectedPdf?.pages.map((page, idx) => (
                   <UpdateDataPdf
-                    key={`${page.inc_req}-${page.pageNumber}`}
+                    key={`${page?.inc_req}-${page?.pageNumber}`}
                     item={formDataByPage[idx]}
                     id={idx}
-                    last_change={selectedPdf.last_change}
-                    file_name={selectedPdf.file_name}
-                    pages={selectedPdf.pages}
+                    last_change={selectedPdf?.last_change}
+                    file_name={selectedPdf?.file_name}
+                    pages={selectedPdf?.pages}
                     setOpenDialogViewPdf={setOpenDialogViewPdf}
                   />
                 ))}
