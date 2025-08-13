@@ -25,7 +25,9 @@ export function useViewDoc() {
     setLoadingReaderPdf,
     formDataByPage,
     setFormDataByPage,
-    updateField
+    updateField,
+    errorExtractDataPdf,
+    setErrorExtractDataPdf
   } = useUploadPdfContext();
 
   const [expand, setExpand] = useState<number | null>(null);
@@ -68,6 +70,7 @@ export function useViewDoc() {
         reader.readAsDataURL(file);
       }
     } catch (error) {
+      setErrorExtractDataPdf(true);
       console.error("Failed to extract PDF:", error);
     } finally {
       setLoadingReaderPdf(false);
@@ -107,5 +110,6 @@ export function useViewDoc() {
     updateField,
     formDataByPage,
     setFormDataByPage,
+    errorExtractDataPdf,
   };
 }
