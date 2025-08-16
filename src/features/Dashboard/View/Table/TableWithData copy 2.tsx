@@ -8,7 +8,7 @@ import {
 } from "@/shared/components/ui/table";
 import { usePdfData } from "@/features/Upload/viewModel/usePdfData";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { ViewPdfInDialog } from "@/features/Upload/View/dialogs/DialogConfirmDataToSend/ViewPdfInDialog";
 import { UpdateDataPdf } from "./dialogs/updateDataPdf";
@@ -19,7 +19,6 @@ import {
 import { FaEdit, FaEye } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
 import { ClipLoader } from "react-spinners";
-import { useTableDashboardContext } from "@/shared/contexts/TableDashboard";
 
 const tableHeaders = [
   "Arquivo",
@@ -33,26 +32,16 @@ const tableHeaders = [
 ];
 
 export function TableWithData() {
-  const {
-    dataPdf,
-    deleteDataPdf,
-    loadingGetDataPdf,
-    updateDataPdf,
-    isLoading,
-  } = usePdfData();
-  const { filteredData, setFilteredData } = useTableDashboardContext();
+  const { dataPdf, deleteDataPdf, loadingGetDataPdf, updateDataPdf, isLoading } =
+    usePdfData();
   const [selectedPdf, setSelectedPdf] = useState<DataPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [openDialogDeleteDataPdf, setOpenDialogDeleteDataPdf] = useState(false);
 
   const { formDataByPage, setFormDataByPage } = useUploadPdfContext();
 
-  useEffect(() => {
-    setFilteredData(dataPdf);
-  }, [dataPdf, setFilteredData]);
-
   return (
-    <div className="max-h-[calc(100vh-150px)] max-w-[calc(100vw-200px)] overflow-y-auto">
+    <div className="max-h-[400px] overflow-y-auto">
       <div className="fixed top-1/2 left-3/5 transform flex flex-col gap-12 -translate-x-1/2 -translate-y-1/2">
         {loadingGetDataPdf && <ClipLoader size={42} color="#4636f5" />}
       </div>
@@ -78,7 +67,7 @@ export function TableWithData() {
               </TableRow>
             </TableHeader>
             <TableBody className="text-xs">
-              {filteredData?.map((pdf) => (
+              {dataPdf?.map((pdf) => (
                 <>
                   <TableRow key={pdf?.id} className="cursor-pointer">
                     <TableCell

@@ -7,21 +7,29 @@ import { DataPdfProps } from "@/shared/contexts/UploadPdfContext";
 import { useTable } from "../viewModel/useTable";
 
 export function FiltersView({ dataPdf }: { dataPdf: DataPdfProps[] }) {
-  const { exportDataExcel } = useTable();
+  const {
+    exportDataExcel,
+    setValueFilter,
+    valueFilter,
+  } = useTable();
 
   return (
     <div className="flex items-center gap-2">
-      {/* <InputComponent
+      <InputComponent
         label=""
+        value={valueFilter}
+        onChange={(e) => setValueFilter(e.target.value)}
+        type="search"
         placeholder="Pesquisar..."
         iconInside={<TbSearch size={20} />}
         className="pb-2 pt-2 pl-2 w-sm placeholder:text-gray-600 bg-transparent border-gray-300 hover:border-indigo-400 placeholder:text-sm text-sm text-gray-800 focus:ring-1 focus:ring-indigo-500 rounded-full"
-      /> */}
-      {/* <ButtonComponent
+      />
+      <ButtonComponent
         text="Filtrar"
         className="w-32 text-sm text-gray-100 rounded-full bg-indigo-600"
         iconLeft={<IoFilter size={20} />}
-      /> */}
+        //onClick={() => filterData(valueFilter)}
+      />
       <ButtonComponent
         text="Exportar .CSV"
         onClick={() => exportDataExcel(dataPdf)}

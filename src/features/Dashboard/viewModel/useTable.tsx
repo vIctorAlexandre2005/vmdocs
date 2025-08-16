@@ -4,9 +4,37 @@ import {
 } from "@/shared/contexts/UploadPdfContext";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { useEffect, useMemo, useState } from "react";
+import { useTableDashboardContext } from "@/shared/contexts/TableDashboard";
 
 export function useTable() {
   const { dataPdf, pdfUrl, setPdfUrl } = useUploadPdfContext();
+  const { filteredData, setFilteredData } = useTableDashboardContext();
+  const [valueFilter, setValueFilter] = useState("");
+const [debouncedFilter, setDebouncedFilter] = useState(valueFilter);
+
+  // debounce → espera 300ms após digitação
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedFilter(valueFilter);
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [valueFilter]);
+
+  // memoiza lista filtrada
+  const filtered = useMemo(() => {
+    if (!debouncedFilter) return dataPdf;
+    const search = debouncedFilter.toLowerCase();
+    return dataPdf.filter((item) =>
+      item.file_name.toLowerCase().includes(search)
+    );
+  }, [dataPdf, debouncedFilter]);
+
+  // sincroniza com contexto
+  useEffect(() => {
+    setFilteredData(filtered);
+  }, [filtered, setFilteredData]);
 
   function convertBase64ToPdf(pdf_file: string) {
     const byteCharacters = atob(pdf_file);
@@ -26,10 +54,10 @@ export function useTable() {
       ({ file_name, pages, last_change, created_at }) =>
         pages.map((page) => ({
           "Nome do arquivo": file_name,
-          "Colaborador": page.collaborator,
+          Colaborador: page.collaborator,
           "Incidente/Requisição": page.inc_req,
-          "Matrícula": page.registration,
-          "Patrimônio": page.patrimony,
+          Matrícula: page.registration,
+          Patrimônio: page.patrimony,
           "Data de criação": created_at,
           "Última alteração": last_change,
         }))
@@ -61,5 +89,15 @@ export function useTable() {
     saveAs(blob, "termos.xlsx");
   }
 
-  return { dataPdf, pdfUrl, convertBase64ToPdf, exportDataExcel };
+  return {
+    dataPdf,
+    pdfUrl,
+    convertBase64ToPdf,
+    exportDataExcel,
+    filteredData,
+    setFilteredData,
+    valueFilter,
+    setValueFilter,
+    filtered,
+  };
 }
