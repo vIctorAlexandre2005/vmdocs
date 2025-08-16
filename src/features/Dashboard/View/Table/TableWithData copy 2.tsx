@@ -8,7 +8,7 @@ import {
 } from "@/shared/components/ui/table";
 import { usePdfData } from "@/features/Upload/viewModel/usePdfData";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { ViewPdfInDialog } from "@/features/Upload/View/dialogs/DialogConfirmDataToSend/ViewPdfInDialog";
 import { UpdateDataPdf } from "./dialogs/updateDataPdf";
@@ -19,6 +19,7 @@ import {
 import { FaEdit, FaEye } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
 import { ClipLoader } from "react-spinners";
+import { useTableDashboardContext } from "@/shared/contexts/TableDashboard";
 
 const tableHeaders = [
   "Arquivo",
@@ -32,13 +33,24 @@ const tableHeaders = [
 ];
 
 export function TableWithData() {
-  const { dataPdf, deleteDataPdf, loadingGetDataPdf, updateDataPdf, isLoading } =
-    usePdfData();
+  const {
+    dataPdf,
+    deleteDataPdf,
+    loadingGetDataPdf,
+    updateDataPdf,
+    isLoading,
+  } = usePdfData();
   const [selectedPdf, setSelectedPdf] = useState<DataPdfProps | null>(null);
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [openDialogDeleteDataPdf, setOpenDialogDeleteDataPdf] = useState(false);
 
   const { formDataByPage, setFormDataByPage } = useUploadPdfContext();
+
+  const { filteredData, setFilteredData } = useTableDashboardContext();
+
+  useEffect(() => {
+    setFilteredData(dataPdf);
+  }, [dataPdf, setFilteredData]);
 
   return (
     <div className="max-h-[400px] overflow-y-auto">
@@ -67,7 +79,7 @@ export function TableWithData() {
               </TableRow>
             </TableHeader>
             <TableBody className="text-xs">
-              {dataPdf?.map((pdf) => (
+              {filteredData?.map((pdf) => (
                 <>
                   <TableRow key={pdf?.id} className="cursor-pointer">
                     <TableCell

@@ -8,7 +8,7 @@ import {
 } from "@/shared/components/ui/table";
 import { usePdfData } from "@/features/Upload/viewModel/usePdfData";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { ViewPdfInDialog } from "@/features/Upload/View/dialogs/DialogConfirmDataToSend/ViewPdfInDialog";
 import { UpdateDataPdf } from "./dialogs/updateDataPdf";
@@ -19,6 +19,7 @@ import {
 import { FaEdit, FaEye } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
 import { ClipLoader } from "react-spinners";
+import { useTableDashboardContext } from "@/shared/contexts/TableDashboard";
 
 const tableHeaders = [
   "Arquivo",
@@ -38,7 +39,13 @@ export function TableWithData() {
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [openDialogDeleteDataPdf, setOpenDialogDeleteDataPdf] = useState(false);
 
+  const { filteredData, setFilteredData } = useTableDashboardContext();  
+
   const { formDataByPage, setFormDataByPage } = useUploadPdfContext();
+
+  useEffect(() => {
+      setFilteredData(dataPdf);
+    }, [dataPdf, setFilteredData]);
 
   return (
     <div className="max-h-[calc(100vh-150px)] max-w-[calc(100vw-300px)] overflow-y-auto">
@@ -67,7 +74,7 @@ export function TableWithData() {
               </TableRow>
             </TableHeader>
             <TableBody className="text-xs overflow-y-auto">
-              {dataPdf?.map((pdf) => pdf.pages.map((page) => (
+              {filteredData?.map((pdf) => pdf.pages.map((page) => (
                 <>
                   <TableRow key={pdf?.id} className="cursor-pointer">
                     <TableCell
