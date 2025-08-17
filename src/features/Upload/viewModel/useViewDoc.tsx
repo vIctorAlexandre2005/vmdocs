@@ -7,7 +7,7 @@ import {
 import { useUserContext } from "@/shared/contexts/UserContext";
 
 export function useViewDoc() {
-  const { user } = useUserContext();
+  const { token } = useUserContext();
   const {
     fileName,
     setFileName,
@@ -52,7 +52,7 @@ export function useViewDoc() {
     setOpenDialogViewPdf(true);
     setLoadingReaderPdf(true);
     try {
-      const response = await extractPdf(user, formData);
+      const response = await extractPdf(token, formData);
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);

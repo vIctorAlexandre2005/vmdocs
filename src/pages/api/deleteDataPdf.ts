@@ -7,7 +7,10 @@ export default async function handler(
 ) {
   const { token: token, id } = req.body;
   try {
-    const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data/${id}`, {
+    const response = await axios.delete(
+      //`${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data/${id}`, 
+      `${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data/${id}`,
+      {
       headers: {
         Authorization: `Bearer ${token}`,
       },

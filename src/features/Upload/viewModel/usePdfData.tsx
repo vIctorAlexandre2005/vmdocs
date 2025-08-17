@@ -22,7 +22,7 @@ import {
 import { useContextAsyncDialog } from "@/shared/contexts/AsyncDialogContext";
 
 export function usePdfData() {
-  const { user } = useUserContext();
+  const { token } = useUserContext();
   const {
     filePdf,
     dataPdf,
@@ -76,7 +76,7 @@ export function usePdfData() {
           pdf_file: base64Pdf, // string base64 aqui
         };
         try {
-          const response = await createPdf(user, payload);
+          const response = await createPdf(token, payload);
           console.log(response);
           setDataPdf([...(dataPdf || []), response?.data]);
           console.log(response?.data);
@@ -98,8 +98,8 @@ export function usePdfData() {
   async function getDataPdf() {
     setLoadingGetDataPdf(true);
     try {
-      if (user) {
-        const response = await getDataPdfService(user);
+      if (token) {
+        const response = await getDataPdfService(token);
         setDataPdf(response);
         setPdfUrl(response?.pdf_url);
       }
@@ -116,10 +116,10 @@ export function usePdfData() {
   }
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       getDataPdf();
     }
-  }, [user]);
+  }, [token]);
 
   async function updateDataPdf(
     id: number,
@@ -144,7 +144,7 @@ export function usePdfData() {
           //pdf_file: pdf_file,
         };
         try {
-          await updateDataPdfService(user, id, payload);
+          await updateDataPdfService(token, id, payload);
           setDataPdf((prev) => prev?.map((item) => item.id === id ? 
             { ...item, ...payload } : item));
           successToast("Atualizado com sucesso!");
@@ -166,7 +166,7 @@ export function usePdfData() {
     console.log("id: ", id);
     setLoadingDeleteDataPdf(true);
     try {
-      await deleteDataPdfService(user, id);
+      await deleteDataPdfService(token, id);
       setDataPdf(dataPdf?.filter((item) => item.id !== id));
       successToast("Deletado com sucesso!");
     } catch (error) {

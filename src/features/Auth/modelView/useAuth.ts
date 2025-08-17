@@ -1,11 +1,15 @@
 import { useUserContext } from "@/shared/contexts/UserContext";
-import { loginService, registerService } from "../service/auth";
-import { useState } from "react";
+import {
+  getMyUserService,
+  loginService,
+  registerService,
+} from "../service/auth";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { errorToast, successToast } from "@/shared/utils/toasts";
 
 export function useAuth() {
-  const { user, setUser } = useUserContext();
+  const { user, setUser, token, setToken } = useUserContext();
   const router = useRouter();
   const [userNameLogin, setUserNameLogin] = useState<string>("");
   const [passwordLogin, setPasswordLogin] = useState<string>("");
@@ -17,19 +21,22 @@ export function useAuth() {
   const [loadingSendRequestRegister, setLoadingSendRequestRegister] =
     useState(false);
 
+  const [loadUser, setLoadUser] = useState(false);
+  const [errorLoadingUser, setErrorLoadingUser] = useState(false);
+
   async function handleLogin(login: string, password: string) {
     setLoadingSendRequestLogin(true);
     if (login.trim() === "" || password.trim() === "") {
       errorToast("Preencha todos os campos!");
       setLoadingSendRequestLogin(false);
       return null;
-    };
+    }
     try {
       const response = await loginService(login, password);
       if (typeof window !== "undefined") {
         localStorage.setItem("user", response?.tokenJWT); // se for string
-      };
-      setUser(response?.tokenJWT);
+      }
+      setToken(response?.tokenJWT);
       successToast("Login realizado com sucesso!");
       router.push("/");
     } catch (error) {
@@ -45,11 +52,15 @@ export function useAuth() {
     password: string,
     confirmPassword: string
   ) {
-    if (login.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
+    if (
+      login.trim() === "" ||
+      password.trim() === "" ||
+      confirmPassword.trim() === ""
+    ) {
       errorToast("Preencha todos os campos!");
       setLoadingSendRequestLogin(false);
       return null;
-    };
+    }
     setLoadingSendRequestRegister(true);
     try {
       await registerService(
@@ -69,12 +80,28 @@ export function useAuth() {
       setConfirmPassword("");
       setLoadingSendRequestRegister(false);
     }
-  };
+  }
+
+  async function getUserMe() {
+    setLoadUser(true);
+    try {
+      const response = await getMyUserService(token);
+      setUser(response);
+    } catch (error) {
+      setErrorLoadingUser(true);
+    } finally {
+      setLoadUser(false);
+    }
+  }
+
+  useEffect(() => {
+    getUserMe();
+  }, [token]);
 
   function handleLogout() {
     localStorage.removeItem("user");
     router.push("/auth/login");
-  };
+  }
 
   return {
     user,
@@ -101,5 +128,11 @@ export function useAuth() {
     handleRegister,
 
     handleLogout,
+
+    loadUser,
+    setLoadUser,
+    getUserMe,
+    errorLoadingUser,
+    token
   };
 }

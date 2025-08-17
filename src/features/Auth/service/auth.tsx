@@ -47,3 +47,13 @@ export async function registerService(
     console.error("Failed to login: " + error.message);
   }
 }
+
+export async function getMyUserService(token: string | null) {
+  try {
+    const response = await axios.post("/api/getMyUser", {
+      token: token
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("Failed to login: " + error.message);
+  }}

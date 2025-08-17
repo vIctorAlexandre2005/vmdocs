@@ -6,13 +6,13 @@ import { useUserContext } from "@/shared/contexts/UserContext";
 import { useEffect } from "react";
 
 export default function LayoutApp({ children }: { children: React.ReactNode }) {
-  const { user, setUser } = useUserContext();
+  const { user, setUser, setToken } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("user");
     if (token) {
-      setUser(token);
+      setToken(token);
     }
   }, []);
 
