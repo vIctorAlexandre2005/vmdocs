@@ -6,6 +6,7 @@ import { PiExport } from "react-icons/pi";
 import { DataPdfProps } from "@/shared/contexts/UploadPdfContext";
 import { useTable } from "../viewModel/useTable";
 import { FaCheck } from "react-icons/fa";
+import { useTableDashboardContext } from "@/shared/contexts/TableDashboard";
 
 export function FiltersView({ dataPdf }: { dataPdf: DataPdfProps[] }) {
   const {
@@ -15,6 +16,8 @@ export function FiltersView({ dataPdf }: { dataPdf: DataPdfProps[] }) {
     detailedView,
     toggleDetailedView,
   } = useTable();
+
+  const { filteredData } = useTableDashboardContext();
 
   return (
     <div className="flex items-center gap-2">
@@ -30,14 +33,18 @@ export function FiltersView({ dataPdf }: { dataPdf: DataPdfProps[] }) {
         text="Visualização detalhada"
         className={`
           w-80 text-sm rounded-full transition duration-300 
-          ${detailedView ? 'bg-indigo-600 text-gray-100' : 'bg-transparent text-gray-600 border'}
+          ${
+            detailedView
+              ? "bg-indigo-600 text-gray-100"
+              : "bg-transparent text-gray-600 border"
+          }
         `}
         iconLeft={<TbListDetails size={20} />}
         onClick={toggleDetailedView}
       />
       <ButtonComponent
         text="Exportar .CSV"
-        onClick={() => exportDataExcel(dataPdf)}
+        onClick={() => exportDataExcel(filteredData)}
         className="w-56 text-center text-sm text-gray-100 rounded-full bg-indigo-600"
         iconLeft={<PiExport size={20} />}
       />

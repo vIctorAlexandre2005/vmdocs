@@ -23,6 +23,7 @@ export interface DataPdfProps {
   created_at: string;
   last_change: string;
   pdf_file: string;
+  __filteredPages: DataExtractedPdfProps[];
 }
 
 type UploadPdfContextType = {

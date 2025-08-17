@@ -30,49 +30,36 @@ export function useTable() {
 
   const filtered1 = useMemo(() => {
     if (!debouncedFilter) return dataPdf;
+
     const search = debouncedFilter.toLowerCase();
 
     return dataPdf
       .map((pdf) => {
-        // filtra as páginas do pdf
+        // filtra páginas que batem
         const filteredPages = pdf.pages.filter((page) =>
           stringifyObject(page).toLowerCase().includes(search)
         );
 
-        // verifica se o próprio PDF bateu OU alguma página bateu
+        // match no PDF em si
         const pdfMatches = stringifyObject({
           ...pdf,
-          pages: undefined, // ignora páginas aqui, pq já tratamos separado
+          pages: undefined, // ignora páginas aqui
         })
           .toLowerCase()
           .includes(search);
 
         if (pdfMatches) {
-          // se o match for no PDF (ex: nome do arquivo), mantém todas as páginas
-          return pdf;
+          return { ...pdf, __filteredPages: pdf.pages }; // exibe todas
         }
 
         if (filteredPages.length > 0) {
-          // se só páginas bateram, retorna PDF com páginas reduzidas
-          return {
-            ...pdf,
-            pages: filteredPages,
-          };
+          return { ...pdf, __filteredPages: filteredPages }; // só exibe filtradas
         }
 
         return null;
       })
-      .filter(Boolean); // remove nulos
+      .filter(Boolean);
   }, [dataPdf, debouncedFilter]);
-
-  // memoiza lista filtrada
-  /* const filtered = useMemo(() => {
-    if (!debouncedFilter) return dataPdf;
-    const search = debouncedFilter.toLowerCase();
-    return dataPdf.filter((item) =>
-      stringifyObject(item).toLowerCase().includes(search)
-    );
-  }, [dataPdf, debouncedFilter]); */
 
   // sincroniza com contexto
   useEffect(() => {
@@ -93,17 +80,15 @@ export function useTable() {
   }
 
   function exportDataExcel(tableData: DataPdfProps[]) {
-    const exportData = tableData.flatMap(
-      ({ file_name, pages, last_change, created_at }) =>
-        pages.map((page) => ({
-          "Nome do arquivo": file_name,
-          Colaborador: page.collaborator,
-          "Incidente/Requisição": page.inc_req,
-          Matrícula: page.registration,
-          Patrimônio: page.patrimony,
-          "Data de criação": created_at,
-          "Última alteração": last_change,
-        }))
+    const exportData = tableData.flatMap(({ file_name, pages, created_at }) =>
+      pages.map((page) => ({
+        "Nome do arquivo": file_name,
+        Colaborador: page.collaborator,
+        "Incidente/Requisição": page.inc_req,
+        Matrícula: page.registration,
+        Patrimônio: page.patrimony,
+        "Data de criação": created_at,
+      }))
     );
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);

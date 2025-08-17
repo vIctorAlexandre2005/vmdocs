@@ -29,6 +29,7 @@ export function TableDetaildView({
   openDialogDeleteDataPdf,
 }: DetaildViewProps) {
   const { setFormDataByPage } = useUploadPdfContext();
+  const filteredPages = pdf?.__filteredPages?.[0];
   return (
     <>
       <TableRow key={pdf?.id} className="cursor-pointer">
@@ -50,7 +51,11 @@ export function TableDetaildView({
           }}
           className="font-semibold p-2 border"
         >
-          {page?.collaborator?.toUpperCase()}
+          {`${
+            filteredPages
+              ? filteredPages?.collaborator?.toUpperCase()
+              : page?.collaborator?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
@@ -60,7 +65,11 @@ export function TableDetaildView({
           }}
           className="font-semibold p-2 border"
         >
-          {page?.inc_req?.toUpperCase()}
+          {`${
+            filteredPages
+              ? filteredPages?.registration?.toUpperCase()
+              : page?.registration?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
@@ -70,7 +79,11 @@ export function TableDetaildView({
           }}
           className="font-semibold p-2 border"
         >
-          {page?.patrimony?.toUpperCase()}
+          {`${
+            filteredPages
+              ? filteredPages?.inc_req?.toUpperCase()
+              : page?.inc_req?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
@@ -80,7 +93,21 @@ export function TableDetaildView({
           }}
           className="font-semibold p-2 border"
         >
-          {pdf?.pages?.length} {/* busca o último pageNumber */}
+          {`${
+            filteredPages
+              ? filteredPages?.patrimony?.toUpperCase()
+              : page?.patrimony?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {pdf?.pages?.length}
         </TableCell>
         <TableCell
           onClick={() => {

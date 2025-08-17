@@ -1,12 +1,12 @@
-import {
-  TableCell,
-  TableRow,
-} from "@/shared/components/ui/table";
+import { TableCell, TableRow } from "@/shared/components/ui/table";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { FaEdit, FaEye } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
-import { DataExtractedPdfProps, DataPdfProps } from "@/shared/contexts/UploadPdfContext";
+import {
+  DataExtractedPdfProps,
+  DataPdfProps,
+} from "@/shared/contexts/UploadPdfContext";
 import { Dispatch, SetStateAction } from "react";
 
 interface TableDefaultViewProps {
@@ -28,6 +28,7 @@ export function TableDefaultView({
   setFormDataByPage,
   openDialogDeleteDataPdf,
 }: TableDefaultViewProps) {
+  const filteredPages = pdf?.__filteredPages?.[0];
 
   return (
     <>
@@ -50,9 +51,11 @@ export function TableDefaultView({
           }}
           className="font-semibold p-2 border"
         >
-          {`${pdf?.pages[0]?.collaborator?.toUpperCase()} ${
-            pdf?.pages?.length > 1 ? "(...)" : ""
-          }`}
+          {`${
+            filteredPages
+              ? filteredPages?.collaborator?.toUpperCase()
+              : pdf?.pages?.[0]?.collaborator?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
@@ -62,9 +65,11 @@ export function TableDefaultView({
           }}
           className="font-semibold p-2 border"
         >
-          {`${pdf?.pages[0]?.inc_req?.toUpperCase()} ${
-            pdf?.pages?.length > 1 ? "(...)" : ""
-          }`}
+          {`${
+            filteredPages
+              ? filteredPages?.registration?.toUpperCase()
+              : pdf?.pages?.[0]?.registration?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
@@ -74,9 +79,13 @@ export function TableDefaultView({
           }}
           className="font-semibold p-2 border"
         >
-          {`${pdf?.pages[0]?.patrimony?.toUpperCase()} ${
-            pdf?.pages?.length > 1 ? "(...)" : ""
-          }`}
+          {`${
+            filteredPages
+              ? filteredPages?.inc_req?.toUpperCase()
+              : pdf?.pages?.[0]?.inc_req?.toUpperCase()
+              ? "Campo não preenchido"
+              : "Campo não preenchido"
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
@@ -86,7 +95,21 @@ export function TableDefaultView({
           }}
           className="font-semibold p-2 border"
         >
-          {pdf?.pages?.length} {/* busca o último pageNumber */}
+          {`${
+            filteredPages
+              ? filteredPages?.patrimony?.toUpperCase()
+              : pdf?.pages?.[0]?.patrimony?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {pdf?.pages?.length}
         </TableCell>
         <TableCell
           onClick={() => {

@@ -25,6 +25,7 @@ import { TableDefaultView } from "./TableDefaultView";
 const tableHeaders = [
   "Arquivo",
   "Colaborador",
+  "Matrícula",
   "Incidente/Requisição",
   "Patrimônio",
   "Qtd. Páginas",
