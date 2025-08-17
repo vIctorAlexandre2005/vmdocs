@@ -10,9 +10,14 @@ import { stringifyObject } from "@/shared/utils/stringIfObject";
 
 export function useTable() {
   const { dataPdf, pdfUrl, setPdfUrl } = useUploadPdfContext();
-  const { filteredData, setFilteredData } = useTableDashboardContext();
+  const { filteredData, setFilteredData, detailedView, setDetailedView } =
+    useTableDashboardContext();
   const [valueFilter, setValueFilter] = useState("");
   const [debouncedFilter, setDebouncedFilter] = useState(valueFilter);
+
+  function toggleDetailedView() {
+    setDetailedView(!detailedView);
+  }
 
   // debounce → espera 300ms após digitação
   useEffect(() => {
@@ -61,18 +66,18 @@ export function useTable() {
   }, [dataPdf, debouncedFilter]);
 
   // memoiza lista filtrada
-  const filtered = useMemo(() => {
+  /* const filtered = useMemo(() => {
     if (!debouncedFilter) return dataPdf;
     const search = debouncedFilter.toLowerCase();
     return dataPdf.filter((item) =>
       stringifyObject(item).toLowerCase().includes(search)
     );
-  }, [dataPdf, debouncedFilter]);
+  }, [dataPdf, debouncedFilter]); */
 
   // sincroniza com contexto
   useEffect(() => {
     setFilteredData(filtered1 as DataPdfProps[]);
-  }, [filtered, filtered1, setFilteredData]);
+  }, [/* filtered, */ filtered1, setFilteredData]);
 
   function convertBase64ToPdf(pdf_file: string) {
     const byteCharacters = atob(pdf_file);
@@ -136,6 +141,8 @@ export function useTable() {
     setFilteredData,
     valueFilter,
     setValueFilter,
-    filtered,
+    //filtered,
+    detailedView,
+    toggleDetailedView,
   };
 }
