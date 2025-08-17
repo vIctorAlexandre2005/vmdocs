@@ -83,8 +83,8 @@ export function TableDefaultView({
             filteredPages
               ? filteredPages?.inc_req?.toUpperCase()
               : pdf?.pages?.[0]?.inc_req?.toUpperCase()
-              ? "Campo não preenchido"
-              : "Campo não preenchido"
+              ? pdf?.pages?.[0]?.inc_req?.toUpperCase()
+              : "VAZIO"
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
