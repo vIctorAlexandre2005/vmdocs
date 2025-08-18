@@ -91,6 +91,7 @@ export function TableWithData() {
                         pdf={pdf}
                         setFormDataByPage={setFormDataByPage}
                         selectedPdf={selectedPdf}
+                        isLoadingForOperation={isLoading}
                         deleteDataPdf={deleteDataPdf}
                         openDialogDeleteDataPdf={openDialogDeleteDataPdf}
                         setOpenDialogDeleteDataPdf={setOpenDialogDeleteDataPdf}
@@ -109,6 +110,7 @@ export function TableWithData() {
                       deleteDataPdf={deleteDataPdf}
                       page={pdf.pages[0]}
                       selectedPdf={selectedPdf}
+                      isLoadingForOperation={isLoading}
                       openDialogDeleteDataPdf={openDialogDeleteDataPdf}
                       setOpenDialogDeleteDataPdf={setOpenDialogDeleteDataPdf}
                       setOpenDialogViewPdf={setOpenDialogViewPdf}

@@ -17,6 +17,7 @@ export interface TableViewProps {
   setSelectedPdf: React.Dispatch<React.SetStateAction<DataPdfProps | null>>;
   setFormDataByPage: Dispatch<SetStateAction<DataExtractedPdfProps[]>>;
   setOpenDialogViewPdf: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoadingForOperation?: boolean;
   setOpenDialogDeleteDataPdf: React.Dispatch<React.SetStateAction<boolean>>;
   deleteDataPdf: (id: number) => Promise<void>;
   openDialogDeleteDataPdf: boolean;
@@ -30,6 +31,7 @@ export function TableDetaildView({
   setOpenDialogViewPdf,
   setOpenDialogDeleteDataPdf,
   deleteDataPdf,
+  isLoadingForOperation,
   openDialogDeleteDataPdf,
 }: TableViewProps) {
   const { setFormDataByPage } = useUploadPdfContext();
@@ -149,11 +151,11 @@ export function TableDetaildView({
             textButtonCancel="Cancelar"
             textButtonConfirm="Sim, excluir"
             isDelete={true}
+            loadingFallbackButton={isLoadingForOperation}
             open={openDialogDeleteDataPdf}
             onOpenChange={setOpenDialogDeleteDataPdf}
             onClick={() => {
               deleteDataPdf(selectedPdf?.id as number);
-              setOpenDialogDeleteDataPdf(false);
             }}
             title="Deseja excluir os dados deste termo?"
             classNameTrigger="font-semibold cursor-pointer flex gap-1 items-center text-red-500"

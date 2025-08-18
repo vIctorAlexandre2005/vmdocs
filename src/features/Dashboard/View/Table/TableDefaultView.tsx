@@ -154,16 +154,14 @@ export function TableDefaultView({
             textButtonCancel="Cancelar"
             textButtonConfirm="Sim, excluir"
             isDelete={true}
+            loadingFallbackButton={isLoadingForOperation}
             open={openDialogDeleteDataPdf}
             onOpenChange={setOpenDialogDeleteDataPdf}
             onTriggerClick={(e: any) => {
               e.stopPropagation();
               setSelectedPdf(pdf);
             }}
-            onClick={() => {
-              deleteDataPdf(selectedPdf?.id as number);
-              setOpenDialogDeleteDataPdf(false);
-            }}
+            onClick={() => deleteDataPdf(selectedPdf?.id as number)}
             title="Deseja excluir os dados deste termo?"
             classNameTrigger="font-semibold cursor-pointer flex gap-1 items-center text-red-500"
           />
