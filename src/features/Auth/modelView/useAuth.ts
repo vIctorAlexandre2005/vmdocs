@@ -9,7 +9,8 @@ import { useRouter } from "next/router";
 import { errorToast, successToast } from "@/shared/utils/toasts";
 
 export function useAuth() {
-  const { user, setUser, token, setToken } = useUserContext();
+  const { user, setUser, token, setToken, loadUser, setLoadUser } =
+    useUserContext();
   const router = useRouter();
   const [userNameLogin, setUserNameLogin] = useState<string>("");
   const [passwordLogin, setPasswordLogin] = useState<string>("");
@@ -21,7 +22,6 @@ export function useAuth() {
   const [loadingSendRequestRegister, setLoadingSendRequestRegister] =
     useState(false);
 
-  const [loadUser, setLoadUser] = useState(false);
   const [errorLoadingUser, setErrorLoadingUser] = useState(false);
 
   async function handleLogin(login: string, password: string) {
@@ -87,16 +87,13 @@ export function useAuth() {
     try {
       const response = await getMyUserService(token);
       setUser(response);
+      console.log(response);
     } catch (error) {
       setErrorLoadingUser(true);
     } finally {
       setLoadUser(false);
     }
   }
-
-  useEffect(() => {
-    getUserMe();
-  }, [token]);
 
   function handleLogout() {
     localStorage.removeItem("user");
@@ -133,6 +130,6 @@ export function useAuth() {
     setLoadUser,
     getUserMe,
     errorLoadingUser,
-    token
+    token,
   };
 }

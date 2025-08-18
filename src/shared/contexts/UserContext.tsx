@@ -18,6 +18,9 @@ type UserContextType = {
 
   token: string | null;
   setToken: Dispatch<React.SetStateAction<string | null>>;
+
+  loadUser: boolean;
+  setLoadUser: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -25,6 +28,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserData | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loadUser, setLoadUser] = useState(false);
 
   const router = useRouter();
 
@@ -44,6 +48,8 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
         setUser,
         token,
         setToken,
+        loadUser,
+        setLoadUser,
       }}
     >
       {children}

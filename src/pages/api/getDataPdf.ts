@@ -9,13 +9,14 @@ export default async function handler(
 
   try {
     const response = await axios.get(
-      //`${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`, 
-      `${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data`,
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`,
+      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data`,
       {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     res.status(200).json(response.data);
   } catch (error: any) {
     const status = error?.response?.status || 500;

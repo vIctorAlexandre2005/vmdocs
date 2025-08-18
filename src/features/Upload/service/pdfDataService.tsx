@@ -15,8 +15,8 @@ export async function createPdf(
   console.log("Payload em pdfDataService: ", payload);
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data`,
-      //`${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`,
+      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data`,
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`,
       payload,
       {
         headers: {
