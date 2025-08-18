@@ -7,7 +7,7 @@ import {
 import { useUserContext } from "@/shared/contexts/UserContext";
 
 export function useViewDoc() {
-  const { user } = useUserContext();
+  const { token } = useUserContext();
   const {
     fileName,
     setFileName,
@@ -25,7 +25,9 @@ export function useViewDoc() {
     setLoadingReaderPdf,
     formDataByPage,
     setFormDataByPage,
-    updateField
+    updateField,
+    errorExtractDataPdf,
+    setErrorExtractDataPdf
   } = useUploadPdfContext();
 
   const [expand, setExpand] = useState<number | null>(null);
@@ -50,7 +52,7 @@ export function useViewDoc() {
     setOpenDialogViewPdf(true);
     setLoadingReaderPdf(true);
     try {
-      const response = await extractPdf(user, formData);
+      const response = await extractPdf(token, formData);
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);
@@ -68,6 +70,7 @@ export function useViewDoc() {
         reader.readAsDataURL(file);
       }
     } catch (error) {
+      setErrorExtractDataPdf(true);
       console.error("Failed to extract PDF:", error);
     } finally {
       setLoadingReaderPdf(false);
@@ -107,5 +110,6 @@ export function useViewDoc() {
     updateField,
     formDataByPage,
     setFormDataByPage,
+    errorExtractDataPdf,
   };
 }

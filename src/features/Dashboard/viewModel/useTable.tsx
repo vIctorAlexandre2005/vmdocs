@@ -4,9 +4,67 @@ import {
 } from "@/shared/contexts/UploadPdfContext";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { useEffect, useMemo, useState } from "react";
+import { useTableDashboardContext } from "@/shared/contexts/TableDashboard";
+import { stringifyObject } from "@/shared/utils/stringIfObject";
 
 export function useTable() {
   const { dataPdf, pdfUrl, setPdfUrl } = useUploadPdfContext();
+  const { filteredData, setFilteredData, detailedView, setDetailedView } =
+    useTableDashboardContext();
+  const [valueFilter, setValueFilter] = useState("");
+  const [debouncedFilter, setDebouncedFilter] = useState(valueFilter);
+
+  function toggleDetailedView() {
+    setDetailedView(!detailedView);
+  }
+
+  // debounce → espera 300ms após digitação
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedFilter(valueFilter);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [valueFilter]);
+
+  const filtered1 = useMemo(() => {
+    if (!debouncedFilter) return dataPdf;
+
+    const search = debouncedFilter.toLowerCase();
+
+    return dataPdf
+      .map((pdf) => {
+        // filtra páginas que batem
+        const filteredPages = pdf.pages.filter((page) =>
+          stringifyObject(page).toLowerCase().includes(search)
+        );
+
+        // match no PDF em si
+        const pdfMatches = stringifyObject({
+          ...pdf,
+          pages: undefined, // ignora páginas aqui
+        })
+          .toLowerCase()
+          .includes(search);
+
+        if (pdfMatches) {
+          return { ...pdf, __filteredPages: pdf.pages }; // exibe todas
+        }
+
+        if (filteredPages.length > 0) {
+          return { ...pdf, __filteredPages: filteredPages }; // só exibe filtradas
+        }
+
+        return null;
+      })
+      .filter(Boolean);
+  }, [dataPdf, debouncedFilter]);
+
+  // sincroniza com contexto
+  useEffect(() => {
+    setFilteredData(filtered1 as DataPdfProps[]);
+  }, [/* filtered, */ filtered1, setFilteredData]);
 
   function convertBase64ToPdf(pdf_file: string) {
     const byteCharacters = atob(pdf_file);
@@ -22,17 +80,15 @@ export function useTable() {
   }
 
   function exportDataExcel(tableData: DataPdfProps[]) {
-    const exportData = tableData.flatMap(
-      ({ file_name, pages, last_change, created_at }) =>
-        pages.map((page) => ({
-          "Nome do arquivo": file_name,
-          "Colaborador": page.collaborator,
-          "Incidente/Requisição": page.inc_req,
-          "Matrícula": page.registration,
-          "Patrimônio": page.patrimony,
-          "Data de criação": created_at,
-          "Última alteração": last_change,
-        }))
+    const exportData = tableData.flatMap(({ file_name, pages, created_at }) =>
+      pages.map((page) => ({
+        "Nome do arquivo": file_name,
+        Colaborador: page.collaborator,
+        "Incidente/Requisição": page.inc_req,
+        Matrícula: page.registration,
+        Patrimônio: page.patrimony,
+        "Data de criação": created_at,
+      }))
     );
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -61,5 +117,17 @@ export function useTable() {
     saveAs(blob, "termos.xlsx");
   }
 
-  return { dataPdf, pdfUrl, convertBase64ToPdf, exportDataExcel };
+  return {
+    dataPdf,
+    pdfUrl,
+    convertBase64ToPdf,
+    exportDataExcel,
+    filteredData,
+    setFilteredData,
+    valueFilter,
+    setValueFilter,
+    //filtered,
+    detailedView,
+    toggleDetailedView,
+  };
 }

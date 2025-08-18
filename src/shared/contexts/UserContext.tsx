@@ -1,22 +1,41 @@
 import { useRouter } from "next/router";
-import { createContext, Dispatch, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
+interface UserData {
+  userName: string;
+}
 
 type UserContextType = {
-  user: string | null;
-  setUser: Dispatch<React.SetStateAction<string | null>>;
+  user: UserData | null;
+  setUser: Dispatch<React.SetStateAction<UserData | null>>;
+
+  token: string | null;
+  setToken: Dispatch<React.SetStateAction<string | null>>;
+
+  loadUser: boolean;
+  setLoadUser: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserContextProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<UserData | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [loadUser, setLoadUser] = useState(false);
 
   const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("user");
     if (token) {
-      setUser(token);
+      setToken(token);
     } else if (!["/auth/login", "/auth/register"].includes(router.pathname)) {
       router.push("/auth/login");
     }
@@ -27,6 +46,10 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         setUser,
+        token,
+        setToken,
+        loadUser,
+        setLoadUser,
       }}
     >
       {children}

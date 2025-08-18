@@ -8,10 +8,14 @@ export default async function handler(
   const { login, confirmPassword } = req.body;
 
   try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
-      login: login,
-      password: confirmPassword,
-    });
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/register`,
+      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/register`,
+      {
+        login: login,
+        password: confirmPassword,
+      }
+    );
     res.status(200).json(response.data);
   } catch (error: any) {
     res.status(500).json({ error: "Failed to extract PDF: " + error.message });

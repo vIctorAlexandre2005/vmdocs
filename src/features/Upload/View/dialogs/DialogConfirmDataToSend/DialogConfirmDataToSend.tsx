@@ -6,6 +6,8 @@ import { ViewPdfInDialog } from "./ViewPdfInDialog";
 import { FormDataPdf } from "./FormDataPdf";
 import { Loader } from "@/shared/components/Loader";
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
+import { MdCancel, MdOutlineCancel } from "react-icons/md";
+import { ButtonComponent } from "@/shared/components/ButtonComponent";
 
 export function DialogConfirmDataToSend() {
   const {
@@ -20,6 +22,7 @@ export function DialogConfirmDataToSend() {
     expandPageData,
     formDataByPage,
     updateField,
+    errorExtractDataPdf
   } = useViewDoc();
   //const { pdfUrl } = useUploadPdfContext();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
@@ -34,9 +37,15 @@ export function DialogConfirmDataToSend() {
       onClick={() => createDataPdf(fileName || "", formDataByPage)}
       textButtonCancel="Fechar"
       textButtonConfirm="Enviar"
-      loadingShowButton={loadingReaderPdf}
+      loadingShowButton={loadingReaderPdf || errorExtractDataPdf}
       loadingFallbackButton={loadingCreatePdf}
     >
+      {errorExtractDataPdf && (
+          <div className="flex w-full flex-col justify-center items-center">
+            <MdCancel  color="#f80a0a" size={64} />
+            <h1 className="text-center font-semibold text-xl">Oops! Não foi possível processar o arquivo enviado</h1>
+          </div>
+        )}
       <div className="flex items-center justify-around gap-4">
         {loadingReaderPdf ? (
           <div className="flex justify-center items-center">

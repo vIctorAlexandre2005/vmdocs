@@ -23,6 +23,7 @@ export interface DataPdfProps {
   created_at: string;
   last_change: string;
   pdf_file: string;
+  __filteredPages: DataExtractedPdfProps[];
 }
 
 type UploadPdfContextType = {
@@ -54,6 +55,9 @@ type UploadPdfContextType = {
   formDataByPage: DataExtractedPdfProps[];
   setFormDataByPage: Dispatch<SetStateAction<DataExtractedPdfProps[]>>;
 
+  errorExtractDataPdf: boolean;
+  setErrorExtractDataPdf: Dispatch<SetStateAction<boolean>>;
+
   updateField: (
     pageIdx: number,
     field: keyof DataExtractedPdfProps,
@@ -83,6 +87,8 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
   const [formDataByPage, setFormDataByPage] = useState<DataExtractedPdfProps[]>(
     []
   );
+
+  const [errorExtractDataPdf, setErrorExtractDataPdf] = useState(false);
 
   function updateField(
     pageIdx: number,
@@ -119,7 +125,9 @@ export function UploadPdfProvider({ children }: { children: ReactNode }) {
         setSelectedPdfExtracted,
         formDataByPage,
         setFormDataByPage,
-        updateField
+        updateField,
+        errorExtractDataPdf,
+        setErrorExtractDataPdf
       }}
     >
       {children}

@@ -10,7 +10,7 @@ export default async function handler(
   try {
     const response = await axios.put(
       `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data/${id}`,
-      /* `http://localhost:8080/api/v1/pdf/data/${id}`, */
+      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data/${id}`,
       payload,
       {
         headers: {
