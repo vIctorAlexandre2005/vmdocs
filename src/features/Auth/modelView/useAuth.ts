@@ -82,7 +82,7 @@ export function useAuth() {
     }
   }
 
-  async function getUserMe() {
+  /* async function getUserMe() {
     setLoadUser(true);
     try {
       const response = await getMyUserService(token);
@@ -93,7 +93,7 @@ export function useAuth() {
     } finally {
       setLoadUser(false);
     }
-  }
+  } */
 
   function handleLogout() {
     localStorage.removeItem("user");
@@ -128,7 +128,7 @@ export function useAuth() {
 
     loadUser,
     setLoadUser,
-    getUserMe,
+    //getUserMe,
     errorLoadingUser,
     token,
   };

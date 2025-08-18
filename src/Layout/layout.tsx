@@ -11,7 +11,7 @@ import { errorToast } from "@/shared/utils/toasts";
 
 export default function LayoutApp({ children }: { children: React.ReactNode }) {
   const { user, setUser, setToken, token, loadUser } = useUserContext();
-  const { getUserMe } = useAuth();
+  //const { getUserMe } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -24,40 +24,36 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (token) {
       getUserMe();
     }
-  }, [token]);
+  }, [token]); */
 
   const pageAuth = !["/auth/login", "/auth/register"].includes(router.pathname);
 
-  if (loadUser) {
+  /* if (loadUser) {
     return (
       <div className="top-1/2 left-1/2 fixed transform flex flex-col gap-12 -translate-x-1/2 -translate-y-1/2">
         <PulseLoader size={16} color="#4636f5" />
       </div>
     );
-  }
+  } */
 
   // se a rota for de login/register, mostra o conteúdo normalmente
   if (!pageAuth) {
     return <>{children}</>;
   }
 
-  if (user && !loadUser) {
-    return (
-      <div className="w-full h-screen overflow-hidden">
-        <div className="flex h-full">
-          {pageAuth && <Sidebar />}
-          <div className="flex-1 h-full">
-            {pageAuth && <Header />}
-            <Main>{children}</Main>
-          </div>
+  return (
+    <div className="w-full h-screen overflow-hidden">
+      <div className="flex h-full">
+        {pageAuth && <Sidebar />}
+        <div className="flex-1 h-full">
+          {pageAuth && <Header />}
+          <Main>{children}</Main>
         </div>
       </div>
-    );
-  }
-
-  return null; // fallback seguro
+    </div>
+  );
 }
