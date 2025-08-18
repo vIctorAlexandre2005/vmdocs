@@ -6,13 +6,16 @@ import {
   DataPdfProps,
   useUploadPdfContext,
 } from "@/shared/contexts/UploadPdfContext";
+import { Dispatch, SetStateAction } from "react";
 import { FaEye } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
 
-interface DetaildViewProps {
+export interface TableViewProps {
   pdf: DataPdfProps;
   page: DataExtractedPdfProps;
+  selectedPdf: DataPdfProps | null;
   setSelectedPdf: React.Dispatch<React.SetStateAction<DataPdfProps | null>>;
+  setFormDataByPage: Dispatch<SetStateAction<DataExtractedPdfProps[]>>;
   setOpenDialogViewPdf: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDialogDeleteDataPdf: React.Dispatch<React.SetStateAction<boolean>>;
   deleteDataPdf: (id: number) => Promise<void>;
@@ -22,12 +25,13 @@ interface DetaildViewProps {
 export function TableDetaildView({
   pdf,
   page,
+  selectedPdf,
   setSelectedPdf,
   setOpenDialogViewPdf,
   setOpenDialogDeleteDataPdf,
   deleteDataPdf,
   openDialogDeleteDataPdf,
-}: DetaildViewProps) {
+}: TableViewProps) {
   const { setFormDataByPage } = useUploadPdfContext();
   const filteredPages = pdf?.__filteredPages?.[0];
   return (
@@ -148,7 +152,7 @@ export function TableDetaildView({
             open={openDialogDeleteDataPdf}
             onOpenChange={setOpenDialogDeleteDataPdf}
             onClick={() => {
-              deleteDataPdf(pdf?.id as number);
+              deleteDataPdf(selectedPdf?.id as number);
               setOpenDialogDeleteDataPdf(false);
             }}
             title="Deseja excluir os dados deste termo?"

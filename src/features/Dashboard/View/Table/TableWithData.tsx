@@ -89,6 +89,8 @@ export function TableWithData() {
                       <TableDetaildView
                         page={page}
                         pdf={pdf}
+                        setFormDataByPage={setFormDataByPage}
+                        selectedPdf={selectedPdf}
                         deleteDataPdf={deleteDataPdf}
                         openDialogDeleteDataPdf={openDialogDeleteDataPdf}
                         setOpenDialogDeleteDataPdf={setOpenDialogDeleteDataPdf}
@@ -105,6 +107,8 @@ export function TableWithData() {
                   <>
                     <TableDefaultView
                       deleteDataPdf={deleteDataPdf}
+                      page={pdf.pages[0]}
+                      selectedPdf={selectedPdf}
                       openDialogDeleteDataPdf={openDialogDeleteDataPdf}
                       setOpenDialogDeleteDataPdf={setOpenDialogDeleteDataPdf}
                       setOpenDialogViewPdf={setOpenDialogViewPdf}

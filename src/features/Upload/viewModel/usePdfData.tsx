@@ -145,8 +145,11 @@ export function usePdfData() {
         };
         try {
           await updateDataPdfService(token, id, payload);
-          setDataPdf((prev) => prev?.map((item) => item.id === id ? 
-            { ...item, ...payload } : item));
+          setDataPdf((prev) =>
+            prev?.map((item) =>
+              item.id === id ? { ...item, ...payload } : item
+            )
+          );
           successToast("Atualizado com sucesso!");
         } catch (error) {
           errorToast("Erro ao atualizar!");
@@ -163,18 +166,19 @@ export function usePdfData() {
   }
 
   async function deleteDataPdf(id: number) {
-    console.log("id: ", id);
     setLoadingDeleteDataPdf(true);
-    try {
-      await deleteDataPdfService(token, id);
-      setDataPdf(dataPdf?.filter((item) => item.id !== id));
-      successToast("Deletado com sucesso!");
-    } catch (error) {
-      errorToast("Erro ao deletar!");
-      console.error("Failed to delete PDF data:", error);
-    } finally {
-      setLoadingDeleteDataPdf(false);
-    }
+    await execute(async () => {
+      try {
+        await deleteDataPdfService(token, id);
+        setDataPdf(dataPdf?.filter((item) => item.id !== id));
+        successToast("Deletado com sucesso!");
+      } catch (error) {
+        errorToast("Erro ao deletar!");
+        console.error("Failed to delete PDF data:", error);
+      } finally {
+        setLoadingDeleteDataPdf(false);
+      }
+    });
   }
 
   return {
