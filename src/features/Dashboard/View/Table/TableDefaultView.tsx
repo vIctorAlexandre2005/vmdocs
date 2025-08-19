@@ -9,13 +9,16 @@ import {
 } from "@/shared/contexts/UploadPdfContext";
 import { Dispatch, SetStateAction } from "react";
 
-interface TableDefaultViewProps {
+export interface TableDefaultViewProps {
   pdf: DataPdfProps;
+  page: DataExtractedPdfProps;
+  selectedPdf: DataPdfProps | null;
   setSelectedPdf: React.Dispatch<React.SetStateAction<DataPdfProps | null>>;
   setFormDataByPage: Dispatch<SetStateAction<DataExtractedPdfProps[]>>;
   setOpenDialogViewPdf: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDialogDeleteDataPdf: React.Dispatch<React.SetStateAction<boolean>>;
   deleteDataPdf: (id: number) => Promise<void>;
+  isLoadingForOperation?: boolean;
   openDialogDeleteDataPdf: boolean;
 }
 
@@ -26,6 +29,9 @@ export function TableDefaultView({
   setOpenDialogDeleteDataPdf,
   deleteDataPdf,
   setFormDataByPage,
+  page,
+  isLoadingForOperation,
+  selectedPdf,
   openDialogDeleteDataPdf,
 }: TableDefaultViewProps) {
   const filteredPages = pdf?.__filteredPages?.[0];
@@ -148,12 +154,14 @@ export function TableDefaultView({
             textButtonCancel="Cancelar"
             textButtonConfirm="Sim, excluir"
             isDelete={true}
+            loadingFallbackButton={isLoadingForOperation}
             open={openDialogDeleteDataPdf}
             onOpenChange={setOpenDialogDeleteDataPdf}
-            onClick={() => {
-              deleteDataPdf(pdf?.id as number);
-              setOpenDialogDeleteDataPdf(false);
+            onTriggerClick={(e: any) => {
+              e.stopPropagation();
+              setSelectedPdf(pdf);
             }}
+            onClick={() => deleteDataPdf(selectedPdf?.id as number)}
             title="Deseja excluir os dados deste termo?"
             classNameTrigger="font-semibold cursor-pointer flex gap-1 items-center text-red-500"
           />

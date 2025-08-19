@@ -6,14 +6,18 @@ import {
   DataPdfProps,
   useUploadPdfContext,
 } from "@/shared/contexts/UploadPdfContext";
+import { Dispatch, SetStateAction } from "react";
 import { FaEye } from "react-icons/fa";
 import { TbTrash } from "react-icons/tb";
 
-interface DetaildViewProps {
+export interface TableViewProps {
   pdf: DataPdfProps;
   page: DataExtractedPdfProps;
+  selectedPdf: DataPdfProps | null;
   setSelectedPdf: React.Dispatch<React.SetStateAction<DataPdfProps | null>>;
+  setFormDataByPage: Dispatch<SetStateAction<DataExtractedPdfProps[]>>;
   setOpenDialogViewPdf: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoadingForOperation?: boolean;
   setOpenDialogDeleteDataPdf: React.Dispatch<React.SetStateAction<boolean>>;
   deleteDataPdf: (id: number) => Promise<void>;
   openDialogDeleteDataPdf: boolean;
@@ -22,12 +26,14 @@ interface DetaildViewProps {
 export function TableDetaildView({
   pdf,
   page,
+  selectedPdf,
   setSelectedPdf,
   setOpenDialogViewPdf,
   setOpenDialogDeleteDataPdf,
   deleteDataPdf,
+  isLoadingForOperation,
   openDialogDeleteDataPdf,
-}: DetaildViewProps) {
+}: TableViewProps) {
   const { setFormDataByPage } = useUploadPdfContext();
   const filteredPages = pdf?.__filteredPages?.[0];
   return (
@@ -145,11 +151,11 @@ export function TableDetaildView({
             textButtonCancel="Cancelar"
             textButtonConfirm="Sim, excluir"
             isDelete={true}
+            loadingFallbackButton={isLoadingForOperation}
             open={openDialogDeleteDataPdf}
             onOpenChange={setOpenDialogDeleteDataPdf}
             onClick={() => {
-              deleteDataPdf(pdf?.id as number);
-              setOpenDialogDeleteDataPdf(false);
+              deleteDataPdf(selectedPdf?.id as number);
             }}
             title="Deseja excluir os dados deste termo?"
             classNameTrigger="font-semibold cursor-pointer flex gap-1 items-center text-red-500"

@@ -21,6 +21,7 @@ interface DialogComponentProps {
   className?: string;
   isDelete?: boolean;
   onClick?: () => void;
+  onTriggerClick?: (e: any) => void;
   textButtonConfirm?: string;
   textButtonCancel?: string;
   loadingShowButton?: boolean;
@@ -39,6 +40,7 @@ export function DialogComponent({
   iconTriggerLeft,
   textTrigger,
   className,
+  onTriggerClick,
   isDelete,
   onClick,
   textButtonCancel,
@@ -58,13 +60,13 @@ export function DialogComponent({
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger className={classNameTrigger}>
+      <DialogTrigger onClick={onTriggerClick} className={classNameTrigger}>
         {iconTriggerLeft} {textTrigger}
       </DialogTrigger>
 
       <DialogContent
         className={`bg-slate-50 text-slate-900 ${
-          isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:max-w-11/12 overflow-auto"
+          isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:max-h-[calc(100vh-120px)] sm:max-w-11/12 overflow-auto"
         }`}
       >
         <DialogHeader className="text-slate-900 text-center text-lg font-bold">
