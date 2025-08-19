@@ -66,7 +66,7 @@ export function DialogComponent({
 
       <DialogContent
         className={`bg-slate-50 text-slate-900 ${
-          isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:max-w-11/12 overflow-auto"
+          isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:max-h-[calc(100vh-120px)] sm:max-w-11/12 overflow-auto"
         }`}
       >
         <DialogHeader className="text-slate-900 text-center text-lg font-bold">
