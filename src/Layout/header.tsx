@@ -12,11 +12,14 @@ export function Header() {
   const [openPopoverConfig, setOpenPopoverConfig] = useState(false);
   return (
     <div className="border-b w-full p-4 flex justify-between items-center bg-slate-50">
-      <h1 className="font-bold text-2xl text-slate-800  border-gray-200">
-        Bem-vindo ao VMDocs, {user?.userName}
-      </h1>
-
-      <div className="">
+      <div className="flex gap-2 items-center">
+        <h1 className="font-bold text-xl text-slate-800  border-gray-200">
+          Bem-vindo,
+        </h1>
+        <h1 className="font-bold text-xl text-indigo-500  border-gray-200">
+          {user?.userName} 👋
+        </h1>
+      </div>
         <PopoverComponent
           open={openPopoverConfig}
           onOpenChange={setOpenPopoverConfig}
@@ -32,6 +35,5 @@ export function Header() {
           />
         </PopoverComponent>
       </div>
-    </div>
   );
 }
