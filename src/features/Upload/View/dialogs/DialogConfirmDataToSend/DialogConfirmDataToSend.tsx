@@ -8,6 +8,7 @@ import { Loader } from "@/shared/components/Loader";
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 import { MdCancel, MdOutlineCancel } from "react-icons/md";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
+import { PuffLoader } from "react-spinners";
 
 export function DialogConfirmDataToSend() {
   const {
@@ -47,7 +48,7 @@ export function DialogConfirmDataToSend() {
       <div className="flex items-center justify-around gap-4">
         {loadingReaderPdf ? (
           <div className="flex justify-center items-center">
-            <Loader />
+            <Loader loaderIcon={<PuffLoader size={50} color="#3b82f6" />} />
           </div>
         ) : (
           <>

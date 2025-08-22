@@ -5,6 +5,7 @@ import { Sidebar } from "./sidebar";
 import { useUserContext } from "@/shared/contexts/UserContext";
 import { useEffect } from "react";
 import { Loader } from "@/shared/components/Loader";
+import { PuffLoader } from "react-spinners";
 
 export default function LayoutApp({ children }: { children: React.ReactNode }) {
   const { user, setUser, setToken, token, loadUser, getUserMe } = useUserContext();
@@ -32,7 +33,7 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   if (loadUser) {
     return (
       <div className="top-1/2 left-1/2 fixed transform flex flex-col gap-12 -translate-x-1/2 -translate-y-1/2">
-        <Loader />
+        <Loader loaderIcon={<PuffLoader size={50} color="#3b82f6" />} />
       </div>
     );
   }
