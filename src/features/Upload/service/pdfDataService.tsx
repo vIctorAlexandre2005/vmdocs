@@ -23,10 +23,9 @@ export async function createPdf(
         },
       }
     );
-    console.log("Response em pdfDataService: ", response);
     return response;
   } catch (error: any) {
-    console.error("Failed to extract PDF: " + error.message);
+    throw new Error(error);
   }
 }
 
@@ -48,7 +47,6 @@ export async function updateDataPdfService(
     });
     return response.data;
   } catch (error: any) {
-    console.error("Failed to extract PDF: " + error.message);
     throw new Error(error.message);
   }
 }
@@ -61,7 +59,6 @@ export async function deleteDataPdfService(token: string | null, id: number) {
     });
     return response;
   } catch (error: any) {
-    console.error("Failed to extract PDF: " + error.message);
     throw new Error(error.message);
   }
 }

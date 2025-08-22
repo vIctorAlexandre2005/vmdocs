@@ -27,8 +27,6 @@ export function DialogConfirmDataToSend() {
   //const { pdfUrl } = useUploadPdfContext();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
 
-  console.log("pdfUrl do useViewDoc: ", pdfUrl);
-
   return (
     <DialogComponent
       open={openDialogViewPdf}

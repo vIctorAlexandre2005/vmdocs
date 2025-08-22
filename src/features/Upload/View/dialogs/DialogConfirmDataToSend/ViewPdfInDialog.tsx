@@ -1,5 +1,4 @@
 export function ViewPdfInDialog({ pdfUrl }: { pdfUrl: string | null }) {
-  console.log("pdfUrl: ", pdfUrl);
   return (
     <div className="w-full">
       {pdfUrl && (

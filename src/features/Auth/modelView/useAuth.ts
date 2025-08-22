@@ -106,7 +106,6 @@ export function useAuth() {
       router.push("/auth/login");
     } catch (error: any) {
       setErrorRegister(`${error}`);
-      console.error(error);
       errorToast(error);
     } finally {
       /* setFull_Name("");

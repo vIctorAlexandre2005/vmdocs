@@ -53,7 +53,6 @@ export function DialogComponent({
 }: DialogComponentProps) {
   async function handleConfirm() {
     const result: any = await onClick?.();
-    console.log(result);
     if (result?.success) {
       onOpenChange?.(false);
     }

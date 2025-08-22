@@ -16,12 +16,13 @@ export default async function handler(
         login: login,
         full_name: full_name,
         email: email,
-        password: password
+        password: password,
       }
     );
     res.status(200).json(response.data);
   } catch (error: any) {
-    console.error(error?.response?.data?.message);
-    res.status(error?.response?.data?.status).json({ error: error?.response?.data?.message });
+    res
+      .status(error?.response?.data?.status)
+      .json({ error: error?.response?.data?.message });
   }
 }
