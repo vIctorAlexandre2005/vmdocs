@@ -1,5 +1,6 @@
 import { errorToast } from "@/shared/utils/toasts";
 import axios from "axios";
+import { DataRegisterProps } from "../modelView/useAuth";
 
 export async function loginService(login: string, password: string) {
   if (login.trim() === "" || password.trim() === "") {
@@ -18,11 +19,13 @@ export async function loginService(login: string, password: string) {
   }
 }
 
-export async function registerService(
-  login: string,
-  password: string,
-  confirmPassword: string
-) {
+export async function registerService({
+  login,
+  full_name,
+  email,
+  password,
+  confirmPassword,
+}: DataRegisterProps) {
   if (password.trim() !== confirmPassword.trim()) {
     errorToast("Senhas não coincidem!");
     return null;
@@ -40,11 +43,13 @@ export async function registerService(
   try {
     const response = await axios.post("/api/register", {
       login: login,
-      confirmPassword: confirmPassword,
+      full_name: full_name,
+      email: email,
+      password: password,
     });
     return response.data;
   } catch (error: any) {
-    console.error("Failed to login: " + error.message);
+    throw new Error(`${error?.response?.data?.error}`);
   }
 }
 

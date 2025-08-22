@@ -1,3 +1,4 @@
+import { DataRegisterProps } from "@/features/Auth/modelView/useAuth";
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -5,19 +6,22 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { login, confirmPassword } = req.body;
+  const { login, full_name, email, password }: DataRegisterProps = req.body;
 
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/register`,
-      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/register`,
+      //`${process.env.NEXT_PUBLIC_API_URL}/register`,
+      `${process.env.NEXT_PUBLIC_API_URL_LOCAL}/register`,
       {
         login: login,
-        password: confirmPassword,
+        full_name: full_name,
+        email: email,
+        password: password
       }
     );
     res.status(200).json(response.data);
   } catch (error: any) {
-    res.status(500).json({ error: "Failed to extract PDF: " + error.message });
+    console.error(error?.response?.data?.message);
+    res.status(error?.response?.data?.status).json({ error: error?.response?.data?.message });
   }
 }

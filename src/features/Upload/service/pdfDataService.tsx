@@ -12,7 +12,6 @@ export async function createPdf(
   token: string | null,
   payload: PayloadCreatePdf
 ) {
-  console.log("Payload em pdfDataService: ", payload);
   try {
     const response = await axios.post(
       //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data`,
