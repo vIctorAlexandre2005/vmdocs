@@ -96,23 +96,25 @@ export function AuthComponent({
         </header>
 
         <div className="flex justify-center items-center flex-col gap-6">
-          <InputComponent
-            label={"Nome completo"}
-            value={valueFull_Name}
-            onChange={onChangeFull_Name}
-            classNameLabel="text-slate-800 text-sm"
-            placeholder={"Ex: Gabriel de Mello Ferreira"}
-            type="email"
-            className="bg-transparent p-2 text-slate-900 text-sm w-full"
-          />
-          <div className="grid grid-cols-2 gap-4">
+          {typeForm === "register" && (
+            <InputComponent
+              label={"Nome completo"}
+              value={valueFull_Name}
+              onChange={onChangeFull_Name}
+              classNameLabel="text-slate-800 text-sm"
+              placeholder={"Ex: Gabriel de Mello Ferreira"}
+              type="email"
+              className="bg-transparent p-2 text-slate-900 text-sm w-full"
+            />
+          )}
+          <div className={`${typeForm === "register" ? "grid grid-cols-2" : "flex flex-col"} gap-4`}>
             <InputComponent
               label={labelNameUser}
               value={valueNameUser}
               onChange={onChangeNameUser}
               classNameLabel="text-slate-800 text-sm"
               placeholder={placeholderNameUser}
-              className="bg-transparent p-2 text-slate-900 text-sm w-xs"
+              className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
             />
             {typeForm === "register" && (
               <>
@@ -123,7 +125,7 @@ export function AuthComponent({
                   classNameLabel="text-slate-800 text-sm"
                   placeholder={"exemplo@gmail.com"}
                   type="email"
-                  className="bg-transparent p-2 text-slate-900 text-sm w-xs"
+                  className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
                 />
               </>
             )}
@@ -134,7 +136,7 @@ export function AuthComponent({
               classNameLabel="text-slate-800 text-sm"
               placeholder={placeholderPassword}
               type="password"
-              className="bg-transparent p-2 text-slate-900 text-sm w-xs"
+              className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
             />
 
             {typeForm === "register" && (
@@ -145,7 +147,7 @@ export function AuthComponent({
                 classNameLabel="text-slate-800 text-sm"
                 placeholder={placeholderConfirmPassword}
                 type="password"
-                className="bg-transparent p-2 text-slate-900 text-sm w-xs"
+                className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
               />
             )}
             {error && (

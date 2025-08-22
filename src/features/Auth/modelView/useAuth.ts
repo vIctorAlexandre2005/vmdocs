@@ -17,7 +17,7 @@ export interface DataRegisterProps {
 }
 
 export function useAuth() {
-  const { user, setUser, token, setToken, loadUser, setLoadUser } =
+  const { user, setUser, token, setToken, loadUser, setLoadUser, getUserMe, errorLoadingUser, setErrorLoadingUser } =
     useUserContext();
   const router = useRouter();
   const [userNameLogin, setUserNameLogin] = useState<string>("");
@@ -33,8 +33,6 @@ export function useAuth() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [loadingSendRequestRegister, setLoadingSendRequestRegister] =
     useState(false);
-
-  const [errorLoadingUser, setErrorLoadingUser] = useState(false);
 
   async function handleLogin(login: string, password: string) {
     setLoadingSendRequestLogin(true);
@@ -114,18 +112,6 @@ export function useAuth() {
       setPasswordRegister("");
       setConfirmPassword(""); */
       setLoadingSendRequestRegister(false);
-    }
-  }
-
-  async function getUserMe() {
-    setLoadUser(true);
-    try {
-      const response = await getMyUserService(token);
-      setUser(response);
-    } catch (error) {
-      setErrorLoadingUser(true);
-    } finally {
-      setLoadUser(false);
     }
   }
 
