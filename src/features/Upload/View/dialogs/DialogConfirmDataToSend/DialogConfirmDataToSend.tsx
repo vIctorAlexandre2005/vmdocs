@@ -53,7 +53,7 @@ export function DialogConfirmDataToSend() {
         ) : (
           <>
             <ViewPdfInDialog pdfUrl={pdfUrl} />
-            <div className="flex w-full flex-col overflow-auto max-h-[400px] gap-2">
+            <div className="flex w-full flex-col overflow-auto gap-2">
               {dataExtractedPdf?.map((item, idx) => (
                 <FormDataPdf
                   idx={idx}
