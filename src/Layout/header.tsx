@@ -24,7 +24,7 @@ export function Header() {
           open={openPopoverConfig}
           onOpenChange={setOpenPopoverConfig}
           textTrigger="Configurações"
-          classNameTrigger="flex items-center gap-2 cursor-pointer hover:text-slate-500 transition duration-300"
+          classNameTrigger="flex items-center gap-2 cursor-pointer hover:text-slate-800 text-slate-800 transition duration-300"
           iconTriggerLeft={<IoSettingsOutline size={24} />}
         >
           <ButtonComponent
