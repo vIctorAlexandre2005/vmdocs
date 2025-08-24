@@ -8,6 +8,7 @@ import { Loader } from "@/shared/components/Loader";
 import { useUploadPdfContext } from "@/shared/contexts/UploadPdfContext";
 import { MdCancel, MdOutlineCancel } from "react-icons/md";
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
+import { PuffLoader } from "react-spinners";
 
 export function DialogConfirmDataToSend() {
   const {
@@ -26,8 +27,6 @@ export function DialogConfirmDataToSend() {
   } = useViewDoc();
   //const { pdfUrl } = useUploadPdfContext();
   const { createDataPdf, loadingCreatePdf } = usePdfData();
-
-  console.log("pdfUrl do useViewDoc: ", pdfUrl);
 
   return (
     <DialogComponent
@@ -49,12 +48,12 @@ export function DialogConfirmDataToSend() {
       <div className="flex items-center justify-around gap-4">
         {loadingReaderPdf ? (
           <div className="flex justify-center items-center">
-            <Loader />
+            <Loader loaderIcon={<PuffLoader size={50} color="#3b82f6" />} />
           </div>
         ) : (
           <>
             <ViewPdfInDialog pdfUrl={pdfUrl} />
-            <div className="flex w-full flex-col overflow-auto max-h-[400px] gap-2">
+            <div className="flex w-full flex-col overflow-auto gap-2">
               {dataExtractedPdf?.map((item, idx) => (
                 <FormDataPdf
                   idx={idx}

@@ -53,7 +53,6 @@ export function DialogComponent({
 }: DialogComponentProps) {
   async function handleConfirm() {
     const result: any = await onClick?.();
-    console.log(result);
     if (result?.success) {
       onOpenChange?.(false);
     }
@@ -65,9 +64,8 @@ export function DialogComponent({
       </DialogTrigger>
 
       <DialogContent
-        className={`bg-slate-50 text-slate-900 ${
-          isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:max-h-[calc(100vh-120px)] sm:max-w-11/12 overflow-auto"
-        }`}
+        className={`bg-slate-50 text-slate-900 ${isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:h-11/12 max-sm:h-full sm:max-w-11/12 overflow-auto"
+          }`}
       >
         <DialogHeader className="text-slate-900 text-center text-lg font-bold">
           {title}

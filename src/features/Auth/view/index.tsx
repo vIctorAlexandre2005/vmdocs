@@ -37,6 +37,12 @@ interface AuthComponentProps {
   typeButton?: "button" | "submit" | "reset";
   loadingButton?: boolean;
   loaderIconButton?: React.ReactNode;
+  typeForm: "login" | "register";
+  valueFull_Name?: string;
+  onChangeFull_Name?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  valueEmail?: string;
+  onChangeEmail?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
 
   //footer
   footerText?: string;
@@ -66,6 +72,12 @@ export function AuthComponent({
   footerLink,
   footerLinkText,
   footerText,
+  typeForm,
+  valueFull_Name,
+  onChangeFull_Name,
+  error,
+  valueEmail,
+  onChangeEmail,
 }: AuthComponentProps) {
   const router = useRouter();
   const pageAuth = !["/auth/login", "/auth/register"].includes(router.pathname);
@@ -84,15 +96,39 @@ export function AuthComponent({
         </header>
 
         <div className="flex justify-center items-center flex-col gap-6">
-          <div className="flex flex-col gap-4">
+          {typeForm === "register" && (
+            <InputComponent
+              label={"Nome completo"}
+              value={valueFull_Name}
+              onChange={onChangeFull_Name}
+              classNameLabel="text-slate-800 text-sm"
+              placeholder={"Ex: Gabriel de Mello Ferreira"}
+              type="email"
+              className="bg-transparent p-2 text-slate-900 text-sm w-full"
+            />
+          )}
+          <div className={`${typeForm === "register" ? "grid grid-cols-2" : "flex flex-col"} gap-4`}>
             <InputComponent
               label={labelNameUser}
               value={valueNameUser}
               onChange={onChangeNameUser}
               classNameLabel="text-slate-800 text-sm"
               placeholder={placeholderNameUser}
-              className="bg-transparent p-2 text-slate-900 text-sm w-md"
+              className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
             />
+            {typeForm === "register" && (
+              <>
+                <InputComponent
+                  label={"E-mail"}
+                  value={valueEmail}
+                  onChange={onChangeEmail}
+                  classNameLabel="text-slate-800 text-sm"
+                  placeholder={"exemplo@gmail.com"}
+                  type="email"
+                  className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
+                />
+              </>
+            )}
             <InputComponent
               label={labelPassword}
               value={valuePassword}
@@ -100,10 +136,10 @@ export function AuthComponent({
               classNameLabel="text-slate-800 text-sm"
               placeholder={placeholderPassword}
               type="password"
-              className="bg-transparent p-2 text-slate-900 text-sm w-md"
+              className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
             />
 
-            {labelConfirmPassword && (
+            {typeForm === "register" && (
               <InputComponent
                 label={labelConfirmPassword || "Confirme sua senha"}
                 value={valueConfirmPassword}
@@ -111,11 +147,13 @@ export function AuthComponent({
                 classNameLabel="text-slate-800 text-sm"
                 placeholder={placeholderConfirmPassword}
                 type="password"
-                className="bg-transparent p-2 text-slate-900 text-sm w-md"
+                className={`bg-transparent p-2 text-slate-900 text-sm ${typeForm === "register" ? "w-xs" : "w-md"}`}
               />
             )}
+            {error && (
+              <p className="text-base font-bold text-red-500">{error}</p>
+            )}
           </div>
-
           <ButtonComponent
             text={textButton}
             iconRight={<IoLogIn size={20} />}

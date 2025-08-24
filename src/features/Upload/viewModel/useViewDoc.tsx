@@ -71,7 +71,6 @@ export function useViewDoc() {
       }
     } catch (error) {
       setErrorExtractDataPdf(true);
-      console.error("Failed to extract PDF:", error);
     } finally {
       setLoadingReaderPdf(false);
     }

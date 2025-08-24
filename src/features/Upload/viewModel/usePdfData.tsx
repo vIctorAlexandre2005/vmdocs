@@ -64,8 +64,6 @@ export function usePdfData() {
     let success = false;
     setLoadingCreatePdf(true);
 
-    console.log("Páginas antes de setar no objeto: ", pages);
-
     const base64Pdf = await getBase64(filePdf!);
 
     await execute(
@@ -77,14 +75,11 @@ export function usePdfData() {
         };
         try {
           const response = await createPdf(token, payload);
-          console.log(response);
           setDataPdf([...(dataPdf || []), response?.data]);
-          console.log(response?.data);
           successToast("Criado com sucesso!");
           setLoadingCreatePdf(false);
         } catch (error) {
           errorToast("Erro ao criar!");
-          console.error("Failed to create PDF data:", error);
         } finally {
           setLoadingCreatePdf(false);
           clearToast();
@@ -109,7 +104,6 @@ export function usePdfData() {
         router.push("/auth/login");
         errorToast("Sua sessão expirou!");
       }
-      console.error("Erro:", error.response?.data?.error || error.message);
     } finally {
       setLoadingGetDataPdf(false);
     }
@@ -153,7 +147,6 @@ export function usePdfData() {
           successToast("Atualizado com sucesso!");
         } catch (error) {
           errorToast("Erro ao atualizar!");
-          console.error("Failed to update PDF data:", error);
         } finally {
           setLoadingUpdateDataPdf(false);
           clearToast();
@@ -174,7 +167,6 @@ export function usePdfData() {
         successToast("Deletado com sucesso!");
       } catch (error) {
         errorToast("Erro ao deletar!");
-        console.error("Failed to delete PDF data:", error);
       } finally {
         setLoadingDeleteDataPdf(false);
       }

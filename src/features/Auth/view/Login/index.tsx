@@ -14,6 +14,7 @@ export function LoginComponent() {
   return (
     <AuthComponent
       headerTitle="Entre na sua conta"
+      typeForm="login"
       labelNameUser="Nome de usuário"
       placeholderNameUser="Digite seu nome de usuário"
       valueNameUser={userNameLogin}

@@ -4,13 +4,11 @@ import { Main } from "./main";
 import { Sidebar } from "./sidebar";
 import { useUserContext } from "@/shared/contexts/UserContext";
 import { useEffect } from "react";
-import { useAuth } from "@/features/Auth/modelView/useAuth";
 import { Loader } from "@/shared/components/Loader";
-import { PulseLoader, SyncLoader } from "react-spinners";
-import { errorToast } from "@/shared/utils/toasts";
+import { PuffLoader } from "react-spinners";
 
 export default function LayoutApp({ children }: { children: React.ReactNode }) {
-  const { user, setUser, setToken, token, loadUser } = useUserContext();
+  const { user, setUser, setToken, token, loadUser, getUserMe } = useUserContext();
   //const { getUserMe } = useAuth();
   const router = useRouter();
 
@@ -24,21 +22,21 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (token) {
       getUserMe();
     }
-  }, [token]); */
+  }, [token]);
 
   const pageAuth = !["/auth/login", "/auth/register"].includes(router.pathname);
 
-  /* if (loadUser) {
+  if (loadUser) {
     return (
       <div className="top-1/2 left-1/2 fixed transform flex flex-col gap-12 -translate-x-1/2 -translate-y-1/2">
-        <PulseLoader size={16} color="#4636f5" />
+        <Loader loaderIcon={<PuffLoader size={50} color="#3b82f6" />} />
       </div>
     );
-  } */
+  }
 
   // se a rota for de login/register, mostra o conteúdo normalmente
   if (!pageAuth) {
@@ -49,8 +47,10 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
     <div className="w-full h-screen overflow-hidden">
       <div className="flex h-full">
         {pageAuth && <Sidebar />}
-        <div className="flex-1 h-full">
-          {pageAuth && <Header />}
+        <div className="flex-1 w-full h-full">
+          <div className="w-full">
+            {pageAuth && <Header />}
+          </div>
           <Main>{children}</Main>
         </div>
       </div>

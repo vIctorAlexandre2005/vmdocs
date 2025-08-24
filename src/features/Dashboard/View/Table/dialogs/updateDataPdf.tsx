@@ -29,11 +29,6 @@ interface UpdateDataPdfProps {
 export function UpdateDataPdf({ item, id }: UpdateDataPdfProps) {
   const { updateField, formDataByPage } = useUploadPdfContext();
 
-  const [updateCollaborator, setUpdateCollaborator] = useState(item?.collaborator);
-  const [updateRegistration, setUpdateRegistration] = useState(item?.registration);
-  const [updateIncReq, setUpdateIncReq] = useState(item?.inc_req);
-  const [updatePatrimony, setUpdatePatrimony] = useState(item?.patrimony);
-
   return (
     <div className="w-full flex-col flex">
       <Accordion

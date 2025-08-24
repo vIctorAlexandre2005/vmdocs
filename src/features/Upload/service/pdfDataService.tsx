@@ -12,11 +12,10 @@ export async function createPdf(
   token: string | null,
   payload: PayloadCreatePdf
 ) {
-  console.log("Payload em pdfDataService: ", payload);
   try {
     const response = await axios.post(
-      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data`,
-      `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`,
+      `${process.env.NEXT_PUBLIC_API_URL_LOCAL}/v1/pdf/data`,
+      /* `${process.env.NEXT_PUBLIC_API_URL}/v1/pdf/data`, */
       payload,
       {
         headers: {
@@ -24,10 +23,9 @@ export async function createPdf(
         },
       }
     );
-    console.log("Response em pdfDataService: ", response);
     return response;
   } catch (error: any) {
-    console.error("Failed to extract PDF: " + error.message);
+    throw new Error(error);
   }
 }
 
@@ -49,7 +47,6 @@ export async function updateDataPdfService(
     });
     return response.data;
   } catch (error: any) {
-    console.error("Failed to extract PDF: " + error.message);
     throw new Error(error.message);
   }
 }
@@ -62,7 +59,6 @@ export async function deleteDataPdfService(token: string | null, id: number) {
     });
     return response;
   } catch (error: any) {
-    console.error("Failed to extract PDF: " + error.message);
     throw new Error(error.message);
   }
 }
