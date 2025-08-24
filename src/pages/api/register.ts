@@ -10,8 +10,8 @@ export default async function handler(
 
   try {
     const response = await axios.post(
-      //`${process.env.NEXT_PUBLIC_API_URL}/register`,
-      `${process.env.NEXT_PUBLIC_API_URL_LOCAL}/register`,
+      `${process.env.NEXT_PUBLIC_API_URL}/register`,
+      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/register`,
       {
         login: login,
         full_name: full_name,
