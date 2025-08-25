@@ -10,7 +10,6 @@ export default async function handler(
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
-      //`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/users/me`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
