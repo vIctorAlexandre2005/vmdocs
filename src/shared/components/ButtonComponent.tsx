@@ -9,6 +9,7 @@ type ButtonComponentProps = {
   type?: "button" | "submit" | "reset";
   loading?: boolean;
   loaderIcon?: React.ReactNode;
+  data_cy_button?: string;
 };
 
 export function ButtonComponent({
@@ -22,10 +23,12 @@ export function ButtonComponent({
   type,
   iconLeft,
   iconRight,
+  data_cy_button
 }: ButtonComponentProps) {
   return (
     <button
       type="button"
+      data-cy={data_cy_button}
       disabled={loading ? disabled : false}
       className={`p-2 cursor-pointer flex items-center ${disabled && "opacity-50"} justify-center ${className}`}
       onClick={onClick}

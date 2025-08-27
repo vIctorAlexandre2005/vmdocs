@@ -23,6 +23,11 @@ export function RegisterComponent() {
       headerTitle="Crie sua conta"
       typeForm="register"
       valueFull_Name={full_name}
+      data_cy_full_name="input-full-name"
+      data_cy_user="input-user"
+      data_cy_email="input-email"
+      data_cy_password="input-password"
+      data_cy_confirm_password="input-confirm-password"
       onChangeFull_Name={(e) => setFull_Name(e.target.value)}
       valueEmail={email}
       onChangeEmail={(e) => setEmail(e.target.value)}

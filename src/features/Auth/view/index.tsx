@@ -44,6 +44,13 @@ interface AuthComponentProps {
   onChangeEmail?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
 
+  //data cy tests
+  data_cy_full_name?: string;
+  data_cy_user?: string;
+  data_cy_email?: string;
+  data_cy_password?: string;
+  data_cy_confirm_password?: string;
+
   //footer
   footerText?: string;
   footerLink?: string;
@@ -78,6 +85,11 @@ export function AuthComponent({
   error,
   valueEmail,
   onChangeEmail,
+  data_cy_full_name,
+  data_cy_user,
+  data_cy_email,
+  data_cy_password,
+  data_cy_confirm_password,
 }: AuthComponentProps) {
   const router = useRouter();
   const pageAuth = !["/auth/login", "/auth/register"].includes(router.pathname);
@@ -100,6 +112,7 @@ export function AuthComponent({
             <InputComponent
               label={"Nome completo"}
               value={valueFull_Name}
+              data_cy_test={data_cy_full_name}
               onChange={onChangeFull_Name}
               classNameLabel="text-slate-800 text-sm"
               placeholder={"Ex: Gabriel de Mello Ferreira"}
@@ -111,6 +124,7 @@ export function AuthComponent({
             <InputComponent
               label={labelNameUser}
               value={valueNameUser}
+              data_cy_test={data_cy_user}
               onChange={onChangeNameUser}
               classNameLabel="text-slate-800 text-sm"
               placeholder={placeholderNameUser}
@@ -121,6 +135,7 @@ export function AuthComponent({
                 <InputComponent
                   label={"E-mail"}
                   value={valueEmail}
+                  data_cy_test={data_cy_email}
                   onChange={onChangeEmail}
                   classNameLabel="text-slate-800 text-sm"
                   placeholder={"exemplo@gmail.com"}
@@ -131,6 +146,7 @@ export function AuthComponent({
             )}
             <InputComponent
               label={labelPassword}
+              data_cy_test={data_cy_password}
               value={valuePassword}
               onChange={onChangePassword}
               classNameLabel="text-slate-800 text-sm"
@@ -143,6 +159,7 @@ export function AuthComponent({
               <InputComponent
                 label={labelConfirmPassword || "Confirme sua senha"}
                 value={valueConfirmPassword}
+                data_cy_test={data_cy_confirm_password}
                 onChange={onChangeConfirmPassword}
                 classNameLabel="text-slate-800 text-sm"
                 placeholder={placeholderConfirmPassword}
@@ -159,6 +176,7 @@ export function AuthComponent({
             iconRight={<IoLogIn size={20} />}
             onClick={onClickButton}
             disabled={disabledButton}
+            data_cy_button={typeForm === "register" ? "button-register" : "button-login"}
             loading={loadingButton}
             loaderIcon={loaderIconButton}
             className="w-full text-base font-semibold text-gray-100 rounded-full bg-indigo-600"
