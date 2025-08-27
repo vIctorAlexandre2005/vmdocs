@@ -6,7 +6,7 @@ export async function loginService(login: string, password: string) {
   if (login.trim() === "" || password.trim() === "") {
     errorToast("Preencha todos os campos!");
     return null;
-  };
+  }
   try {
     const response = await axios.post("/api/login", {
       login: login,
@@ -48,16 +48,24 @@ export async function registerService({
     });
     return response.data;
   } catch (error: any) {
-    throw new Error(`${error?.response?.data?.error}`);
+    throw new Error(`
+      ${
+        error?.response?.data?.error ||
+        "Falha no registro, tente novamente. Verifique se todos os campos estão preenchidos corretamente." ||
+        errorToast(
+          "Falha no registro, tente novamente. Verifique se todos os campos estão preenchidos corretamente."
+        )
+      }`);
   }
 }
 
 export async function getMyUserService(token: string | null) {
   try {
     const response = await axios.post("/api/getMyUser", {
-      token: token
+      token: token,
     });
     return response.data;
   } catch (error: any) {
     throw new Error(error);
-  }}
+  }
+}

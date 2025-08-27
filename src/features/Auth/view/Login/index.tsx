@@ -16,6 +16,8 @@ export function LoginComponent() {
       headerTitle="Entre na sua conta"
       typeForm="login"
       labelNameUser="Nome de usuário"
+      data_cy_user="input-user"
+      data_cy_password="input-password"
       placeholderNameUser="Digite seu nome de usuário"
       valueNameUser={userNameLogin}
       onChangeNameUser={(e) => setUserNameLogin(e.target.value)}

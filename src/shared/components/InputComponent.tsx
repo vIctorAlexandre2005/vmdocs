@@ -9,6 +9,7 @@ interface InputComponentProps {
   className?: string;
   iconInside?: React.ReactNode;
   type?: string;
+  data_cy_test?: string;
 }
 
 export function InputComponent({
@@ -19,7 +20,8 @@ export function InputComponent({
   className,
   iconInside,
   classNameLabel,
-  type
+  type,
+  data_cy_test,
 }: InputComponentProps) {
   return (
     <div className="flex w-full flex-col">
@@ -39,6 +41,7 @@ export function InputComponent({
           } w-full border border-gray-300 transition duration-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500`}
           placeholder={placeholder}
           value={value}
+          data-cy={data_cy_test}
           onChange={onChange}
         />
       </div>
