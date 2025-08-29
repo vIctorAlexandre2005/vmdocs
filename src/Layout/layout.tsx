@@ -14,7 +14,7 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   if (loading) {
     return (
       <div className="top-1/2 left-1/2 absolute translate-x-[-50%] translate-y-[-50%]">
-        <Loader loaderIcon={<PuffLoader size={100} color="indigo" />} />
+        <Loader loaderIcon={<PuffLoader size={100} color="#3b82f6" />} />
       </div>
     );
   }

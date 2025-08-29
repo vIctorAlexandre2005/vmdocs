@@ -11,6 +11,7 @@ export async function extractPdf(token: string | null, formData: FormData) {
         },
       }
     );
+    console.log("response EXTRACT PDF: ", response);
     return response;
   } catch (error: any) {
     throw new Error(error);

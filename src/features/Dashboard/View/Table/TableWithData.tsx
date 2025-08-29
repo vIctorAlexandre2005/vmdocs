@@ -46,6 +46,8 @@ export function TableWithData() {
   const [openDialogViewPdf, setOpenDialogViewPdf] = useState(false);
   const [openDialogDeleteDataPdf, setOpenDialogDeleteDataPdf] = useState(false);
 
+  console.log("selectedPdf", selectedPdf);
+
   const { filteredData, setFilteredData, detailedView } =
     useTableDashboardContext();
 
@@ -143,8 +145,8 @@ export function TableWithData() {
             }
           >
             <div className="flex w-full items-start gap-4">
-              <ViewPdfInDialog height={600} pdfUrl={selectedPdf?.pdf_file as string} />
-              <div className="flex w-full flex-col overflow-auto sm:max-h-[400px] xl:max-h-[500px] 2xl:max-h-[700px] gap-2">
+              <ViewPdfInDialog pdfUrl={selectedPdf?.pdf_file as string} file_name={selectedPdf?.file_name} />
+              <div className="flex w-full flex-col overflow-auto max-h-[75vh] gap-2">
                 {selectedPdf?.pages.map((page, idx) => (
                   <UpdateDataPdf
                     key={`${page?.inc_req}-${page?.pageNumber}`}
