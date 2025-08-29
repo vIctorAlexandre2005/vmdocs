@@ -20,11 +20,13 @@ type UserContextType = {
   token: string | null;
   setToken: Dispatch<React.SetStateAction<string | null>>;
 
-  loadUser: boolean;
-  setLoadUser: Dispatch<React.SetStateAction<boolean>>;
-  errorLoadingUser: boolean;
-  setErrorLoadingUser: Dispatch<React.SetStateAction<boolean>>;
-  getUserMe: () => void;
+  loading: boolean;
+  setLoading: Dispatch<React.SetStateAction<boolean>>;
+
+  error: boolean;
+  setError: Dispatch<React.SetStateAction<boolean>>;
+
+  getUserMe: (token: string) => Promise<void>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -32,33 +34,38 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserData | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loadUser, setLoadUser] = useState(false);
-  const [errorLoadingUser, setErrorLoadingUser] = useState(false);
-
+  const [loading, setLoading] = useState(true); // <- começa carregando
+  const [error, setError] = useState(false);
 
   const router = useRouter();
 
-  async function getUserMe() {
-    setLoadUser(true);
+  async function getUserMe(token: string) {
     try {
       const response = await getMyUserService(token);
       setUser(response);
     } catch (error) {
-      setErrorLoadingUser(true);
+      setError(true);
+      setUser(null);
+      router.push("/auth/login");
     } finally {
-      setLoadUser(false);
+      setLoading(false); // só libera aqui
     }
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("user");
-    if (token) {
-      setToken(token);
-      getUserMe();
-    } else if (!["/auth/login", "/auth/register"].includes(router.pathname)) {
-      router.push("/auth/login");
+    const storedToken = localStorage.getItem("user");
+
+    if (storedToken) {
+      setToken(storedToken);
+      getUserMe(storedToken);
+    } else {
+      // sem token e não está nas rotas públicas → manda pra login
+      if (!["/auth/login", "/auth/register"].includes(router.pathname)) {
+        router.push("/auth/login");
+      }
+      setLoading(false);
     }
-  }, []); // <- dependência vazia
+  }, []);
 
   return (
     <UserContext.Provider
@@ -67,11 +74,11 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
         setUser,
         token,
         setToken,
-        loadUser,
-        setLoadUser,
+        loading,
+        setLoading,
+        error,
+        setError,
         getUserMe,
-        errorLoadingUser,
-        setErrorLoadingUser
       }}
     >
       {children}

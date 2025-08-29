@@ -22,6 +22,7 @@ export async function createPdf(
         },
       }
     );
+    console.log("response CREATE PDF: ", response);
     return response;
   } catch (error: any) {
     throw new Error(error);

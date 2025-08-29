@@ -32,7 +32,7 @@ export function DialogConfirmDataToSend() {
     <DialogComponent
       open={openDialogViewPdf}
       onOpenChange={setOpenDialogViewPdf as any}
-      title={fileName || "Visualização do PDF"}
+      title={"Confira os dados extraídos"}
       onClick={() => createDataPdf(fileName || "", formDataByPage)}
       textButtonCancel="Fechar"
       textButtonConfirm="Enviar"
@@ -52,8 +52,8 @@ export function DialogConfirmDataToSend() {
           </div>
         ) : (
           <>
-            <ViewPdfInDialog pdfUrl={pdfUrl} />
-            <div className="flex w-full flex-col overflow-auto gap-2">
+            <ViewPdfInDialog pdfUrl={pdfUrl} file_name={fileName} />
+            <div className="flex w-full flex-col overflow-auto max-h-[80vh] gap-2">
               {dataExtractedPdf?.map((item, idx) => (
                 <FormDataPdf
                   idx={idx}

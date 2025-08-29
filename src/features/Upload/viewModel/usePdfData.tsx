@@ -144,6 +144,7 @@ export function usePdfData() {
               item.id === id ? { ...item, ...payload } : item
             )
           );
+          await getDataPdf();
           successToast("Atualizado com sucesso!");
         } catch (error) {
           errorToast("Erro ao atualizar!");

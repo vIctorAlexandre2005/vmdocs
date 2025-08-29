@@ -17,7 +17,7 @@ export interface DataRegisterProps {
 }
 
 export function useAuth() {
-  const { user, setUser, token, setToken, loadUser, setLoadUser, getUserMe, errorLoadingUser, setErrorLoadingUser } =
+  const { user, setUser, token, setToken, loading, setLoading,  error, setError, getUserMe, } =
     useUserContext();
   const router = useRouter();
   const [userNameLogin, setUserNameLogin] = useState<string>("");
@@ -48,6 +48,7 @@ export function useAuth() {
       }
       setToken(response?.tokenJWT);
       successToast("Login realizado com sucesso!");
+      await getUserMe(response?.tokenJWT);
       router.push("/");
     } catch (error) {
       errorToast("Usuário ou senha incorretos!");
@@ -147,10 +148,11 @@ export function useAuth() {
 
     handleLogout,
 
-    loadUser,
-    setLoadUser,
+    loading,
+    setLoading,
+    error,
+    setError,
     getUserMe,
-    errorLoadingUser,
     token,
     setToken,
     full_name,
