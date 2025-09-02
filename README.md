@@ -1,40 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+VM DOCS
 
-## Getting Started
+Sistema para gerenciamento e automação de documentos escaneados.
+O objetivo do VM DOCS é facilitar a extração, visualização e exportação de informações contidas em termos/documentos no formato PDF, reduzindo trabalhos manuais repetitivos.
 
-First, run the development server:
+Esse software está sendo utilizado na Eletrobras para fins de automatização de processos
 
-```bash
+---
+
+🚀 Funcionalidades
+
+Upload de documentos em PDF.
+
+Extração automática dos dados dos documentos PDF.
+
+Exibição dos dados em tabelas organizadas.
+
+Exportação dos dados processados (CSV, XLSX, etc.).
+
+Autenticação via JWT.
+
+Listagem de todos os usuários cadastrados (área administrativa).
+
+Estrutura pensada para suportar multiusuário no futuro.
+
+
+
+---
+
+🛠️ Tecnologias Utilizadas
+
+Frontend: React / Next.js
+
+Estilização: Tailwind CSS/Shadcn UI
+
+Autenticação: JWT
+
+Banco de dados: MySQL
+
+Extração de dados: AWS Textract
+
+Testes: Cypress, Jest
+
+Outros: Context API, React Query, Toastify
+
+
+
+---
+
+📂 Estrutura do Projeto (MVVM)
+
+/src
+  /features
+   /view
+   /model
+   /modelView
+  /Context
+  /Hooks
+  /shared
+  /pages
+  /services
+  /styles
+  /utils
+
+---
+
+📦 Como Rodar o Projeto
+
+1. Clone o repositório:
+
+git clone https://github.com/seu-usuario/vm-docs.git
+cd vm-docs
+
+
+2. Instale as dependências:
+
+npm install
+# ou
+yarn install
+
+
+3. Configure as variáveis de ambiente no arquivo .env.local:
+
+NEXT_PUBLIC_API_URL=http://localhost:8080
+
+
+4. Rode o servidor de desenvolvimento:
+
 npm run dev
-# or
+# ou
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+5. Acesse no navegador:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+http://localhost:3000
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+✅ Roadmap
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[x] Upload de PDF
 
-## Deploy on Vercel
+[x] Extração automática dos dados
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[x] Exportação em planilhas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+[x] Login JWT
+
+[ ] Multiusuário (Organizações)
+
+[ ] Dashboard com métricas
+
+[ ] Integração com APIs externas
