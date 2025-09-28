@@ -2,6 +2,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -21,6 +22,15 @@ import { ClipLoader } from "react-spinners";
 import { useTableDashboardContext } from "@/shared/contexts/TableDashboard";
 import { TableDetaildView } from "./TableDetaildView";
 import { TableDefaultView } from "./TableDefaultView";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const tableHeaders = [
   "Arquivo",
@@ -99,7 +109,7 @@ export function TableWithData() {
                         setOpenDialogDeleteDataPdf={setOpenDialogDeleteDataPdf}
                         setOpenDialogViewPdf={setOpenDialogViewPdf}
                         setSelectedPdf={setSelectedPdf}
-                        key={`${page?.inc_req}-${page?.pageNumber}`}
+                        key={`${page?.incident_request}-${page?.page_number}`}
                       />
                     </>
                   ))
@@ -123,6 +133,24 @@ export function TableWithData() {
                   </>
                 ))}
             </TableBody>
+            <TableFooter className="flex justify-center items-center">
+              <Pagination className="flex justify-center p-2">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </TableFooter>
           </>
         )}
 
@@ -145,14 +173,17 @@ export function TableWithData() {
             }
           >
             <div className="flex w-full items-start gap-4">
-              <ViewPdfInDialog pdfUrl={selectedPdf?.pdf_file as string} file_name={selectedPdf?.file_name} />
+              <ViewPdfInDialog
+                pdfUrl={selectedPdf?.pdf_file as string}
+                file_name={selectedPdf?.file_name}
+              />
               <div className="flex w-full flex-col overflow-auto max-h-[75vh] gap-2">
                 {selectedPdf?.pages.map((page, idx) => (
                   <UpdateDataPdf
-                    key={`${page?.inc_req}-${page?.pageNumber}`}
+                    key={`${page?.incident_request}-${page?.page_number}`}
                     item={formDataByPage[idx]}
                     id={idx}
-                    last_change={selectedPdf?.last_change}
+                    last_change={selectedPdf?.updated_at}
                     file_name={selectedPdf?.file_name}
                     pages={selectedPdf?.pages}
                     setOpenDialogViewPdf={setOpenDialogViewPdf}

@@ -61,7 +61,7 @@ export function DialogConfirmDataToSend() {
                   key={idx}
                   data={formDataByPage[idx]}
                   updateField={updateField}
-                  pageNumber={item?.pageNumber}
+                  pageNumber={item?.page_number}
                 />
               ))}
             </div>

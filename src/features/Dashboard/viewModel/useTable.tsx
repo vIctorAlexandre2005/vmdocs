@@ -84,7 +84,7 @@ export function useTable() {
       pages.map((page) => ({
         "Nome do arquivo": file_name,
         Colaborador: page.collaborator,
-        "Incidente/Requisição": page.inc_req,
+        "Incidente/Requisição": page.incident_request,
         Matrícula: page.registration,
         Patrimônio: page.patrimony,
         "Data de criação": created_at,

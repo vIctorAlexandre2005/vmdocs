@@ -9,20 +9,33 @@ import {
 } from "react";
 
 export interface DataExtractedPdfProps {
-  inc_req: string;
+  page_number: number;
+  incident_request: string;
   collaborator: string;
   registration: string;
   patrimony: string;
-  pageNumber: number;
+  group: string;
+  vp: string;
+  uo: string;
+  company: string;
+  location: string;
+  manager: string;
+  brand_model: string;
+  type_of_movement: string;
+  type_of_equipment_delivery: string;
+  returned_equipment: string;
 }
 
 export interface DataPdfProps {
   id: number;
+  user_id: number;
   file_name: string;
-  pages: DataExtractedPdfProps[];
   created_at: string;
-  last_change: string;
+  created_by: string;
+  updated_at: string;
+  updated_by: string;
   pdf_file: string;
+  pages: DataExtractedPdfProps[];
   __filteredPages: DataExtractedPdfProps[];
 }
 

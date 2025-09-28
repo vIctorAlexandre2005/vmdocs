@@ -1,10 +1,13 @@
 import { useRouter } from "next/router";
+import { GrDocumentText } from "react-icons/gr";
 import { LuLayoutDashboard } from "react-icons/lu";
+import { MdOutlineInventory2 } from "react-icons/md";
 import { TbCloudUpload } from "react-icons/tb";
 
 const navLinks = [
   { name: "Dashboard", href: "/", icon: LuLayoutDashboard },
-  { name: "Upload", href: "/upload", icon: TbCloudUpload },
+  { name: "Termos", href: "/terms", icon: GrDocumentText },
+  { name: "Estoque", href: "/inventory", icon: MdOutlineInventory2 },
 ];
 
 export function Sidebar() {

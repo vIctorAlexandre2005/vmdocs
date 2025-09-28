@@ -87,8 +87,8 @@ export function TableDetaildView({
         >
           {`${
             filteredPages
-              ? filteredPages?.inc_req?.toUpperCase()
-              : page?.inc_req?.toUpperCase() ? page?.inc_req?.toUpperCase() : "VAZIO"
+              ? filteredPages?.incident_request?.toUpperCase()
+              : page?.incident_request?.toUpperCase() ? page?.incident_request?.toUpperCase() : "VAZIO"
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
@@ -132,7 +132,7 @@ export function TableDetaildView({
           }}
           className="font-semibold p-2 border"
         >
-          {pdf?.last_change}
+          {pdf?.updated_at}
         </TableCell>
         <TableCell className="p-2 font-semibold border flex items-center">
           <ButtonComponent

@@ -28,7 +28,7 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="w-full h-screen overflow-hidden">
+    <div className="w-full h-screen overflow-auto">
       <div className="flex h-full">
         {!pageAuth && <Sidebar />}
         <div className="flex-1 w-full h-full">

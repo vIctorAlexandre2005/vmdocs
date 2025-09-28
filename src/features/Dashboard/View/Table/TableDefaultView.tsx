@@ -87,9 +87,9 @@ export function TableDefaultView({
         >
           {`${
             filteredPages
-              ? filteredPages?.inc_req?.toUpperCase()
-              : pdf?.pages?.[0]?.inc_req?.toUpperCase()
-              ? pdf?.pages?.[0]?.inc_req?.toUpperCase()
+              ? filteredPages?.incident_request?.toUpperCase()
+              : pdf?.pages?.[0]?.incident_request?.toUpperCase()
+              ? pdf?.pages?.[0]?.incident_request?.toUpperCase()
               : "VAZIO"
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
@@ -134,7 +134,7 @@ export function TableDefaultView({
           }}
           className="font-semibold p-2 border"
         >
-          {pdf?.last_change}
+          {pdf?.updated_at}
         </TableCell>
         <TableCell className="p-2 font-semibold border flex items-center">
           <ButtonComponent

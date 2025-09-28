@@ -35,14 +35,14 @@ export function UpdateDataPdf({ item, id }: UpdateDataPdfProps) {
         type="single"
         collapsible
         className="w-full"
-        defaultValue={item?.pageNumber === 1 ? "item-1" : ""}
+        defaultValue={item?.page_number === 1 ? "item-1" : ""}
       >
         <AccordionItem
           value="item-1"
           className="border-t p-2 border-indigo-200"
         >
           <AccordionTrigger className="font-bold text-indigo-500 text-lg cursor-pointer">
-            Página {item?.pageNumber}
+            Página {item?.page_number}
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
             <InputComponent
@@ -59,8 +59,8 @@ export function UpdateDataPdf({ item, id }: UpdateDataPdfProps) {
             />
             <InputComponent
               className="w-full p-2"
-              value={item?.inc_req}
-              onChange={(e) => updateField(id, "inc_req", e.target.value)}
+              value={item?.incident_request}
+              onChange={(e) => updateField(id, "incident_request", e.target.value)}
               label="Incidente/Requisição"
             />
             <InputComponent

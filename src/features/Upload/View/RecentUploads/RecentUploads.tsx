@@ -30,7 +30,7 @@ export function RecentUploads() {
               key={index}
               fileName={item?.file_name}
               created_at={item?.created_at}
-              last_change={item?.last_change}
+              last_change={item?.updated_at}
               progress={progress}
               setOpenDialogViewPdf={setOpenDialogViewPdf}
             />

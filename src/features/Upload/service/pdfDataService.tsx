@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 
 interface PayloadCreatePdf {
   file_name: string;
-  pages: DataExtractedPdfProps[];
   pdf_file?: string;
+  pages: DataExtractedPdfProps[];
 }
 
 export async function createPdf(

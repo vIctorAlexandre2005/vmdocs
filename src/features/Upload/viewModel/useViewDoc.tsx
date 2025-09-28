@@ -41,7 +41,7 @@ export function useViewDoc() {
   }
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+    const file = e?.target?.files?.[0];
     if (!file) return;
 
     setFilePdf(file);
@@ -56,6 +56,7 @@ export function useViewDoc() {
       if (response?.status === 200) {
         const extractedData = response.data;
         setDataExtractedPdf(extractedData);
+        console.log("extractedData", extractedData);
 
         const url = URL.createObjectURL(file);
         setPdfUrl(url);

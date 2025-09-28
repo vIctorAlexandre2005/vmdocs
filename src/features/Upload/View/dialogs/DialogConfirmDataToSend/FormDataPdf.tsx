@@ -7,11 +7,19 @@ import {
   AccordionTrigger,
 } from "@/shared/components/ui/accordion";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import {
   DataExtractedPdfProps,
   useUploadPdfContext,
 } from "@/shared/contexts/UploadPdfContext";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
+import { FieldsPreview } from "./FieldsPreview";
 
 interface FormDataPdfProps {
   item: DataExtractedPdfProps;
@@ -46,32 +54,8 @@ export function FormDataPdf({
           <AccordionTrigger className="font-bold text-indigo-500 text-lg cursor-pointer">
             Página {pageNumber}
           </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
-            <InputComponent
-              className="w-full p-2"
-              value={data?.collaborator}
-              onChange={(e) => updateField(idx, "collaborator", e.target.value)}
-              label="Nome do colaborador"
-            />
-            <InputComponent
-              className="w-full p-2"
-              value={data?.registration}
-              onChange={(e) => updateField(idx, "registration", e.target.value)}
-              label="Matrícula do colaborador"
-            />
-            <InputComponent
-              className="w-full p-2"
-              value={data?.inc_req}
-              onChange={(e) => updateField(idx, "inc_req", e.target.value)}
-              label="Incidente/Requisição"
-            />
-
-            <InputComponent
-              value={data?.patrimony}
-              onChange={(e) => updateField(idx, "patrimony", e.target.value)}
-              className="w-full p-2"
-              label="Patrimônio do equipamento"
-            />
+          <AccordionContent className="grid grid-cols-2 gap-4 text-balance">
+            <FieldsPreview data={data} updateField={updateField} idx={idx} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

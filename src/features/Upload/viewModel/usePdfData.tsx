@@ -70,8 +70,8 @@ export function usePdfData() {
       async () => {
         const payload = {
           file_name: filename,
-          pages: pages,
           pdf_file: base64Pdf, // string base64 aqui
+          pages: pages
         };
         try {
           const response = await createPdf(token, payload);
@@ -97,6 +97,7 @@ export function usePdfData() {
         const response = await getDataPdfService(token);
         setDataPdf(response);
         setPdfUrl(response?.pdf_url);
+        console.log("response DATA PDF: ", response);
       }
       setProgress(100); // Assuming the progress is 100% after fetching data
     } catch (error: any) {
