@@ -28,13 +28,11 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="w-full h-screen overflow-auto">
-      <div className="flex h-full">
+    <div className="w-full h-screen overflow-x-hidden">
+      <div className="flex h-full w-full">
         {!pageAuth && <Sidebar />}
-        <div className="flex-1 w-full h-full">
-          <div className="w-full">
-            {!pageAuth && <Header />}
-          </div>
+        <div className="flex flex-col w-full h-full">
+          {!pageAuth && <Header />}
           <Main>{children}</Main>
         </div>
       </div>

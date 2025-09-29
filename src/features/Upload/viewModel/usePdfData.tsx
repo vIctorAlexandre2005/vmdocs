@@ -118,25 +118,15 @@ export function usePdfData() {
 
   async function updateDataPdf(
     id: number,
-    filename: string,
     pages: DataExtractedPdfProps[],
-    pdf_file: string,
-    sameData: boolean
   ) {
     let success = false;
-    if (sameData) {
-      infoToast("Os dados não foram alterados!");
-      return;
-    }
-
     setLoadingUpdateDataPdf(true);
 
     await execute(
       async () => {
         const payload = {
-          file_name: filename,
           pages: pages,
-          //pdf_file: pdf_file,
         };
         try {
           await updateDataPdfService(token, id, payload);

@@ -16,6 +16,7 @@ import {
   useUploadPdfContext,
 } from "@/shared/contexts/UploadPdfContext";
 import { ViewPdfInDialog } from "@/features/Upload/View/dialogs/DialogConfirmDataToSend/ViewPdfInDialog";
+import { FieldsPreview } from "@/features/Upload/View/dialogs/DialogConfirmDataToSend/FieldsPreview";
 
 interface UpdateDataPdfProps {
   id: number;
@@ -44,31 +45,8 @@ export function UpdateDataPdf({ item, id }: UpdateDataPdfProps) {
           <AccordionTrigger className="font-bold text-indigo-500 text-lg cursor-pointer">
             Página {item?.page_number}
           </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
-            <InputComponent
-              className="w-full p-2"
-              value={item?.collaborator}
-              onChange={(e) => updateField(id, "collaborator", e.target.value)}
-              label="Nome do colaborador"
-            />
-            <InputComponent
-              className="w-full p-2"
-              value={item?.registration}
-              onChange={(e) => updateField(id, "registration", e.target.value)}
-              label="Matrícula"
-            />
-            <InputComponent
-              className="w-full p-2"
-              value={item?.incident_request}
-              onChange={(e) => updateField(id, "incident_request", e.target.value)}
-              label="Incidente/Requisição"
-            />
-            <InputComponent
-              className="w-full p-2"
-              value={item?.patrimony}
-              onChange={(e) => updateField(id, "patrimony", e.target.value)}
-              label="Patrimônio"
-            />
+          <AccordionContent className="grid grid-cols-2 gap-4 text-balance">
+            <FieldsPreview data={item} updateField={updateField} idx={id} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

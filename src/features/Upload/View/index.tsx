@@ -6,7 +6,7 @@ import { GrDocumentText } from "react-icons/gr";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 import { TbDeviceLaptopOff, TbReplaceFilled } from "react-icons/tb";
 import { TableWithData } from "@/features/Dashboard/View/Table/TableWithData";
-import { DashboardView } from "@/features/Dashboard/View";
+import { ContainerTable } from "@/features/Dashboard/View";
 
 const itemCards = [
   {
@@ -37,15 +37,13 @@ export function UploadView() {
       <div className="flex items-center gap-4 justify-around w-full">
         {itemCards.map((item, idx) => (
           <Card key={idx} className="w-full rounded-4xl">
-            <CardHeader>
-              <div className="flex items-center gap-2">
+            <CardContent className="flex flex-col gap-4">
+               <div className="flex items-center gap-2">
                 <span className="p-2 bg-indigo-100 rounded-full border border-indigo-400">
                   <item.icon color="#4636f5" size={24} />
                 </span>
                 <span className="text-lg font-semibold">{item.title}</span>
               </div>
-            </CardHeader>
-            <CardContent>
               <span className="text-3xl opacity-85 font-bold">
                 {item.value}
               </span>
@@ -53,9 +51,9 @@ export function UploadView() {
           </Card>
         ))}
       </div>
-      <ClickAreaToChooseFile />
+      {/* <ClickAreaToChooseFile /> */}
       {/* <RecentUploads /> */}
-      <DashboardView />
+      <ContainerTable />
       <DialogConfirmDataToSend />
     </div>
   );

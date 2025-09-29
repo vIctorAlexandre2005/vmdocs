@@ -38,7 +38,7 @@ export function TableDetaildView({
   const filteredPages = pdf?.__filteredPages?.[0];
   return (
     <>
-      <TableRow key={pdf?.id} className="cursor-pointer">
+      <TableRow key={pdf?.id} className="cursor-pointer border-b">
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);
@@ -59,8 +59,8 @@ export function TableDetaildView({
         >
           {`${
             filteredPages
-              ? filteredPages?.collaborator?.toUpperCase()
-              : page?.collaborator?.toUpperCase()
+              ? filteredPages?.incident_request?.toUpperCase()
+              : page?.incident_request?.toUpperCase()
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
@@ -87,14 +87,109 @@ export function TableDetaildView({
         >
           {`${
             filteredPages
-              ? filteredPages?.incident_request?.toUpperCase()
-              : page?.incident_request?.toUpperCase() ? page?.incident_request?.toUpperCase() : "VAZIO"
+              ? filteredPages?.collaborator?.toUpperCase()
+              : page?.collaborator?.toUpperCase()
+              ? page?.collaborator?.toUpperCase()
+              : "VAZIO"
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);
             setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.group?.toUpperCase()
+              : page?.group?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.vp?.toUpperCase()
+              : page?.vp?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.uo?.toUpperCase()
+              : page?.uo?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.company?.toUpperCase()
+              : page?.company?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.location?.toUpperCase()
+              : page?.location?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.manager?.toUpperCase()
+              : page?.manager?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.brand_model?.toUpperCase()
+              : page?.brand_model?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
             setOpenDialogViewPdf(true);
           }}
           className="font-semibold p-2 border"
@@ -108,17 +203,45 @@ export function TableDetaildView({
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);
-            setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
           className="font-semibold p-2 border"
         >
-          {pdf?.pages?.length}
+          {`${
+            filteredPages
+              ? filteredPages?.type_of_movement?.toUpperCase()
+              : page?.type_of_movement?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);
-            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.type_of_equipment_delivery?.toUpperCase()
+              : page?.type_of_equipment_delivery?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {`${
+            filteredPages
+              ? filteredPages?.returned_equipment?.toUpperCase()
+              : page?.returned_equipment?.toUpperCase()
+          } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
             setOpenDialogViewPdf(true);
           }}
           className="font-semibold p-2 border"
@@ -132,7 +255,25 @@ export function TableDetaildView({
           }}
           className="font-semibold p-2 border"
         >
+          {pdf?.created_by}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
           {pdf?.updated_at}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 border"
+        >
+          {pdf?.updated_by}
         </TableCell>
         <TableCell className="p-2 font-semibold border flex items-center">
           <ButtonComponent

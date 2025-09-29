@@ -13,7 +13,7 @@ const navLinks = [
 export function Sidebar() {
   const router = useRouter();
   return (
-    <div className="bg-white w-64 h-full border-r border-gray-200">
+    <div className="bg-white w-full h-full flex flex-col border-r border-gray-200">
       <div className="p-2">
         <img
         src={"/logo-vmdocs.png"}

@@ -34,14 +34,25 @@ import {
 
 const tableHeaders = [
   "Arquivo",
-  "Colaborador",
-  "Matrícula",
   "Incidente/Requisição",
+  "Matrícula",
+  "Colaborador",
+  "Grupo",
+  "VP",
+  "UO",
+  "Empresa",
+  "Localização",
+  "Gestor Imediato",
+  "Marca/Modelo",
   "Patrimônio",
-  "Qtd. Páginas",
-  "Data de criação",
-  "Última alteração",
-  "Ações",
+  "Tipo de movimentação",
+  "Tipo de notebook entregue",
+  "Equipamento devolvido",
+  "Criado em",
+  "Criado por",
+  "Atualizado em",
+  "Alterado por",
+  "Ações",
 ];
 
 export function TableWithData() {
@@ -81,12 +92,12 @@ export function TableWithData() {
       <Table className="text-slate-800 overflow-y-auto">
         {dataPdf.length > 0 && (
           <>
-            <TableHeader className="border-t p-2">
+            <TableHeader className="p-2">
               <TableRow className="text-slate-800 text-sm p-2">
                 {tableHeaders.map((header, idx) => (
                   <TableHead
                     key={idx}
-                    className="text-slate-800 p-2 font-bold border"
+                    className="text-slate-800 p-2 border-t border-t-slate-300 border-b border-b-slate-300 bg-indigo-50 font-bold"
                   >
                     {header}
                   </TableHead>
@@ -165,10 +176,7 @@ export function TableWithData() {
             onClick={() =>
               updateDataPdf(
                 selectedPdf?.id as number,
-                selectedPdf?.file_name as string,
                 formDataByPage,
-                selectedPdf?.pdf_file as string,
-                false
               )
             }
           >

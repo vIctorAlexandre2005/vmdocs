@@ -38,14 +38,14 @@ export function TableDefaultView({
 
   return (
     <>
-      <TableRow key={pdf?.id} className="cursor-pointer">
+      <TableRow key={pdf?.id} className="cursor-pointer border-b">
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);
             setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2"
         >
           {pdf?.file_name?.toUpperCase()}
         </TableCell>
@@ -55,12 +55,12 @@ export function TableDefaultView({
             setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2 "
         >
           {`${
             filteredPages
-              ? filteredPages?.collaborator?.toUpperCase()
-              : pdf?.pages?.[0]?.collaborator?.toUpperCase()
+              ? filteredPages?.incident_request?.toUpperCase()
+              : pdf?.pages?.[0]?.incident_request?.toUpperCase()
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
@@ -69,7 +69,7 @@ export function TableDefaultView({
             setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2 "
         >
           {`${
             filteredPages
@@ -83,13 +83,13 @@ export function TableDefaultView({
             setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2 "
         >
           {`${
             filteredPages
-              ? filteredPages?.incident_request?.toUpperCase()
-              : pdf?.pages?.[0]?.incident_request?.toUpperCase()
-              ? pdf?.pages?.[0]?.incident_request?.toUpperCase()
+              ? filteredPages?.collaborator?.toUpperCase()
+              : pdf?.pages?.[0]?.collaborator?.toUpperCase()
+              ? pdf?.pages?.[0]?.collaborator?.toUpperCase()
               : "VAZIO"
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
@@ -99,12 +99,12 @@ export function TableDefaultView({
             setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2 "
         >
           {`${
             filteredPages
-              ? filteredPages?.patrimony?.toUpperCase()
-              : pdf?.pages?.[0]?.patrimony?.toUpperCase()
+              ? filteredPages?.group?.toUpperCase()
+              : pdf?.pages?.[0]?.group?.toUpperCase()
           } ${pdf?.pages?.length > 1 ? "(...)" : ""}`}
         </TableCell>
         <TableCell
@@ -113,9 +113,9 @@ export function TableDefaultView({
             setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2 "
         >
-          {pdf?.pages?.length}
+          {pdf?.pages?.[0]?.vp}
         </TableCell>
         <TableCell
           onClick={() => {
@@ -123,20 +123,131 @@ export function TableDefaultView({
             setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.uo}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.company}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.location}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.manager}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.brand_model}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.patrimony}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.type_of_movement}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.type_of_equipment_delivery}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.pages?.[0]?.returned_equipment}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
         >
           {pdf?.created_at}
         </TableCell>
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
             setOpenDialogViewPdf(true);
           }}
-          className="font-semibold p-2 border"
+          className="font-semibold p-2 "
+        >
+          {pdf?.created_by}
+        </TableCell>
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
         >
           {pdf?.updated_at}
         </TableCell>
-        <TableCell className="p-2 font-semibold border flex items-center">
+        <TableCell
+          onClick={() => {
+            setFormDataByPage(pdf?.pages);
+            setSelectedPdf(pdf);
+            setOpenDialogViewPdf(true);
+          }}
+          className="font-semibold p-2 "
+        >
+          {pdf?.updated_by}
+        </TableCell>
+        <TableCell className="p-2 font-semibold  flex items-center">
           <ButtonComponent
             onClick={() => {
               setFormDataByPage(pdf?.pages);

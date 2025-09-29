@@ -37,7 +37,7 @@ export async function getDataPdfService(token: string) {
 export async function updateDataPdfService(
   token: string | null,
   id: number,
-  payload: PayloadCreatePdf,
+  payload: { pages: DataExtractedPdfProps[] },
 ) {
   try {
     const response = await axios.post(`/api/updateDataPdf`, {
