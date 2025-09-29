@@ -107,20 +107,16 @@ export function FieldsPreview({
         <label className="text-sm font-medium text-gray-700 mb-1 block">
           Tipo de Movimento
         </label>
-        <Select>
+        <Select
+          value={data?.type_of_movement}
+          onValueChange={(value) => updateField(idx, "type_of_movement", value)}
+        >
           <SelectTrigger className="w-full">
-            <SelectValue
-              defaultValue={data?.type_of_movement}
-              placeholder={data?.type_of_movement}
-            />
+            <SelectValue placeholder="Selecione o tipo de movimento" />
           </SelectTrigger>
           <SelectContent>
             {["ENTREGA", "RECOLHIMENTO", "TROCA"].map((type) => (
-              <SelectItem
-                key={type}
-                value={type}
-                onClick={() => updateField(idx, "type_of_movement", type)}
-              >
+              <SelectItem key={type} value={type}>
                 {type}
               </SelectItem>
             ))}

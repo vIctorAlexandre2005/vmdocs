@@ -7,31 +7,49 @@ import { LuLaptopMinimalCheck } from "react-icons/lu";
 import { TbDeviceLaptopOff, TbReplaceFilled } from "react-icons/tb";
 import { TableWithData } from "@/features/Dashboard/View/Table/TableWithData";
 import { ContainerTable } from "@/features/Dashboard/View";
+import { usePdfData } from "../viewModel/usePdfData";
+import { useMemo } from "react";
 
-const itemCards = [
+export function UploadView() {
+  const { dataPdf } = usePdfData();
+  const replacements = useMemo(() => {
+    return dataPdf?.filter((item) => item.pages.map((item) => item.type_of_movement === "TROCA").length).length || 0;
+  }, [dataPdf]);
+
+  const terms = useMemo(() => {
+    return dataPdf?.length || 0;
+  }, [dataPdf]);
+
+  const deliveries = useMemo(() => {
+    return dataPdf?.filter((item) => item.pages.map((item) => item.type_of_movement === "ENTREGA").length).length || 0;
+  }, [dataPdf]);
+
+  const collections = useMemo(() => {
+    return dataPdf?.filter((item) => item.pages.map((item) => item.type_of_movement === "RECOLHIMENTO").length).length || 0;
+  }, [dataPdf]);
+
+  const itemCards = [
   {
     icon: GrDocumentText,
     title: "Termos",
-    value: 10,
+    value: terms,
   },
   {
     icon: LuLaptopMinimalCheck,
     title: "Entregas (admissões)",
-    value: 10,
+    value: deliveries,
   },
   {
     icon: TbDeviceLaptopOff,
     title: "Recolhimentos",
-    value: 10,
+    value: collections,
   },
   {
     icon: TbReplaceFilled,
     title: "Trocas",
-    value: 10,
+    value: replacements,
   },
 ];
-
-export function UploadView() {
   return (
     <div className="flex flex-col justify-center items-center mt-8 gap-4 p-4">
       <div className="flex items-center gap-4 justify-around w-full">
@@ -45,7 +63,7 @@ export function UploadView() {
                 <span className="text-lg font-semibold">{item.title}</span>
               </div>
               <span className="text-3xl opacity-85 font-bold">
-                {item.value}
+                {item?.value}
               </span>
             </CardContent>
           </Card>
