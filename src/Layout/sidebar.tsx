@@ -7,22 +7,22 @@ import { TbCloudUpload } from "react-icons/tb";
 const navLinks = [
   { name: "Dashboard", href: "/", icon: LuLayoutDashboard },
   { name: "Termos", href: "/terms", icon: GrDocumentText },
-  { name: "Estoque", href: "/inventory", icon: MdOutlineInventory2 },
+  { name: "Estoque", href: "/stock", icon: MdOutlineInventory2 },
 ];
 
 export function Sidebar() {
   const router = useRouter();
   return (
-    <div className="bg-white w-full h-full flex flex-col border-r border-gray-200">
+    <div className="bg-white w-1/6 h-full flex flex-col border-r border-gray-200">
       <div className="p-2">
         <img
-        src={"/logo-vmdocs.png"}
-        height={150}
-        width={150}
-        alt="Logo"
-        className="object-cover"
-        draggable={false}
-      />
+          src={"/logo-vmdocs.png"}
+          height={150}
+          width={150}
+          alt="Logo"
+          className="object-cover"
+          draggable={false}
+        />
       </div>
       <nav className="mt-8 gap-8 pr-4 flex flex-col">
         {navLinks.map((link, idx) => (
