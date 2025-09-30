@@ -11,7 +11,7 @@ import { BarGraph } from "./Bar";
 
 export function BarComponent() {
   return (
-    <Card className="w-full">
+    <Card className="w-8/12">
       <CardHeader>
         <CardTitle>Visão Geral de todas as Sedes</CardTitle>
         <CardDescription>

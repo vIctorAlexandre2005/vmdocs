@@ -1,5 +1,4 @@
 import { CardComponent } from "@/shared/components/CardComponent";
-import { TrendingUp } from "lucide-react";
 import { FaLaptop, FaLaptopHouse } from "react-icons/fa";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 import { TbSettingsUp } from "react-icons/tb";
@@ -12,15 +11,78 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import React, { useState } from "react";
-import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { DonutComponent } from "./donut";
 import { BarComponent } from "./BarComponent";
-import {
-  MdOutlineArrowBackIos,
-  MdOutlineArrowForwardIos,
-} from "react-icons/md";
-import { InputComponent } from "@/shared/components/InputComponent";
-import { GoSearch } from "react-icons/go";
+import { OptionsTable } from "./optionsTable";
+
+const tableHeadData = [
+  "Modelo",
+  "Patrimônio",
+  "Empresa",
+  "Status",
+  "Data de Entrada",
+  "Data de Saída",
+  "Nome do Ativo",
+  "Tipo de Equipamento",
+  "Pessoa Responsável",
+  "Matrícula",
+  "Número de Série",
+  "Fabricante",
+  "Processador",
+  "Localidade",
+  "Memória",
+  "Nº do Chamado",
+  "Rede Operativa",
+  "Compartilhado",
+  "Observação",
+];
+
+const notebooks = [
+  {
+    id: 1,
+    modelo: "DELL Latitude 3450 i5",
+    patrimonio: "PAT123456",
+    empresa: "Eletrobras",
+    status: "Em uso",
+    dataEntrada: "12/08/2023",
+    dataSaida: "25/09/2023",
+    nomeAtivo: "Notebook Administrativo",
+    tipoEquipamento: "Notebook",
+    pessoa: "João Silva",
+    matricula: "123456",
+    numeroSerie: "SN987654321",
+    fabricante: "Dell",
+    processador: "Intel Core i5-7200U",
+    localidade: "Rio de Janeiro - Sede",
+    memoria: "8GB",
+    chamado: "CHM-2023-0045",
+    redeOperativa: "Sim",
+    compartilhado: "Não",
+    observacao: "Equipamento destinado ao setor financeiro",
+  },
+  {
+    id: 2,
+    modelo: "DELL Precision 5450 i7",
+    patrimonio: "PAT654321",
+    empresa: "CHESF",
+    status: "Disponível",
+    dataEntrada: "15/09/2023",
+    dataSaida: "",
+    nomeAtivo: "Notebook Engenharia",
+    tipoEquipamento: "Notebook",
+    pessoa: "",
+    matricula: "",
+    numeroSerie: "SN123456789",
+    fabricante: "Dell",
+    processador: "Intel Core i7-11800H",
+    localidade: "Pernambuco - Sede",
+    memoria: "16GB",
+    chamado: "",
+    redeOperativa: "Não",
+    compartilhado: "Sim",
+    observacao: "Novo em estoque",
+  },
+];
 
 const itemCards = [
   {
@@ -103,9 +165,9 @@ export function StockComponent() {
   const totalPages = Math.ceil(filtered.length / perPage);
   const paginated = filtered.slice((page - 1) * perPage, page * perPage);
   return (
-    <div className="flex flex-col p-4 gap-4">
+    <div className="flex flex-col p-4 w-11/12 gap-4">
       <h1 className="text-2xl text-slate-700 font-semibold">Notebooks</h1>
-      <div className="cards flex justify-around gap-4 items-center">
+      <div className="cards flex justify-between w-full gap-4 items-center">
         {itemCards.map((item) => (
           <CardComponent
             icon={<item.icon size={24} />}
@@ -115,91 +177,66 @@ export function StockComponent() {
         ))}
       </div>
 
-      <div className="w-full flex items-start justify-center gap-4">
+      <div className="w-full flex items-start justify-around gap-4">
         <DonutComponent />
         <BarComponent />
       </div>
 
-      <div className="p-4 shadow-sm border rounded-2xl bg-white">
+      <div className="p-4 shadow-sm w-full max-w-full border rounded-2xl bg-white">
         <div className="flex justify-between items-center mb-4 gap-4">
-          <div className="w-1/4 flex items-center gap-2">
-            <GoSearch size={20} color="#a3a3a3" />
-            <InputComponent
-              label=""
-              placeholder="Buscar"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-              className="border-slate-300 p-2 text-slate-700 placeholder:text-slate-400"
-            />
-          </div>
-
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-slate-600">
-              Página {page} de {totalPages || 1}
-            </span>
-            <div className="flex gap-2">
-              <ButtonComponent
-                className="border-slate-300 text-slate-700"
-                disabled={page === 1}
-                onClick={() => setPage(page - 1)}
-                iconLeft={<MdOutlineArrowBackIos size={20} />}
-              />
-              <ButtonComponent
-                className="border-slate-300 text-slate-700"
-                disabled={page === totalPages || totalPages === 0}
-                onClick={() => setPage(page + 1)}
-                iconLeft={<MdOutlineArrowForwardIos size={20} />}
-              />
-            </div>
-          </div>
+          <OptionsTable
+            page={page}
+            setPage={setPage}
+            totalPages={totalPages}
+            search={search}
+            setSearch={setSearch}
+          />
         </div>
 
         <Table className="rounded-2xl shadow-sm overflow-hidden">
           <TableHeader>
             <TableRow className="font-bold">
-              <TableHead className="text-slate-700 font-bold">Nome</TableHead>
-              <TableHead className="text-slate-700 font-bold">Email</TableHead>
-              <TableHead className="text-slate-700 font-bold">Cargo</TableHead>
-              <TableHead className="text-right text-slate-700 font-bold">
-                Status
-              </TableHead>
+              {tableHeadData.map((item) => (
+                <TableHead key={item} className="text-slate-700 font-bold">
+                  {item}
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
 
           <TableBody className="text-slate-600">
-            {paginated.length > 0 ? (
-              paginated.map((user) => (
-                <TableRow
-                  key={user.id}
-                  className="hover:bg-slate-50 transition"
-                >
-                  <TableCell className="">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.role}</TableCell>
-                  <TableCell className={`text-right font-bold p-4`}>
-                    <span
-                      className={`${
-                        user.status === "Disponível"
-                          ? "bg-indigo-100 p-2 rounded-full border border-indigo-300 text-indigo-500"
-                          : user.status === "Em uso"
-                          ? "bg-orange-100 p-2 rounded-full border border-orange-300 text-orange-500"
-                          : user.status === "Manutenção"
-                          ? "bg-red-100 p-2 rounded-full border border-red-300 text-red-500"
-                          : "bg-sky-100 p-2 rounded-full border border-sky-300 text-sky-500"
-                      }`}
-                    >
-                      {user.status}
-                    </span>
-                  </TableCell>
+            {notebooks.length > 0 ? (
+              notebooks.map((nb) => (
+                <TableRow key={nb.id} className="hover:bg-slate-50 transition">
+                  {Object.values(nb)
+                    .slice(1)
+                    .map((value, index) => (
+                      <TableCell key={index} className="whitespace-nowrap p-6">
+                        {index === 3 ? ( // Status está na posição 2 (ajuste conforme a ordem real)
+                          <span
+                            className={`${
+                              value === "Disponível"
+                                ? "bg-indigo-100 p-2 rounded-full border border-indigo-300 text-indigo-500"
+                                : value === "Em uso"
+                                ? "bg-orange-100 p-2 rounded-full border border-orange-300 text-orange-500"
+                                : value === "Manutenção"
+                                ? "bg-red-100 p-2 rounded-full border border-red-300 text-red-500"
+                                : "bg-sky-100 p-2 rounded-full border border-sky-300 text-sky-500"
+                            }`}
+                          >
+                            {value}
+                          </span>
+                        ) : (
+                          value || "-"
+                        )}
+                      </TableCell>
+                    ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={4}
+                  colSpan={tableHeadData.length}
                   className="text-center text-gray-500 py-4"
                 >
                   Nenhum resultado encontrado

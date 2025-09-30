@@ -29,8 +29,8 @@ export function ButtonComponent({
     <button
       type="button"
       data-cy={data_cy_button}
-      disabled={loading ? disabled : false}
-      className={`p-2 cursor-pointer flex items-center ${disabled && "opacity-50"} justify-center ${className}`}
+      disabled={loading ? disabled : false || disabled}
+      className={`p-2 ${disabled ? "cursor-not-allowed" : "cursor-pointer"} flex items-center ${disabled && "opacity-50"} justify-center ${className}`}
       onClick={onClick}
     >
       {!loading && (
