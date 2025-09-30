@@ -1,6 +1,8 @@
 import { ButtonComponent } from "@/shared/components/ButtonComponent";
 import { InputComponent } from "@/shared/components/InputComponent";
+import { Input } from "@/shared/components/ui/input";
 import { Separator } from "@/shared/components/ui/separator";
+import { useRef } from "react";
 import { GoSearch } from "react-icons/go";
 import {
   MdOutlineArrowBackIos,
@@ -8,6 +10,7 @@ import {
 } from "react-icons/md";
 import { PiExport } from "react-icons/pi";
 import { TfiImport } from "react-icons/tfi";
+import { useImportExcel } from "../viewModel/useImportExcel";
 
 interface OptionsTableProps {
   search: string;
@@ -23,6 +26,7 @@ export function OptionsTable({
   setPage,
   totalPages,
 }: OptionsTableProps) {
+  const { handleFile, handleOpenFileDialog, inputRef } = useImportExcel();
   return (
     <>
       <div className="w-1/4 flex items-center gap-2">
@@ -68,6 +72,16 @@ export function OptionsTable({
                 className="hover:border-slate-300 hover:border rounded-md font-semibold transition duration-300 text-slate-700"
                 text="Importar .xlsx"
                 iconRight={<TfiImport size={20} />}
+                onClick={handleOpenFileDialog}
+              />
+              <Input
+                onChange={(e) => {
+                  e.target.files && inputRef.current?.click();
+                }}
+                ref={inputRef}
+                type="file"
+                accept=".xlsx"
+                className="hidden"
               />
             </div>
             <Separator
