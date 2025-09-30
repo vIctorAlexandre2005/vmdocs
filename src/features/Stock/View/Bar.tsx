@@ -10,6 +10,7 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 const chartData = [
   {
+    company: "CHESF",
     34405: 40,
     34505: 35,
     34507: 30,
@@ -17,6 +18,7 @@ const chartData = [
     54507: 55,
   },
   {
+    company: "ELETROBRAS",
     34405: 40,
     34505: 35,
     34507: 30,
@@ -24,6 +26,7 @@ const chartData = [
     54507: 55,
   },
   {
+    company: "ELETRONORTE",
     34405: 40,
     34505: 35,
     34507: 30,
@@ -31,6 +34,7 @@ const chartData = [
     54507: 55,
   },
   {
+    company: "ELETROSUL",
     34405: 40,
     34505: 35,
     34507: 30,
@@ -61,13 +65,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function BarComponent() {
+export function BarGraph() {
   return (
     <ChartContainer config={chartConfig} className="h-[400px] w-full">
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="company"
           tickLine={false}
           tickMargin={10}
           axisLine={false}
