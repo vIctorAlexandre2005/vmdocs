@@ -11,6 +11,9 @@ import {
 import { PiExport } from "react-icons/pi";
 import { TfiImport } from "react-icons/tfi";
 import { useImportExcel } from "../viewModel/useImportExcel";
+import { DialogComponent } from "@/shared/components/dialogs/dialog";
+import { Loader } from "@/shared/components/Loader";
+import { PuffLoader } from "react-spinners";
 
 interface OptionsTableProps {
   search: string;
@@ -26,7 +29,14 @@ export function OptionsTable({
   setPage,
   totalPages,
 }: OptionsTableProps) {
-  const { handleFile, handleOpenFileDialog, inputRef } = useImportExcel();
+  const {
+    handleFile,
+    handleOpenFileDialog,
+    inputRef,
+    loadingTableExcel,
+    openDialogImportExcel,
+    setOpenDialogImportExcel,
+  } = useImportExcel();
   return (
     <>
       <div className="w-1/4 flex items-center gap-2">
@@ -79,6 +89,7 @@ export function OptionsTable({
                   e.target.files && inputRef.current?.click();
                 }}
                 ref={inputRef}
+                onChangeCapture={handleFile}
                 type="file"
                 accept=".xlsx"
                 className="hidden"
@@ -97,6 +108,15 @@ export function OptionsTable({
             </div>
           </div>
         </div>
+        <DialogComponent
+          title="Veja como ficou"
+          open={openDialogImportExcel}
+          onOpenChange={setOpenDialogImportExcel}
+        >
+          {loadingTableExcel && (
+            <Loader loaderIcon={<PuffLoader size={100} color="#3b82f6" />} />
+          )}
+        </DialogComponent>
       </div>
     </>
   );

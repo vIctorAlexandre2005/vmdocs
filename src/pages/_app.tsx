@@ -1,5 +1,6 @@
 import LayoutApp from "@/Layout/layout";
 import AsyncDialogProvider from "@/shared/contexts/AsyncDialogContext";
+import StockProvider from "@/shared/contexts/StockContext";
 import { TableDashboardProvider } from "@/shared/contexts/TableDashboard";
 import { UploadPdfProvider } from "@/shared/contexts/UploadPdfContext";
 import { UserContextProvider } from "@/shared/contexts/UserContext";
@@ -15,8 +16,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <LayoutApp>
           <UploadPdfProvider>
             <TableDashboardProvider>
-              <Component {...pageProps} />
-              <ToastContainer pauseOnHover={false} position="bottom-right" />
+              <StockProvider>
+                <Component {...pageProps} />
+                <ToastContainer pauseOnHover={false} position="bottom-right" />
+              </StockProvider>
             </TableDashboardProvider>
           </UploadPdfProvider>
         </LayoutApp>
