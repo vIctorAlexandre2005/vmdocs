@@ -8,6 +8,7 @@ import { BarComponent } from "./BarComponent";
 import { OptionsTable } from "./optionsTable";
 import { useImportExcel } from "../viewModel/useImportExcel";
 import { TableExcelData } from "./TableExcelData";
+import Image from "next/image";
 
 const itemCards = [
   {
@@ -34,7 +35,8 @@ const itemCards = [
 
 export function StockComponent() {
   const [search, setSearch] = useState("");
-  const { excelData, total_pages, page, setPage } = useImportExcel();
+  const { excelData, total_pages, page, setPage, loadingTableExcel } =
+    useImportExcel();
 
   return (
     <div className="flex flex-col p-4 w-11/12 gap-4">
@@ -65,7 +67,20 @@ export function StockComponent() {
             setSearch={setSearch}
           />
         </div>
-        <TableExcelData excelData={excelData} />
+        {!excelData?.length && !loadingTableExcel && (
+          <div className="flex flex-col justify-center gap-10 items-center">
+            <Image
+              src="/fallback_table_empty.svg"
+              alt="fallback_table_empty"
+              height={400}
+              width={400}
+            />
+            <p className="text-slate-800 text-xl font-semibold">Nada foi importado ainda!</p>
+          </div>
+        )}
+        {!loadingTableExcel && excelData?.length > 0 && (
+          <TableExcelData excelData={excelData} />
+        )}
       </div>
     </div>
   );
