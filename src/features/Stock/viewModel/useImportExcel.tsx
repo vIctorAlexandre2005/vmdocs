@@ -45,13 +45,13 @@ export function useImportExcel() {
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e?.target?.files?.[0];
     if (!file) return;
-    if (
+    /* if (
       file.type !==
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
       errorToast("Apenas arquivos .xlsx!");
       return;
-    }
+    } */
 
     const formData = new FormData();
     formData.append("excel", file);

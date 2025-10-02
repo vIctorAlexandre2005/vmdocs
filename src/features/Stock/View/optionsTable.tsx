@@ -91,7 +91,7 @@ export function OptionsTable({
                 ref={inputRef}
                 onChangeCapture={handleFile}
                 type="file"
-                accept=".xlsx"
+                accept=".csv"
                 className="hidden"
               />
             </div>
