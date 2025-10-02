@@ -38,12 +38,16 @@ interface TableExcelProps {
 }
 
 export function TableExcelData({ excelData }: TableExcelProps) {
+  console.log("excelData", excelData);
   return (
     <Table className="rounded-2xl shadow-sm overflow-auto">
       <TableHeader>
         <TableRow className="font-bold">
           {tableHeadData.map((item) => (
-            <TableHead key={item} className="text-slate-700 text-center font-bold">
+            <TableHead
+              key={item}
+              className="text-slate-700 text-center font-bold"
+            >
               {item}
             </TableHead>
           ))}
@@ -52,7 +56,11 @@ export function TableExcelData({ excelData }: TableExcelProps) {
 
       <TableBody>
         {excelData.map((row: ExcelData) => (
-          <TableRow className="text-center" key={row.id}>
+          <TableRow
+            onClick={() => console.log(row?.id)}
+            className="text-center"
+            key={row.id}
+          >
             <TableCell>{row.model}</TableCell>
             <TableCell>{row.assetTag}</TableCell>
             <TableCell>{row.company}</TableCell>
@@ -65,7 +73,9 @@ export function TableExcelData({ excelData }: TableExcelProps) {
                     ? "bg-orange-100 text-orange-600 border-orange-300"
                     : row.status.toLowerCase() === "em manutenção"
                     ? "bg-red-100 text-red-600 border-red-300"
-                    : "bg-blue-100 text-blue-600 border-blue-200"
+                    : row.status.toLowerCase() === "disponível"
+                    ? "bg-blue-100 text-blue-600 border-blue-300"
+                    : "bg-slate-100 text-slate-600 border-slate-300"
                 } p-2 font-semibold w-fit border rounded-full text-center`}
               >
                 {row.status}

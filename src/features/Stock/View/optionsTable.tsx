@@ -61,13 +61,13 @@ export function OptionsTable({
           <div className="flex gap-2">
             <ButtonComponent
               className="border-slate-300 text-slate-700"
-              disabled={page === 1}
+              disabled={page === 0}
               onClick={() => setPage(page - 1)}
               iconLeft={<MdOutlineArrowBackIos size={20} />}
             />
             <ButtonComponent
               className="border-slate-300 text-slate-700"
-              disabled={page === totalPages || totalPages === 0}
+              /* disabled={page === totalPages} */
               onClick={() => setPage(page + 1)}
               iconLeft={<MdOutlineArrowForwardIos size={20} />}
             />

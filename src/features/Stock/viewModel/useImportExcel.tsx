@@ -11,7 +11,8 @@ export function useImportExcel() {
   const { excelData, setExcelData, total_pages, setTotalPages } =
     useContextStock();
   const [openDialogImportExcel, setOpenDialogImportExcel] = useState(false);
-  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -58,7 +59,7 @@ export function useImportExcel() {
       },
       {
         onError: (error) => {
-          errorToast("Erro ao buscar dados do excel");
+          errorToast("Erro ao buscar dados");
           console.error(error);
         },
       }
@@ -89,7 +90,7 @@ export function useImportExcel() {
 
   // 👉 sempre que a página mudar, busca os dados de novo
   useEffect(() => {
-    if (page > 0) {
+    if (page >= 0) {
       getAllStock(page);
     }
   }, [page]);
@@ -105,5 +106,7 @@ export function useImportExcel() {
     total_pages,
     page,
     setPage,
+    search,
+    setSearch,
   };
 }
