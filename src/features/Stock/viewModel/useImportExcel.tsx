@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { importExcel } from "../service/importExcel.";
 import { ExcelData } from "../model/Stock";
 import { useContextStock } from "@/shared/contexts/StockContext";
+import { getDataExcel } from "../service/getDataExcel";
 
 export function useImportExcel() {
   const { execute, isLoading: loadingTableExcel } = useContextAsyncDialog();
@@ -29,9 +30,31 @@ export function useImportExcel() {
           newPage ?? page
         );
         setExcelData(response?.content);
-        setPage(response?.number);
+        if (response?.number !== page) {
+          setPage(response?.number);
+        }
+
         setTotalPages(response?.totalPages);
-        return response;
+      },
+      {
+        onError: (error) => {
+          errorToast("Erro ao buscar dados do excel");
+          console.error(error);
+        },
+      }
+    );
+  }
+
+  async function getAllStock(page: number) {
+    await execute(
+      async () => {
+        const response = await getDataExcel(page);
+        setExcelData(response?.content);
+        if (response?.number !== page) {
+          setPage(response?.number);
+        }
+
+        setTotalPages(response?.totalPages);
       },
       {
         onError: (error) => {
@@ -67,7 +90,7 @@ export function useImportExcel() {
   // 👉 sempre que a página mudar, busca os dados de novo
   useEffect(() => {
     if (page > 0) {
-      fetchExcelData(null, page);
+      getAllStock(page);
     }
   }, [page]);
 

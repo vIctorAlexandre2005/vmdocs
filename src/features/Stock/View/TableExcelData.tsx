@@ -39,7 +39,7 @@ interface TableExcelProps {
 
 export function TableExcelData({ excelData }: TableExcelProps) {
   return (
-    <Table className="rounded-2xl shadow-sm overflow-hidden">
+    <Table className="rounded-2xl shadow-sm overflow-auto">
       <TableHeader>
         <TableRow className="font-bold">
           {tableHeadData.map((item) => (
@@ -66,7 +66,7 @@ export function TableExcelData({ excelData }: TableExcelProps) {
                     : row.status.toLowerCase() === "em manutenção"
                     ? "bg-red-100 text-red-600 border-red-300"
                     : "bg-blue-100 text-blue-600 border-blue-200"
-                } p-2 font-semibold border rounded-full text-center`}
+                } p-2 font-semibold w-fit border rounded-full text-center`}
               >
                 {row.status}
               </div>
