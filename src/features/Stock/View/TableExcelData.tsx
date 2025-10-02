@@ -7,6 +7,19 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { ExcelData } from "../model/Stock";
+import { DialogComponent } from "@/shared/components/dialogs/dialog";
+import { FieldsViewMachine } from "./FieldsViewMachine";
+import { useState } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shared/components/ui/popover";
+import { Button } from "@/shared/components/ui/button";
+import { ChevronDownIcon } from "lucide-react";
+import { Calendar } from "@/shared/components/ui/calendar";
+import { useRouter } from "next/router";
+import { useDataExcel } from "../viewModel/useDataExcel";
 const tableHeadData = [
   "Modelo",
   "Nome do Ativo",
@@ -38,7 +51,8 @@ interface TableExcelProps {
 }
 
 export function TableExcelData({ excelData }: TableExcelProps) {
-  console.log("excelData", excelData);
+  const [open, setOpen] = useState(false);
+  const { loadingDataById, tableDataById, getDataById } = useDataExcel();
   return (
     <Table className="rounded-2xl shadow-sm overflow-auto">
       <TableHeader>
@@ -57,7 +71,10 @@ export function TableExcelData({ excelData }: TableExcelProps) {
       <TableBody>
         {excelData.map((row: ExcelData) => (
           <TableRow
-            onClick={() => console.log(row?.id)}
+            onClick={() => {
+              getDataById(row.id);
+              setOpen(true);
+            }}
             className="text-center"
             key={row.id}
           >
@@ -82,7 +99,7 @@ export function TableExcelData({ excelData }: TableExcelProps) {
               </div>
             </TableCell>
             <TableCell>{row.entryDate}</TableCell>
-            <TableCell>{row.exitDate || "-"}</TableCell>
+            <TableCell>{row.exitDate}</TableCell>
             <TableCell>{row.equipmentType}</TableCell>
             <TableCell>
               {row.responsiblePerson ? `${row.responsiblePerson.name}` : "-"}
@@ -104,6 +121,18 @@ export function TableExcelData({ excelData }: TableExcelProps) {
           </TableRow>
         ))}
       </TableBody>
+
+      <DialogComponent
+        open={open}
+        onOpenChange={setOpen}
+        className=""
+        textTrigger=""
+        textButtonCancel="Cancelar"
+        textButtonConfirm="Alterar"
+        title="Dados da máquina"
+      >
+        <FieldsViewMachine loading={loadingDataById} values={tableDataById} />
+      </DialogComponent>
     </Table>
   );
 }

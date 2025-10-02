@@ -10,6 +10,8 @@ interface InputComponentProps {
   iconInside?: React.ReactNode;
   type?: string;
   data_cy_test?: string;
+  disabled?: boolean;
+  readonly?: boolean;
 }
 
 export function InputComponent({
@@ -22,6 +24,8 @@ export function InputComponent({
   classNameLabel,
   type,
   data_cy_test,
+  disabled,
+  readonly,
 }: InputComponentProps) {
   return (
     <div className="flex w-full flex-col">
@@ -38,10 +42,14 @@ export function InputComponent({
           type={type ? type : "text"}
           className={`${className} ${
             iconInside ? "pl-10" : ""
-          } w-full border border-gray-300 transition duration-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+          } w-full border border-gray-300 ${
+            disabled && "cursor-not-allowed"
+          } transition duration-300 rounded-2xl focus:outline-none p-2 focus:ring-2 focus:ring-indigo-500`}
           placeholder={placeholder}
           value={value}
           data-cy={data_cy_test}
+          disabled={disabled}
+          readOnly={readonly}
           onChange={onChange}
         />
       </div>

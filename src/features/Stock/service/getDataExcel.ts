@@ -8,3 +8,12 @@ export async function getDataExcel(page: number) {
     throw new Error(error);
   }
 }
+
+export async function getDataExcelById(id: number) {
+  try {
+    const response = await api.get(`/stock/${id}`);
+    return response;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}

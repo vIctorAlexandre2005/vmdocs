@@ -1,5 +1,5 @@
 export interface ExcelData {
-  id: string; // UUID ou auto incremento
+  id: number; // UUID ou auto incremento
   model: string; // Ex: DELL 3450 i7
   assetTag: string; // Patrimônio
   company: "ELETROBRAS" | "CHESF" | "FURNAS" | "ELETROSUL" | "ELETRONORTE";
@@ -28,7 +28,7 @@ export interface ExcelData {
 }
 
 export const defaultValueExcel: ExcelData = {
-  id: "",
+  id: 0,
   model: "",
   assetTag: "",
   company: "ELETROBRAS",

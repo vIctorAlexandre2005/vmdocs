@@ -64,20 +64,23 @@ export function DialogComponent({
       </DialogTrigger>
 
       <DialogContent
-        className={`bg-slate-50 text-slate-900 ${isDelete ? "lg:max-w-[425px]" : "max-sm:max-w-full sm:h-11/12 max-sm:h-full sm:max-w-11/12 overflow-auto"
-          }`}
+        className={`bg-slate-50 text-slate-900 ${
+          isDelete
+            ? "lg:max-w-[425px]"
+            : "max-sm:max-w-full sm:h-11/12 max-sm:h-full sm:max-w-11/12 overflow-auto"
+        }`}
       >
         <DialogHeader className="text-slate-900 text-center text-lg font-bold">
           {title}
         </DialogHeader>
         {children}
-        <DialogFooter>
+        <DialogFooter className="flex gap-2 sm:flex-row sm:justify-end">
           {!loadingShowButton && (
             <>
               <ButtonComponent
                 text={textButtonCancel}
                 onClick={() => onOpenChange?.(false)}
-                className="bg-red-500 rounded-lg text-white hover:bg-red-600"
+                className="bg-red-500 rounded-lg h-10 w-fit text-white hover:bg-red-600"
               />
               <ButtonComponent
                 onClick={handleConfirm}
@@ -85,7 +88,7 @@ export function DialogComponent({
                 type="submit"
                 loading={loadingFallbackButton}
                 disabled={loadingFallbackButton}
-                className="items-baseline text-base font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="items-baseline text-base h-10 w-fit font-bold transition duration-300 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 icon={iconButton}
                 iconLeft={iconLeftButton}
                 iconRight={iconRightButton}
