@@ -88,7 +88,7 @@ export function FieldsViewMachine({ loading, values }: FieldsViewMachineProps) {
   return (
     <div className="grid lg:grid-cols-5 sm:grid-cols-3 max-sm:grid-cols-2 gap-4">
       {loading && (
-        <Loader loaderIcon={<MoonLoader size={20} color="#3b82f6" />} />
+        <Loader loaderIcon={<MoonLoader size={50} color="#3b82f6" />} />
       )}
 
       {!loading && (

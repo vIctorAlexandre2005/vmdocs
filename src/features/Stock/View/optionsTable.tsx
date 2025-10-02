@@ -3,7 +3,7 @@ import { InputComponent } from "@/shared/components/InputComponent";
 import { Input } from "@/shared/components/ui/input";
 import { Separator } from "@/shared/components/ui/separator";
 import { useRef } from "react";
-import { GoSearch } from "react-icons/go";
+import { GoPlusCircle, GoSearch } from "react-icons/go";
 import {
   MdOutlineArrowBackIos,
   MdOutlineArrowForwardIos,
@@ -101,15 +101,15 @@ export function OptionsTable({
             />
             <div>
               <ButtonComponent
-                className="hover:border-slate-300 hover:border rounded-md font-semibold transition duration-300 text-slate-700"
-                text="Exportar .xlsx"
-                iconRight={<PiExport size={20} />}
+                className="rounded font-semibold transition duration-300 text-white bg-indigo-500 hover:bg-indigo-600"
+                text="Nova máquina"
+                iconRight={<GoPlusCircle size={20} />}
               />
             </div>
           </div>
         </div>
         <DialogComponent
-          title="Veja como ficou"
+          title="Buscando os dados..."
           open={openDialogImportExcel}
           onOpenChange={setOpenDialogImportExcel}
         >

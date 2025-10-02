@@ -20,6 +20,8 @@ import { ChevronDownIcon } from "lucide-react";
 import { Calendar } from "@/shared/components/ui/calendar";
 import { useRouter } from "next/router";
 import { useDataExcel } from "../viewModel/useDataExcel";
+import { RiEditBoxLine } from "react-icons/ri";
+
 const tableHeadData = [
   "Modelo",
   "Nome do Ativo",
@@ -130,6 +132,7 @@ export function TableExcelData({ excelData }: TableExcelProps) {
         textButtonCancel="Cancelar"
         textButtonConfirm="Alterar"
         title="Dados da máquina"
+        iconRightButton={<RiEditBoxLine size={20} />}
       >
         <FieldsViewMachine loading={loadingDataById} values={tableDataById} />
       </DialogComponent>
