@@ -64,3 +64,19 @@ export const defaultValueStockModel: StockModel = {
   total_pages: 0,
   setTotalPages: () => {},
 };
+
+export interface StockDataSend {
+  model: string;
+  assetTag: string;
+  company: string;
+  status: string;
+  entryDate: string; // se for sempre data, pode tipar como Date
+  equipmentType: string;
+  serialNumber: string;
+  processor: string;
+  location: string;
+  memory: string;
+  operationalNetwork: string;
+  shared: string;
+  notes: string;
+}

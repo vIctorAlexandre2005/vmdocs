@@ -1,14 +1,26 @@
 import { useContextAsyncDialog } from "@/shared/contexts/AsyncDialogContext";
-import { getDataExcelById } from "../service/getDataExcel";
+import { createMachineService, getDataExcelById } from "../service/dataExcel";
 import { useState } from "react";
-import { ExcelData } from "../model/Stock";
+import { ExcelData, StockDataSend } from "../model/Stock";
 import { errorToast } from "@/shared/utils/toasts";
+import { useContextStock } from "@/shared/contexts/StockContext";
 
 export function useDataExcel() {
+  const { excelData, setExcelData } = useContextStock();
   const [tableDataById, setTableDataById] = useState<ExcelData>(
     {} as ExcelData
   );
   const [loadingDataById, setLoadingDataById] = useState(true);
+
+  async function createMachine(data: StockDataSend) {
+    try {
+      const response = await createMachineService(data);
+      setExcelData([...excelData, response]);
+    } catch (error) {
+      console.error(error);
+      errorToast("Erro ao buscar dados");
+    }
+  }
 
   async function getDataById(id: number) {
     try {
@@ -28,5 +40,6 @@ export function useDataExcel() {
     loadingDataById,
     tableDataById,
     getDataById,
+    createMachine
   };
 }

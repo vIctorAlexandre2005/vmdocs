@@ -3,6 +3,7 @@ import { SelectComponent } from "@/shared/components/SelectComponent";
 import { MoonLoader, SyncLoader } from "react-spinners";
 import { ExcelData } from "../model/Stock";
 import { Loader } from "@/shared/components/Loader";
+import { Textarea } from "@/shared/components/ui/textarea";
 
 const itemsBusiness = [
   {
@@ -86,8 +87,8 @@ interface FieldsViewMachineProps {
 
 export function FieldsViewMachine({ loading, values }: FieldsViewMachineProps) {
   return (
-    <div className="grid lg:grid-cols-5 sm:grid-cols-3 max-sm:grid-cols-2 gap-4">
-      {loading && (
+    <div className="grid lg:grid-cols-5 sm:grid-cols-3 max-sm:grid-cols-2 @max-xs:grid-cols-1 gap-4">
+      {loading && !values && (
         <Loader loaderIcon={<MoonLoader size={50} color="#3b82f6" />} />
       )}
 
@@ -168,6 +169,10 @@ export function FieldsViewMachine({ loading, values }: FieldsViewMachineProps) {
             value={values?.updatedBy}
             disabled={true}
           />
+          <div>
+            <p>Observações</p>
+            <Textarea placeholder="Observações" className="resize-none" />
+          </div>
         </>
       )}
     </div>

@@ -14,6 +14,7 @@ import { useImportExcel } from "../viewModel/useImportExcel";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { Loader } from "@/shared/components/Loader";
 import { PuffLoader } from "react-spinners";
+import { FieldsCreateMachine } from "./FieldsCreateMachine";
 
 interface OptionsTableProps {
   search: string;
@@ -100,11 +101,14 @@ export function OptionsTable({
               className="border-accent-foreground"
             />
             <div>
-              <ButtonComponent
-                className="rounded font-semibold transition duration-300 text-white bg-indigo-500 hover:bg-indigo-600"
-                text="Nova máquina"
-                iconRight={<GoPlusCircle size={20} />}
-              />
+              <DialogComponent
+                classNameTrigger="rounded p-2 font-semibold cursor-pointer flex gap-2 transition duration-300 text-white bg-indigo-500 hover:bg-indigo-600"
+                textTrigger="Nova máquina"
+                crud={true}
+                iconTriggerRight={<GoPlusCircle size={20} />}
+              >
+                <FieldsCreateMachine />
+              </DialogComponent>
             </div>
           </div>
         </div>

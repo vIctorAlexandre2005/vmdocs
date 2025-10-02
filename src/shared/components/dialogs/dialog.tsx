@@ -15,6 +15,7 @@ interface DialogComponentProps {
   title?: string;
   classNameTrigger?: string;
   iconTriggerLeft?: React.ReactNode;
+  iconTriggerRight?: React.ReactNode;
   textTrigger?: string;
   open?: boolean;
   onOpenChange?: Dispatch<SetStateAction<boolean>>;
@@ -29,6 +30,7 @@ interface DialogComponentProps {
   iconButton?: React.ReactNode;
   iconLeftButton?: React.ReactNode;
   iconRightButton?: React.ReactNode;
+  crud?: boolean;
 }
 
 export function DialogComponent({
@@ -47,9 +49,11 @@ export function DialogComponent({
   textButtonConfirm,
   loadingShowButton,
   loadingFallbackButton,
+  iconTriggerRight,
   iconButton,
   iconLeftButton,
   iconRightButton,
+  crud
 }: DialogComponentProps) {
   async function handleConfirm() {
     const result: any = await onClick?.();
@@ -60,7 +64,7 @@ export function DialogComponent({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger onClick={onTriggerClick} className={classNameTrigger}>
-        {iconTriggerLeft} {textTrigger}
+        {iconTriggerLeft} {textTrigger} {iconTriggerRight}
       </DialogTrigger>
 
       <DialogContent
@@ -68,7 +72,7 @@ export function DialogComponent({
           isDelete
             ? "lg:max-w-[425px]"
             : "max-sm:max-w-full sm:h-11/12 max-sm:h-full sm:max-w-11/12 overflow-auto"
-        }`}
+        } ${crud && 'w-1/2 h-1/2'}`}
       >
         <DialogHeader className="text-slate-900 text-center text-lg font-bold">
           {title}

@@ -54,7 +54,7 @@ interface TableExcelProps {
 
 export function TableExcelData({ excelData }: TableExcelProps) {
   const [open, setOpen] = useState(false);
-  const { loadingDataById, tableDataById, getDataById } = useDataExcel();
+  const { loadingDataById, tableDataById, getDataById, createMachine } = useDataExcel();
   return (
     <Table className="rounded-2xl shadow-sm overflow-auto">
       <TableHeader>

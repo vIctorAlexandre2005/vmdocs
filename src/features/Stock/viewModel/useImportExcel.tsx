@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { importExcel } from "../service/importExcel.";
 import { ExcelData } from "../model/Stock";
 import { useContextStock } from "@/shared/contexts/StockContext";
-import { getDataExcel } from "../service/getDataExcel";
+import { getDataExcel } from "../service/dataExcel";
 
 export function useImportExcel() {
   const { execute, isLoading: loadingTableExcel } = useContextAsyncDialog();
