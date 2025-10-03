@@ -6,6 +6,8 @@ import { Loader } from "@/shared/components/Loader";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { TextareaComponent } from "@/shared/components/TextareaComponent";
 import { useFormContext } from "@/shared/contexts/FormProvider";
+import { useEffect, useState } from "react";
+import { useContextStock } from "@/shared/contexts/StockContext";
 
 const itemsBusiness = [
   {
@@ -91,7 +93,76 @@ export function FieldsViewMachine({
   loadingDataById,
   tableDataById,
 }: FieldsViewMachineProps) {
-  const { updateField } = useFormContext();
+  const { formData, updateField } = useFormContext();
+
+  const {
+    updateId,
+    setUpdateId,
+    updateModel,
+    setUpdateModel,
+    updateAssetTag,
+    setUpdateAssetTag,
+    updateCompany,
+    setUpdateCompany,
+    updateStatus,
+    setUpdateStatus,
+    entryDate,
+    setEntryDate,
+    exitDate,
+    setExitDate,
+    updateTypeEquipment,
+    setUpdateTypeEquipment,
+    updateResponsibleEmployeeId,
+    setUpdateResponsibleEmployeeId,
+    updateResponsibleName,
+    setUpdateResponsibleName,
+    updateSerialNumber,
+    setUpdateSerialNumber,
+    processor,
+    setProcessor,
+    location,
+    setLocation,
+    memory,
+    setMemory,
+    ticketNumber,
+    setTicketNumber,
+    updateObservation,
+    setUpdateObservation,
+    updateOperationalNetwork,
+    setUpdateOperationalNetwork,
+    updateShared,
+    setUpdateShared,
+  } = useContextStock();
+
+  // quando receber novos dados do back, joga no contexto
+  useEffect(() => {
+    if (tableDataById) {
+      setUpdateId(tableDataById.id);
+      setUpdateModel(tableDataById.model);
+      setUpdateAssetTag(tableDataById.assetTag);
+      setUpdateCompany(tableDataById.company);
+      setUpdateStatus(tableDataById.status);
+      setEntryDate(new Date(tableDataById.entryDate).toLocaleDateString());
+      setExitDate(
+        tableDataById?.exitDate
+          ? new Date(tableDataById.exitDate).toLocaleDateString()
+          : ""
+      );
+      setUpdateTypeEquipment(tableDataById.equipmentType);
+      setUpdateResponsibleEmployeeId(
+        tableDataById.responsiblePerson?.employeeId || ""
+      );
+      setUpdateResponsibleName(tableDataById.responsiblePerson?.name || "");
+      setUpdateSerialNumber(tableDataById.serialNumber);
+      setProcessor(tableDataById.processor);
+      setLocation(tableDataById.location);
+      setMemory(tableDataById.memory);
+      setTicketNumber(tableDataById.ticketNumber || "");
+      setUpdateObservation(tableDataById.notes || "");
+      setUpdateOperationalNetwork(tableDataById.operationalNetwork);
+      setUpdateShared(tableDataById.shared);
+    }
+  }, [tableDataById]);
   return (
     <div className="space-y-8">
       {/* Seção: Dados do Equipamento */}
@@ -101,77 +172,82 @@ export function FieldsViewMachine({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputComponent
-            value={tableDataById?.model}
-            onChange={(e) => updateField("model", e.target.value)}
+            value={updateModel}
+            onChange={(e) => setUpdateModel(e.target.value)}
             label="Modelo"
             placeholder="Modelo"
           />
           <InputComponent
-            value={tableDataById?.assetTag}
-            onChange={(e) => updateField("assetTag", e.target.value)}
+            value={updateAssetTag}
+            onChange={(e) => setUpdateAssetTag(e.target.value)}
             label="Nome do ativo"
             placeholder="Nome do ativo"
           />
           <SelectComponent
             label="Empresa"
             items={itemsBusiness}
-            name={tableDataById?.company}
+            name={updateCompany}
           />
           <SelectComponent
             label="Status"
             items={itemStatus}
-            name={tableDataById?.status}
+            name={updateStatus}
           />
           <InputComponent
-            value={new Date(tableDataById?.entryDate).toLocaleDateString()}
-            onChange={(e) => updateField("entryDate", e.target.value)}
+            value={entryDate}
+            onChange={(e) => setEntryDate(e.target.value)}
             label="Data de entrada"
             type="text"
             readonly={true}
           />
-          {/* <InputComponent
-            value={tableDataById?.exitDate}
-            onChange={(e) => updateField("exitDate", e.target.value)}
+          <InputComponent
+            value={exitDate}
+            onChange={(e) => setExitDate(e.target.value)}
             label="Data de saída"
             type="date"
-            readonly={true}
-          /> */}
+          />
           <SelectComponent
             label="Tipo de equipamento"
             items={itemType}
-            name={tableDataById?.equipmentType}
+            name={updateTypeEquipment}
           />
           <InputComponent
-            value={tableDataById?.serialNumber}
-            onChange={(e) => updateField("serialNumber", e.target.value)}
+            value={updateSerialNumber}
+            onChange={(e) => setUpdateSerialNumber(e.target.value)}
             label="N° de série"
             placeholder="N° de série"
           />
           <InputComponent
-            value={tableDataById?.processor}
-            onChange={(e) => updateField("processor", e.target.value)}
+            value={processor}
+            onChange={(e) => setProcessor(e.target.value)}
             label="Processador"
             placeholder="Processador"
           />
           <InputComponent
-            value={tableDataById?.location}
-            onChange={(e) => updateField("location", e.target.value)}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             label="Localização"
             placeholder="Localização"
           />
           <InputComponent
-            value={tableDataById?.memory}
-            onChange={(e) => updateField("memory", e.target.value)}
+            value={memory}
+            onChange={(e) => setMemory(e.target.value)}
             label="Memória RAM"
             placeholder="Memória"
+          />
+          <InputComponent
+            value={ticketNumber}
+            onChange={(e) => setTicketNumber(e.target.value)}
+            label="N° do chamado"
+            placeholder="Chamado"
           />
           <SelectComponent
             label="Rede operacional"
             items={itemOperationalNetwork}
-            name={tableDataById?.operationalNetwork}
+            name={updateOperationalNetwork}
           />
           <SelectComponent
-            name={tableDataById?.shared}
+            name={updateShared}
             label="Compartilhado"
             items={itemShared}
           />
@@ -179,32 +255,32 @@ export function FieldsViewMachine({
             placeholder="Observações"
             className="resize-none w-full"
             label="Observações"
-            value={tableDataById?.notes}
-            onChange={(e) => updateField("notes", e.target.value)}
+            value={updateObservation}
+            onChange={(e) => setUpdateObservation(e.target.value)}
           />
         </div>
       </div>
 
       {/* Seção: Pessoa Responsável */}
-      {/* <div className="p-4 border rounded-xl">
+      <div className="p-4 border rounded-xl">
         <h2 className="text-lg font-semibold mb-4 text-indigo-600">
           Pessoa Responsável
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputComponent
-            value={tableDataById?.name}
-            onChange={(e) => updateField("name", e.target.value)}
+            value={updateResponsibleName}
+            onChange={(e) => setUpdateResponsibleName(e.target.value)}
             label="Nome"
             placeholder="Nome"
           />
           <InputComponent
-            value={tableDataById?.employeeId}
-            onChange={(e) => updateField("employeeId", e.target.value)}
+            value={updateResponsibleEmployeeId}
+            onChange={(e) => setUpdateResponsibleEmployeeId(e.target.value)}
             label="Matrícula"
             placeholder="Matrícula"
           />
         </div>
-      </div> */}
+      </div>
 
       {/* Seção: Controle de Criação/Alteração */}
       {/* <div className="p-4 border rounded-xl">
@@ -213,27 +289,27 @@ export function FieldsViewMachine({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputComponent
-            value={tableDataById?.createdAt}
+            value=
             onChange={(e) => updateField("createdAt", e.target.value)}
             label="Criado em"
             type="date"
             readonly={true}
           />
           <InputComponent
-            value={tableDataById?.createdBy}
+            value=
             onChange={(e) => updateField("createdBy", e.target.value)}
             label="Criado por"
             disabled={true}
           />
           <InputComponent
-            value={tableDataById?.updatedAt}
+            value=
             onChange={(e) => updateField("updatedAt", e.target.value)}
             label="Alterado em"
             type="date"
             readonly={true}
           />
           <InputComponent
-            value={tableDataById?.updatedBy}
+            value=
             onChange={(e) => updateField("updatedBy", e.target.value)}
             label="Alterado por"
             disabled={true}

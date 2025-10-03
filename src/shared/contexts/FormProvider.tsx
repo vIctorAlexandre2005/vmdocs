@@ -1,40 +1,41 @@
-import React, { createContext, useContext, useState } from "react";
+// FormContext.tsx
+import { createContext, useContext, useState } from "react";
 
-type FormValues = {
-  [key: string]: any; // cada campo pode ser string, number, date etc.
-};
-
-type FormContextType = {
-  formData: FormValues | any;
+interface FormContextType {
+  formData: any;
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
   updateField: (field: string, value: any) => void;
-  resetForm: () => void;
-};
+  setInitialData: (data: any) => void;
+}
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
-export const FormProvider = ({ children }: { children: React.ReactNode }) => {
-  const [formData, setFormData] = useState<FormValues>({});
+export function FormProvider({ children }: { children: React.ReactNode }) {
+  const [formData, setFormData] = useState<any>({});
 
-  // Atualiza apenas um campo
-  const updateField = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  function updateField(field: string, value: any) {
+    setFormData((prev: any) => ({
+      ...prev,
+      [field]: value,
+    }));
+  }
 
-  // Reseta tudo
-  const resetForm = () => setFormData({});
+  function setInitialData(data: any) {
+    setFormData(data); // aqui você injeta o `tableDataById` vindo do back
+  }
 
   return (
-    <FormContext.Provider value={{ formData, updateField, resetForm }}>
+    <FormContext.Provider
+      value={{ formData, setFormData, updateField, setInitialData }}
+    >
       {children}
     </FormContext.Provider>
   );
-};
+}
 
-// Hook personalizado para consumir o contexto
-export const useFormContext = () => {
-  const context = useContext(FormContext);
-  if (!context) {
+export function useFormContext() {
+  const ctx = useContext(FormContext);
+  if (!ctx)
     throw new Error("useFormContext deve ser usado dentro de FormProvider");
-  }
-  return context;
-};
+  return ctx;
+}

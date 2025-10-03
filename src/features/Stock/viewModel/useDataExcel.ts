@@ -1,7 +1,7 @@
 import { useContextAsyncDialog } from "@/shared/contexts/AsyncDialogContext";
-import { createMachineService, getDataExcelById } from "../service/dataExcel";
+import { createMachineService, deleteMachineService, getDataExcelById, updateMachineService } from "../service/dataExcel";
 import { useState } from "react";
-import { ExcelData, StockDataSend } from "../model/Stock";
+import { ExcelData, StockDataSend, StockDataUpdate } from "../model/Stock";
 import { errorToast } from "@/shared/utils/toasts";
 import { useContextStock } from "@/shared/contexts/StockContext";
 
@@ -39,7 +39,32 @@ export function useDataExcel() {
     }
   }
 
-  console.log("tableDataById", tableDataById);
+  async function updateMachine(id: number, data: StockDataUpdate) {
+    console.log("DATA EM UPDATE", data);
+    setLoadingCreateMachine(true);
+    try {
+      const response = await updateMachineService(id,data);
+      setExcelData([...excelData, response]);
+    } catch (error) {
+      console.error(error);
+      errorToast("Erro ao buscar dados");
+    } finally {
+      setLoadingCreateMachine(false);
+    }
+  }
+
+  async function deleteMachine(id: number) {
+    setLoadingCreateMachine(true);
+    try {
+      await deleteMachineService(id);
+      setExcelData((prev) => prev.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error(error);
+      errorToast("Erro ao buscar dados");
+    } finally {
+      setLoadingCreateMachine(false);
+    }
+  }
 
   return {
     loadingDataById,
@@ -47,5 +72,7 @@ export function useDataExcel() {
     getDataById,
     createMachine,
     loadingCreateMachine,
+    updateMachine,
+    deleteMachine
   };
 }
