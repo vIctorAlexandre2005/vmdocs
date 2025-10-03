@@ -3,14 +3,14 @@ import { FaLaptop, FaLaptopHouse } from "react-icons/fa";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 import { TbSettingsUp } from "react-icons/tb";
 import React, { useEffect, useMemo, useState } from "react";
-import { DonutComponent } from "./donut";
-import { BarComponent } from "./BarComponent";
 import { OptionsTable } from "./optionsTable";
 import { useImportExcel } from "../viewModel/useImportExcel";
 import { TableExcelData } from "./TableExcelData";
 import Image from "next/image";
 import { Loader } from "@/shared/components/Loader";
 import { SyncLoader } from "react-spinners";
+import { DonutComponent } from "./charts/donut";
+import { BarComponent } from "./charts/BarComponent";
 
 const itemCards = [
   {

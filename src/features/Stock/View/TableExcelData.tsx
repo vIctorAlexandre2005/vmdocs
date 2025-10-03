@@ -57,6 +57,7 @@ interface TableExcelProps {
 
 export function TableExcelData({ excelData }: TableExcelProps) {
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const {
     loadingDataById,
     tableDataById,
@@ -147,12 +148,14 @@ export function TableExcelData({ excelData }: TableExcelProps) {
           <TableRow className="text-center" key={row.id}>
             <TableCell className="flex gap-2">
               <DialogComponent
-                classNameTrigger="p-2 rounded-full cursor-pointer bg-indigo-500"
+                /* open={openDelete}
+                onOpenChange={setOpenDelete} */
+                classNameTrigger="p-2 rounded-full text-red-500 cursor-pointer bg-red-200"
                 onClick={() => deleteMachine(row?.id)}
                 textButtonConfirm="Sim, excluir"
                 textButtonCancel="Cancelar"
-                iconTriggerLeft={<Trash2 size={20} color="#fff" />}
                 isDelete={true}
+                iconTriggerLeft={<Trash2 size={20} />}
                 title={`"Deseja excluir o equipamento ${row.assetTag}?"`}
               />
             </TableCell>

@@ -1,0 +1,60 @@
+{
+  "resume": {
+    "available": 0,
+    "in_use": 0,
+    "maintenance": 0,
+    "to_prepare": 0,
+    "totalOperationalNetwork": 0,
+    "totalShared": 0,
+    "totalNotebook": 0,
+    "totalDesktop": 0
+  },
+  "machines": {
+    "byStatus": {
+      "available": [
+        {
+          "assetTag": "",
+          "company": "",
+          "equipmentType": "",
+          "entryDate": ""
+        }
+      ],
+      "in_use": [{}],
+      "maintenance": [{}],
+      "to_prepare": [{}]
+    },
+    "byCompany": {
+      "chesf": [{}],
+      "eletrobras": [{}],
+      "eletrosul": [{}],
+      "eletronorte": [{}]
+    },
+    "byModel": {
+      "dell": {
+        "dell_3410": [{}],
+        "dell_3420": [{}],
+        "dell_3430": [{}]
+      },
+      "daten": [
+        {
+          "assetTag": "",
+          "company": "",
+          "equipmentType": "",
+          "entryDate": ""
+        }
+      ]
+    },
+    "byEquipmentType": {
+      "notebook": [{}],
+      "desktop": [{}]
+    },
+    "byOperationalNetwork": {
+      "yes": [{}],
+      "no": [{}]
+    },
+    "byShared": {
+      "yes": [{}],
+      "no": [{}]
+    }
+  }
+}

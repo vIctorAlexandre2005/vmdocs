@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,

@@ -9,7 +9,7 @@ interface CardComponentProps {
 }
 export function CardComponent({ icon, title, value }: CardComponentProps) {
   return (
-    <Card className="w-full border-none shadow hover:scale-90 transition duration-300 rounded-4xl">
+    <Card onClick={() => {}} className="w-full border-none shadow hover:scale-90 transition duration-300 rounded-4xl">
       <CardContent className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <span className="p-2 bg-indigo-100 rounded-full text-indigo-500 border border-indigo-400">
