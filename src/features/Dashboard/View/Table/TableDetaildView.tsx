@@ -38,7 +38,7 @@ export function TableDetaildView({
   const filteredPages = pdf?.__filteredPages?.[0];
   return (
     <>
-      <TableRow key={pdf?.id} className="cursor-pointer border-b">
+      <TableRow key={pdf?.id} className="cursor-pointer text-center border-b">
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);

@@ -38,7 +38,7 @@ export function TableDefaultView({
 
   return (
     <>
-      <TableRow key={pdf?.id} className="cursor-pointer border-b">
+      <TableRow key={pdf?.id} className="cursor-pointer text-center border-b">
         <TableCell
           onClick={() => {
             setFormDataByPage(pdf?.pages);

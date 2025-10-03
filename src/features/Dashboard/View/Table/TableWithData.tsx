@@ -89,22 +89,22 @@ export function TableWithData() {
           <p className="text-slate-800">Nenhum upload encontrado</p>
         </div>
       )}
-      <Table className="text-slate-800 overflow-y-auto">
+      <Table className="rounded-2xl shadow-sm overflow-auto">
         {dataPdf.length > 0 && (
           <>
-            <TableHeader className="p-2">
-              <TableRow className="text-slate-800 text-sm p-2">
+            <TableHeader>
+              <TableRow className="font-bold">
                 {tableHeaders.map((header, idx) => (
                   <TableHead
                     key={idx}
-                    className="text-slate-800 p-2 border-t border-t-slate-300 border-b border-b-slate-300 bg-indigo-50 font-bold"
+                    className="text-slate-700 text-center font-bold"
                   >
                     {header}
                   </TableHead>
                 ))}
               </TableRow>
             </TableHeader>
-            <TableBody className="text-xs overflow-y-auto">
+            <TableBody>
               {detailedView &&
                 filteredData?.map((pdf) =>
                   pdf.pages.map((page) => (
@@ -144,24 +144,6 @@ export function TableWithData() {
                   </>
                 ))}
             </TableBody>
-            <TableFooter className="flex justify-center items-center">
-              <Pagination className="flex justify-center p-2">
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious href="#" />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationEllipsis />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationNext href="#" />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </TableFooter>
           </>
         )}
 

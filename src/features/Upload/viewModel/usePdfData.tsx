@@ -40,6 +40,8 @@ export function usePdfData() {
   const [loadingGetDataPdf, setLoadingGetDataPdf] = useState(false);
   const [loadingDeleteDataPdf, setLoadingDeleteDataPdf] = useState(false);
   const [loadingUpdateDataPdf, setLoadingUpdateDataPdf] = useState(false);
+  const [pageTableTerms, setPageTableTerms] = useState(0);
+  const [totalPageTableTerms, setTotalPageTableTerms] = useState(0);
 
   function getBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -90,12 +92,14 @@ export function usePdfData() {
     return { success };
   }
 
-  async function getDataPdf() {
+  async function getDataPdf(page?: number) {
     setLoadingGetDataPdf(true);
     try {
       if (token) {
-        const response = await getDataPdfService(token);
-        setDataPdf(response);
+        const response = await getDataPdfService(page || 0);
+        setDataPdf(response?.content || []);
+        setPageTableTerms(response?.number || 0);
+        setTotalPageTableTerms(response?.totalPages || 0);
         setPdfUrl(response?.pdf_url);
         console.log("response DATA PDF: ", response);
       }
@@ -111,10 +115,10 @@ export function usePdfData() {
   }
 
   useEffect(() => {
-    if (token) {
-      getDataPdf();
+    if (token && pageTableTerms >= 0) {
+      getDataPdf(pageTableTerms);
     }
-  }, [token]);
+  }, [token, pageTableTerms]);
 
   async function updateDataPdf(
     id: number,
@@ -185,5 +189,12 @@ export function usePdfData() {
     setLoadingDeleteDataPdf,
     setLoadingUpdateDataPdf,
     isLoading,
+
+    pageTableTerms,
+    setPageTableTerms,
+    totalPageTableTerms,
+    pdfUrl,
+    setPdfUrl,
+    
   };
 }

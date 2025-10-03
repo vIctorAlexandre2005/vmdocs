@@ -1,4 +1,5 @@
 import { DataExtractedPdfProps } from "@/shared/contexts/UploadPdfContext";
+import { api } from "@/shared/utils/api";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -29,15 +30,17 @@ export async function createPdf(
   }
 }
 
-export async function getDataPdfService(token: string) {
-  const response = await axios.post("/api/getDataPdf", { token: token });
-  return response.data.content;
+export async function getDataPdfService(page: number) {
+  const response = await api.get(
+    `/v1/pdf/data?page=${page}&size=1&sort=id,desc`
+  );
+  return response.data;
 }
 
 export async function updateDataPdfService(
   token: string | null,
   id: number,
-  payload: { pages: DataExtractedPdfProps[] },
+  payload: { pages: DataExtractedPdfProps[] }
 ) {
   try {
     const response = await axios.post(`/api/updateDataPdf`, {
