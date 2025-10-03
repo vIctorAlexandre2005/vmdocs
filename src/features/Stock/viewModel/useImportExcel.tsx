@@ -108,5 +108,6 @@ export function useImportExcel() {
     setPage,
     search,
     setSearch,
+    getAllStock,
   };
 }

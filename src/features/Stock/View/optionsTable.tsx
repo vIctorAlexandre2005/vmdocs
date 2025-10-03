@@ -15,6 +15,8 @@ import { DialogComponent } from "@/shared/components/dialogs/dialog";
 import { Loader } from "@/shared/components/Loader";
 import { PuffLoader } from "react-spinners";
 import { FieldsCreateMachine } from "./FieldsCreateMachine";
+import { useFormContext } from "@/shared/contexts/FormProvider";
+import { useDataExcel } from "../viewModel/useDataExcel";
 
 interface OptionsTableProps {
   search: string;
@@ -30,6 +32,8 @@ export function OptionsTable({
   setPage,
   totalPages,
 }: OptionsTableProps) {
+  const { formData } = useFormContext();
+  const { createMachine, loadingCreateMachine } = useDataExcel();
   const {
     handleFile,
     handleOpenFileDialog,
@@ -81,7 +85,7 @@ export function OptionsTable({
             <div>
               <ButtonComponent
                 className="hover:border-slate-300 hover:border rounded-md font-semibold transition duration-300 text-slate-700"
-                text="Importar .xlsx"
+                text="Importar .CSV"
                 iconRight={<TfiImport size={20} />}
                 onClick={handleOpenFileDialog}
               />
@@ -106,6 +110,11 @@ export function OptionsTable({
                 textTrigger="Nova máquina"
                 crud={true}
                 iconTriggerRight={<GoPlusCircle size={20} />}
+                textButtonCancel="Cancelar"
+                textButtonConfirm="Criar máquina"
+                loadingFallbackButton={loadingCreateMachine}
+                title="Criar nova maquina"
+                onClick={() => createMachine(formData)}
               >
                 <FieldsCreateMachine />
               </DialogComponent>

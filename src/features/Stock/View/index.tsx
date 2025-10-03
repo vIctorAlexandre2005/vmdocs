@@ -47,33 +47,32 @@ export function StockComponent() {
   } = useImportExcel();
 
   const dataFiltered = useMemo(() => {
-  const lowerSearch = search.toLowerCase();
+    const lowerSearch = search.toLowerCase();
 
-  return excelData?.filter((item) =>
-    [
-      item.model,
-      item.assetTag,
-      item.company,
-      item.status,
-      item.entryDate,
-      item.equipmentType,
-      item.serialNumber,
-      item.processor,
-      item.location,
-      item.memory,
-      item.operationalNetwork,
-      item.shared,
-      item.notes,
-      item.createdAt,
-      item.createdBy,
-      item.updatedAt,
-      item.updatedBy,
-    ]
-      .filter(Boolean) // ignora null/undefined
-      .some((field) => field?.toLowerCase().includes(lowerSearch))
-  );
-}, [search, excelData]);
-
+    return excelData?.filter((item) =>
+      [
+        item.model,
+        item.assetTag,
+        item.company,
+        item.status,
+        item.entryDate,
+        item.equipmentType,
+        item.serialNumber,
+        item.processor,
+        item.location,
+        item.memory,
+        item.operationalNetwork,
+        item.shared,
+        item.notes,
+        item.createdAt,
+        item.createdBy,
+        item.updatedAt,
+        item.updatedBy,
+      ]
+        .filter(Boolean) // ignora null/undefined
+        .some((field: any) => (field as string)?.toLowerCase().includes(lowerSearch))
+    );
+  }, [search, excelData]);
 
   // total de páginas recalculado pelo filtro
   const filteredTotalPages = useMemo(() => {

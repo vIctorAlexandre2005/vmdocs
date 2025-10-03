@@ -12,6 +12,7 @@ interface InputComponentProps {
   data_cy_test?: string;
   disabled?: boolean;
   readonly?: boolean;
+  required?: boolean;
 }
 
 export function InputComponent({
@@ -26,11 +27,12 @@ export function InputComponent({
   data_cy_test,
   disabled,
   readonly,
+  required
 }: InputComponentProps) {
   return (
     <div className="flex w-full flex-col">
-      <label className={`block font-bold mb-2 text-gray-700 ${classNameLabel}`}>
-        {label}
+      <label className={`flex font-bold mb-2 gap-2 text-gray-700 ${classNameLabel}`}>
+        {label} {required && <p className="text-red-500">*</p>}
       </label>
       <div className="relative w-full">
         {iconInside && (
@@ -43,7 +45,7 @@ export function InputComponent({
           className={`${className} ${
             iconInside ? "pl-10" : ""
           } w-full border border-gray-300 ${
-            disabled && "cursor-not-allowed"
+            disabled || readonly && "cursor-not-allowed"
           } transition duration-300 rounded-2xl focus:outline-none p-2 focus:ring-2 focus:ring-indigo-500`}
           placeholder={placeholder}
           value={value}

@@ -4,7 +4,7 @@ export interface ExcelData {
   assetTag: string; // Patrimônio
   company: "ELETROBRAS" | "CHESF" | "FURNAS" | "ELETROSUL" | "ELETRONORTE";
   status: "Em estoque" | "Em uso" | "Em manutenção" | "A preparar";
-  entryDate: string; // formato ISO ex: "2023-09-12"
+  entryDate: Date; // formato ISO ex: "2023-09-12"
   exitDate?: string; // obrigatório apenas se status = in_use
   asset_name: string; // Nome amigável do ativo
   equipmentType: string; // Ex: notebook, desktop, etc.
@@ -33,7 +33,7 @@ export const defaultValueExcel: ExcelData = {
   assetTag: "",
   company: "ELETROBRAS",
   status: "A preparar",
-  entryDate: "",
+  entryDate: new Date(),
   asset_name: "",
   equipmentType: "",
   responsiblePerson: null,
@@ -70,7 +70,7 @@ export interface StockDataSend {
   assetTag: string;
   company: string;
   status: string;
-  entryDate: string; // se for sempre data, pode tipar como Date
+  entryDate: Date; // se for sempre data, pode tipar como Date
   equipmentType: string;
   serialNumber: string;
   processor: string;

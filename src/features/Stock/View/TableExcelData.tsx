@@ -8,7 +8,6 @@ import {
 } from "@/shared/components/ui/table";
 import { ExcelData } from "../model/Stock";
 import { DialogComponent } from "@/shared/components/dialogs/dialog";
-import { FieldsViewMachine } from "./FieldsViewMachine";
 import { useState } from "react";
 import {
   Popover,
@@ -21,6 +20,7 @@ import { Calendar } from "@/shared/components/ui/calendar";
 import { useRouter } from "next/router";
 import { useDataExcel } from "../viewModel/useDataExcel";
 import { RiEditBoxLine } from "react-icons/ri";
+import { FieldsViewMachine } from "./FieldsViewMachine";
 
 const tableHeadData = [
   "Modelo",
@@ -54,7 +54,8 @@ interface TableExcelProps {
 
 export function TableExcelData({ excelData }: TableExcelProps) {
   const [open, setOpen] = useState(false);
-  const { loadingDataById, tableDataById, getDataById, createMachine } = useDataExcel();
+  const { loadingDataById, tableDataById, getDataById, createMachine } =
+    useDataExcel();
   return (
     <Table className="rounded-2xl shadow-sm overflow-auto">
       <TableHeader>
@@ -100,13 +101,15 @@ export function TableExcelData({ excelData }: TableExcelProps) {
                 {row.status}
               </div>
             </TableCell>
-            <TableCell>{row.entryDate}</TableCell>
+            <TableCell>
+              {row.entryDate
+                ? new Date(row.entryDate).toLocaleDateString("pt-BR")
+                : "-"}
+            </TableCell>
             <TableCell>{row.exitDate}</TableCell>
             <TableCell>{row.equipmentType}</TableCell>
-            <TableCell>
-              {row.responsiblePerson ? `${row.responsiblePerson.name}` : "-"}
-            </TableCell>
-            <TableCell>{row.responsiblePerson?.employeeId}</TableCell>
+            <TableCell>{row.responsiblePerson?.name || "-"}</TableCell>
+            <TableCell>{row.responsiblePerson?.employeeId || "-"}</TableCell>
             <TableCell>{row.serialNumber}</TableCell>
             <TableCell>{row.manufacturer}</TableCell>
             <TableCell>{row.processor}</TableCell>
@@ -116,9 +119,13 @@ export function TableExcelData({ excelData }: TableExcelProps) {
             <TableCell>{row.operationalNetwork}</TableCell>
             <TableCell>{row.shared}</TableCell>
             <TableCell>{row.notes || "-"}</TableCell>
-            <TableCell>{row.createdAt}</TableCell>
+            <TableCell>
+              {row.createdAt ? new Date(row.createdAt).toLocaleString() : "-"}
+            </TableCell>
             <TableCell>{row.createdBy}</TableCell>
-            <TableCell>{row.updatedAt}</TableCell>
+            <TableCell>
+              {row.updatedAt ? new Date(row.updatedAt).toLocaleString() : "-"}
+            </TableCell>
             <TableCell>{row.updatedBy}</TableCell>
           </TableRow>
         ))}
@@ -131,10 +138,14 @@ export function TableExcelData({ excelData }: TableExcelProps) {
         textTrigger=""
         textButtonCancel="Cancelar"
         textButtonConfirm="Alterar"
-        title="Dados da máquina"
+        title="Alterar dados da máquina"
+        crud={true}
         iconRightButton={<RiEditBoxLine size={20} />}
       >
-        <FieldsViewMachine loading={loadingDataById} values={tableDataById} />
+        <FieldsViewMachine
+          loadingDataById={loadingDataById}
+          tableDataById={tableDataById}
+        />
       </DialogComponent>
     </Table>
   );

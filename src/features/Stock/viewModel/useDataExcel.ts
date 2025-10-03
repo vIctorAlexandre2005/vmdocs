@@ -11,14 +11,19 @@ export function useDataExcel() {
     {} as ExcelData
   );
   const [loadingDataById, setLoadingDataById] = useState(true);
+  const [loadingCreateMachine, setLoadingCreateMachine] = useState(false);
 
   async function createMachine(data: StockDataSend) {
+    setLoadingCreateMachine(true);
     try {
       const response = await createMachineService(data);
+      console.log("response", response);
       setExcelData([...excelData, response]);
     } catch (error) {
       console.error(error);
       errorToast("Erro ao buscar dados");
+    } finally {
+      setLoadingCreateMachine(false);
     }
   }
 
@@ -40,6 +45,7 @@ export function useDataExcel() {
     loadingDataById,
     tableDataById,
     getDataById,
-    createMachine
+    createMachine,
+    loadingCreateMachine,
   };
 }
